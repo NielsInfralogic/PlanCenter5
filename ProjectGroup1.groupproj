@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{41CA4E9A-D625-4E05-9E68-35CBB35A4392}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="PlanCenter.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\ProgramData\ImageEn\Demos\Other\PDFViewer\PdfViewer.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="PlanCenter">
+        <MSBuild Projects="PlanCenter.dproj"/>
+    </Target>
+    <Target Name="PlanCenter:Clean">
+        <MSBuild Projects="PlanCenter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PlanCenter:Make">
+        <MSBuild Projects="PlanCenter.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PdfViewer">
+        <MSBuild Projects="C:\ProgramData\ImageEn\Demos\Other\PDFViewer\PdfViewer.dproj"/>
+    </Target>
+    <Target Name="PdfViewer:Clean">
+        <MSBuild Projects="C:\ProgramData\ImageEn\Demos\Other\PDFViewer\PdfViewer.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PdfViewer:Make">
+        <MSBuild Projects="C:\ProgramData\ImageEn\Demos\Other\PDFViewer\PdfViewer.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="PlanCenter;PdfViewer"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="PlanCenter:Clean;PdfViewer:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="PlanCenter:Make;PdfViewer:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,435 @@
+unit UApplyLoadedPressTemplate;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.ComCtrls, Vcl.Buttons;
+
+type
+  TFormApplyLoadedPressTemplate = class(TForm)
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Panel3: TPanel;
+    Image2: TImage;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label5: TLabel;
+    ComboBoxPressTemplate1: TComboBox;
+    Label10: TLabel;
+    ComboBoxPressTemplate2: TComboBox;
+    Label15: TLabel;
+    ComboBoxPressTemplate3: TComboBox;
+    Label16: TLabel;
+    ComboBoxpublication: TComboBox;
+    Label2: TLabel;
+    DateTimePicker1loadplan: TDateTimePicker;
+    Label14: TLabel;
+    UpDownweek: TUpDown;
+    Editweek: TEdit;
+    Label1: TLabel;
+    EditNumerOfPages: TEdit;
+    Label4: TLabel;
+    Label6: TLabel;
+    PanelInserted1: TPanel;
+    RadioButtonInserted1a: TRadioButton;
+    RadioButtonInserted1b: TRadioButton;
+    Panel4: TPanel;
+    RadioButtonInserted2a: TRadioButton;
+    RadioButtonInserted2b: TRadioButton;
+    Label9: TLabel;
+    EditSections: TEdit;
+    Label11: TLabel;
+    EditEditions: TEdit;
+    Label3: TLabel;
+    EditPressName: TEdit;
+    btnDivideBySection: TButton;
+    procedure FormActivate(Sender: TObject);
+    procedure ComboBoxPressTemplate2Change(Sender: TObject);
+    procedure ComboBoxPressTemplate3Change(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure ComboBoxPressTemplate1Change(Sender: TObject);
+    procedure btnDivideBySectionClick(Sender: TObject);
+
+  private
+    procedure FillPublicationCombo();
+    procedure FillPPressTemplateCombos();
+    function LeadingZeroes(const aNumber, Length : integer) : string;
+    function  GetPressTemplateID(Name : string) : Integer;
+    function  GetSectionNameList() : String;
+    function  GetEditionNameList() : String;
+  public
+    { Public declarations }
+    selectedProductionID : Integer;
+    selectedPressID : Integer;
+    selectedPublicationID : Integer;
+    selectedPubDate : TDateTime;
+    numberOfPages : Integer;
+    NumberOfEditionsInProd : Integer;
+
+    selectedPressTemplateID1 : Integer;
+    selectedPressTemplateID2 : Integer;
+    selectedPressTemplateID3 : Integer;
+    selectedInsertMode : Boolean;
+    selectedInsertMode2 : Boolean;
+  end;
+
+var
+  FormApplyLoadedPressTemplate: TFormApplyLoadedPressTemplate;
+
+implementation
+
+{$R *.dfm}
+Uses
+  Utypes,DateUtils,udata,umain, Usettings,UPlanframe, UApplyplan,
+  Uprodplan, Unewpubl, Ulogin, Ueditplan, USecbyload, Uhangeednamebyload,
+  Ueditplannames, Ueditionorder, Ueditatextcombo, UUtils;
+
+procedure TFormApplyLoadedPressTemplate.FormActivate(Sender: TObject);
+begin
+  FillPublicationCombo();
+  ComboBoxpublication.Itemindex := ComboBoxpublication.Items.IndexOf(tnames1.publicationIDtoname(selectedPublicationID));
+  if ComboBoxpublication.Itemindex < 0 then
+    ComboBoxpublication.Itemindex := 0;
+  DateTimePicker1loadplan.Datetime := selectedPubDate;
+
+  EditSections.Text := GetSectionNameList();
+   EditNumerOfPages.Text :=  IntToStr(numberOfPages);
+   EditEditions.Text := GetEditionNameList();
+
+  if (Prefs.ShowWeekNumberInTree) then
+    Editweek.text := LeadingZeroes(WeekOf(DateTimePicker1loadplan.DateTime), 2)
+  else
+    Editweek.text := '0';
+
+  EditPressName.Text := tnames1.pressnameIDtoname(selectedPressID);
+  FillPPressTemplateCombos();
+  PanelInserted1.Enabled := true;
+  PanelInserted1.Enabled := true;
+
+  selectedPressTemplateID1 := 0;
+  selectedPressTemplateID2 := 0;
+  selectedPressTemplateID3 := 0;
+  selectedInsertMode := true;
+  selectedInsertMode2 := true;
+
+
+end;
+
+procedure  TFormApplyLoadedPressTemplate.FillPublicationCombo();
+begin
+  ComboBoxpublication.Items.Clear;
+  ComboBoxpublication.Items := tNames1.publicationnames;
+end;
+
+
+
+
+
+procedure TFormApplyLoadedPressTemplate.ComboBoxPressTemplate1Change(
+  Sender: TObject);
+var
+  n1, i : Integer;
+begin
+  n1 := Integer(ComboBoxPressTemplate1.Items.Objects[ComboBoxPressTemplate1.ItemIndex]);
+  if (ComboBoxPressTemplate2.Text = 'Not used') and (n1 < numberOfPages) then
+  begin
+    for i := 1 to ComboBoxPressTemplate2.Items.Count do
+    begin
+      if (Integer(ComboBoxPressTemplate2.Items.Objects[i]) = numberOfPages - n1) then
+      begin
+        ComboBoxPressTemplate2.Itemindex := i;
+        break;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFormApplyLoadedPressTemplate.ComboBoxPressTemplate2Change(
+  Sender: TObject);
+var
+  n1,n2, i : Integer;
+begin
+   PanelInserted1.Enabled := ComboBoxPressTemplate2.Text <> 'Not used';
+
+   n1 := Integer(ComboBoxPressTemplate1.Items.Objects[ComboBoxPressTemplate1.ItemIndex]);
+   n2 := Integer(ComboBoxPressTemplate2.Items.Objects[ComboBoxPressTemplate2.ItemIndex]);
+
+  if (ComboBoxPressTemplate2.Text <> 'Not used') and (ComboBoxPressTemplate3.Text = 'Not used') and (n1 + n2 < numberOfPages) then
+  begin
+    for i := 1 to ComboBoxPressTemplate3.Items.Count do
+    begin
+      if (Integer(ComboBoxPressTemplate3.Items.Objects[i]) = numberOfPages - n1 - n2 ) then
+      begin
+        ComboBoxPressTemplate3.Itemindex := i;
+        break;
+      end;
+    end;
+  end;
+
+end;
+
+procedure TFormApplyLoadedPressTemplate.ComboBoxPressTemplate3Change(
+  Sender: TObject);
+begin
+   PanelInserted1.Enabled := ComboBoxPressTemplate3.Text <> 'Not used';
+end;
+
+procedure  TFormApplyLoadedPressTemplate.FillPPressTemplateCombos();
+var
+  n,n2 : Integer;
+  s,defaultTemplate : String;
+
+begin
+
+  defaultTemplate := '';
+  ComboBoxPressTemplate1.Items.Clear;
+  ComboBoxPressTemplate2.Items.Clear;
+  ComboBoxPressTemplate3.Items.Clear;
+
+  ComboBoxPressTemplate2.AddItem('Not used',TObject(0));
+  ComboBoxPressTemplate3.AddItem('Not used',TObject(0));
+  try
+    DataM1.Query1.SQL.Clear;
+    if (IsDefaultPressTemplateNamesPossible) then
+      DataM1.Query1.SQL.Add('SELECT DISTINCT P1.Name,P2.PressTemplateId,COUNT(DISTINCT(PageName)),ISNULL(P1.IsDefault,0) ')
+    else
+      DataM1.Query1.SQL.Add('SELECT DISTINCT P1.Name,P2.PressTemplateId,COUNT(DISTINCT(PageName)) ');
+    DataM1.Query1.SQL.Add('FROM PressTemplateNames P1 ');
+    DataM1.Query1.SQL.Add('INNER JOIN Presstemplate P2 ON P1.PressTemplateId = P2.PressTemplateId');
+    DataM1.Query1.SQL.Add('WHERE P2.Pagetype<2 AND P2.PressId = '+IntToStr(selectedpressID));
+    if (IsDefaultPressTemplateNamesPossible) then
+       DataM1.Query1.SQL.Add('GROUP BY P1.Name,P2.PressTemplateId, P1.IsDefault')
+    else
+       DataM1.Query1.SQL.Add('GROUP BY P1.Name,P2.PressTemplateId');
+    DataM1.Query1.SQL.Add('ORDER BY P1.Name');
+    DataM1.Query1.open;
+    while not DataM1.Query1.Eof do
+    begin
+      s := DataM1.Query1.Fields[0].AsString;
+      n := DataM1.Query1.Fields[2].AsInteger;
+      n2 := 1;
+      if (IsDefaultPressTemplateNamesPossible) then
+         n2 :=  DataM1.Query1.Fields[3].AsInteger;
+      if (defaultTemplate = '') and (n = numberOfPages) then
+      begin
+        defaultTemplate := s;
+      end;
+
+      if (n <= numberOfPages) then
+      begin
+        ComboBoxPressTemplate1.AddItem(s, TObject(n));
+        ComboBoxPressTemplate2.AddItem(s,TObject(n));
+        ComboBoxPressTemplate3.AddItem(s,TObject(n));
+      end;
+
+      DataM1.Query1.Next;
+    end;
+    DataM1.Query1.Close;
+  Except
+  end;
+  if (s <> '') then
+    ComboBoxPressTemplate1.Itemindex := ComboBoxPressTemplate1.Items.IndexOf(defaultTemplate)
+  else
+    ComboBoxPressTemplate1.Itemindex := 0;
+  ComboBoxPressTemplate2.Itemindex := 0;
+  ComboBoxPressTemplate3.Itemindex := 0;
+end;
+
+
+function TFormApplyLoadedPressTemplate.LeadingZeroes(const aNumber, Length : integer) : string;
+begin
+  result := System.SysUtils.Format('%.*d', [Length, aNumber]) ;
+end;
+
+procedure TFormApplyLoadedPressTemplate.BitBtn1Click(Sender: TObject);
+var
+  pagesAllRuns : Integer;
+  n1, n2, n3: Integer;
+begin
+   pagesAllRuns := 0;
+   n1 := Integer(ComboBoxPressTemplate1.Items.Objects[ComboBoxPressTemplate1.ItemIndex]);
+   n2 := Integer(ComboBoxPressTemplate2.Items.Objects[ComboBoxPressTemplate2.ItemIndex]);
+   n3 := Integer(ComboBoxPressTemplate3.Items.Objects[ComboBoxPressTemplate3.ItemIndex]);
+
+   if (n1 + n2 + n3 <> numberOfPages) then
+   begin
+     MessageDlg(formmain.InfraLanguage1.Translate('Page count does not add up'), mtWarning,[mbOk], 0);
+     ModalResult :=mrNone;
+     Exit;
+   end;
+
+   selectedPressTemplateID1 := GetPressTemplateID(ComboBoxPressTemplate1.Text);
+   selectedPressTemplateID2 := GetPressTemplateID(ComboBoxPressTemplate2.Text);
+   selectedPressTemplateID3 := GetPressTemplateID(ComboBoxPressTemplate3.Text);
+   selectedInsertMode := RadioButtonInserted1a.Checked;
+   selectedInsertMode2 := RadioButtonInserted2a.Checked;
+   ModalResult:= mrOK;
+end;
+
+function  TFormApplyLoadedPressTemplate.GetPressTemplateID(Name : string) : Integer;
+var
+  pressTemplateID : Integer;
+begin
+
+  if (Name = 'Not used') then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  pressTemplateID := 0;
+    try
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.Add('Select TOP 1 p1.presstemplateid from  presstemplatenames p1, presstemplate p2');
+    DataM1.Query1.SQL.Add('where p1.presstemplateid = p2.presstemplateid');
+    DataM1.Query1.SQL.Add('and p1.name = ' + ''''+Name+'''');
+    DataM1.Query1.SQL.Add('and p2.pressid = '+IntToStr(selectedpressID));
+    XMLPressID  :=  selectedpressID;
+    DataM1.Query1.Open;
+    if not DataM1.Query1.Eof then
+    begin
+      pressTemplateID := DataM1.Query1.Fields[0].AsInteger;
+    end;
+    DataM1.Query1.Close;
+  Except
+  end;
+  result :=   pressTemplateID;
+end;
+
+
+function  TFormApplyLoadedPressTemplate.GetSectionNameList() : String;
+var
+   sectionList : string;
+   editionID : Integer;
+   i,npages : Integer;
+begin
+   sectionList := '';
+   editionID := 0;
+   numberOfPages := 0;
+  try
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.Add('SELECT DISTINCT P.EditionID,SEC.Name,COUNT(DISTINCT P.CopySeparationSet) FROM PageTable P WITH (NOLOCK) ');
+    DataM1.Query1.SQL.Add('INNER JOIN SectionNames SEC ON SEC.SectionID=P.SectionID ');
+    DataM1.Query1.SQL.Add('WHERE P.PageType<2 AND P.Active=1 AND P.Dirty=0 AND P.ProductionID=' +IntToStr( selectedProductionID));
+    DataM1.Query1.SQL.Add('GROUP BY P.EditionID,SEC.Name');
+    DataM1.Query1.SQL.Add('ORDER BY P.EditionID,SEC.Name');
+    DataM1.Query1.Open;
+    while not DataM1.Query1.Eof do
+    begin
+      i := DataM1.Query1.Fields[0].AsInteger;
+      npages := DataM1.Query1.Fields[2].AsInteger;
+      if ((editionID <> 0) AND (editionID <> i)) then  // ONlye inspect first edition
+        break;
+
+      if (sectionList <> '') then
+        sectionList := sectionList + ', ';
+      sectionList := sectionList + DataM1.Query1.Fields[1].AsString + ':' + IntToStr(npages);
+      editionID := i;
+      numberOfPages := numberOfPages + npages;
+      Datam1.Query1.Next;
+    end;
+    DataM1.Query1.Close;
+  Except
+  end;
+  result :=   sectionList;
+end;
+
+function  TFormApplyLoadedPressTemplate.GetEditionNameList() : String;
+var
+   editionList : string;
+   s : string;
+begin
+   editionList := '';
+   NumberOfEditionsInProd := 0;
+   Formeditionorder.listbox1.Items.Clear; // ULGY!!!!!!!!!! used by UProdPlan..
+  try
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.Add('SELECT DISTINCT(ED.Name) FROM PageTable P WITH (NOLOCK) ');
+    DataM1.Query1.SQL.Add('INNER JOIN EditionNames ED ON Ed.EditionID=P.EditionID ');
+    DataM1.Query1.SQL.Add('WHERE P.ProductionID=' +IntToStr( selectedProductionID));
+    DataM1.Query1.SQL.Add('ORDER BY ED.Name');
+    DataM1.Query1.Open;
+    while not DataM1.Query1.Eof do
+    begin
+      s := DataM1.Query1.Fields[0].AsString;
+      Inc(NumberOfEditionsInProd);
+      if (editionList <> '') then
+        editionList := editionList + ',';
+      editionList := editionList + s;
+      Formeditionorder.listbox1.Items.Add(s);
+      Datam1.Query1.Next;
+    end;
+    DataM1.Query1.Close;
+  Except
+  end;
+  result :=   editionList;
+end;
+
+procedure TFormApplyLoadedPressTemplate.btnDivideBySectionClick(
+  Sender: TObject);
+var
+   OutPutList: TStrings;
+   i,j, n : Integer;
+   s : string;
+begin
+ OutPutList := TStringList.Create;
+ try
+   ExtractStrings([','],[],PChar(EditSections.Text),OutPutList);
+   for i := 0 to  OutPutList.Count-1 do
+   begin
+      if (Pos(':',OutPutList[i]) > 0) then
+      begin
+        s := Copy(OutPutList[i],  Pos(':',OutPutList[i]), 100);
+        n := StrToInt(s);
+        if ( n > 0) AND (i = 0) then
+        begin
+          for j := 1 to ComboBoxPressTemplate1.Items.Count do
+          begin
+            if (Integer(ComboBoxPressTemplate1.Items.Objects[j]) = n) then
+            begin
+              ComboBoxPressTemplate1.Itemindex := j;
+              break;
+            end;
+          end;
+        end;
+
+        if ( n > 0) AND (i = 1) then
+        begin
+          for j := 1 to ComboBoxPressTemplate2.Items.Count do
+          begin
+            if (Integer(ComboBoxPressTemplate2.Items.Objects[j]) = n) then
+            begin
+              ComboBoxPressTemplate2.Itemindex := j;
+              RadioButtonInserted1b.Checked := true;
+              break;
+            end;
+          end;
+        end;
+
+        if ( n > 0) AND (i = 2) then
+        begin
+          for j := 1 to ComboBoxPressTemplate3.Items.Count do
+          begin
+            if (Integer(ComboBoxPressTemplate3.Items.Objects[j]) = n) then
+            begin
+              ComboBoxPressTemplate3.Itemindex := j;
+               RadioButtonInserted2b.Checked := true;
+              break;
+            end;
+          end;
+        end;
+
+      end;
+
+   end;
+ finally
+     OutPutList.Free;
+ end;
+
+end;
+
+end.

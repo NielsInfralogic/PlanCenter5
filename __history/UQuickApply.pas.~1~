@@ -1,0 +1,30 @@
+unit UQuickApply;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TSelectDevice = class(TForm)
+    Panelsys: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Label1: TLabel;
+    ComboBoxApplyDevices: TComboBox;
+    Label2: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  SelectDevice: TSelectDevice;
+
+implementation
+
+{$R *.dfm}
+
+end.

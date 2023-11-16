@@ -1,0 +1,234 @@
+unit Uflatproof;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls;
+
+type
+  TFormflatproof = class(TForm)
+    Panel3: TPanel;
+    Image2: TImage;
+    Label7: TLabel;
+    Label8: TLabel;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Panelnotauto: TPanel;
+    RadioGroupapproval: TRadioGroup;
+    Panel4: TPanel;
+    Label1: TLabel;
+    ComboBoxconf: TComboBox;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+  private
+    { Private declarations }
+  public
+    Flatproofconfig : Longint;
+    Nflatproofers : Longint;
+    publicationid : Longint;
+    flatproofers : array[1..100] of record
+                                      name : string;
+                                      id   : Integer;
+                                    End;
+    procedure loadflatproofers;
+    Function flatproofconfigtostr(flatproofconfig : Word):String;
+    Procedure splitflatproofconfig(flatproofconfig : Word;
+                                              var enabled : Boolean;
+                                              var Manual : boolean;
+                                              var waitforapproval : boolean;
+                                              var proofid  : Longint);
+    Function flatproofconfigcalc(enabled : Boolean;
+                                 waitforapproval : boolean;
+                                 proofid : Integer):Integer;
+    Function Getflatproofid(DBproofid : integer):Integer;
+
+
+  end;
+
+var
+  Formflatproof: TFormflatproof;
+
+implementation
+
+uses Udata, Usettings, Umain;
+
+{$R *.dfm}
+
+Function TFormflatproof.Getflatproofid(DBproofid : integer):Integer;
+
+var
+  enabled : Boolean;
+  Manual : boolean;
+  waitforapproval : boolean;
+  proofid  : Longint;
+
+Begin
+  result := 0;
+  splitflatproofconfig(DBproofid,enabled,Manual,waitforapproval,proofid);
+  result := proofid;
+end;
+
+Function TFormflatproof.flatproofconfigcalc(enabled : Boolean;
+                                            waitforapproval : boolean;
+                                            proofid : Integer):Integer;
+Begin
+  (*
+  flatpproffid bits
+  0 = off
+  1 = on
+  2 = approval accuied
+  status = 0 not prooft 1 prooft
+  *)
+
+  try
+
+    result := 0;
+    if enabled then
+      result := result +1;
+
+    if waitforapproval then
+      result := result +2;
+
+    if proofid > 0 then
+      proofid := proofid SHL 8
+    else
+      proofid := 0;
+
+    result := result + proofid;
+  Except
+
+  end;
+end;
+
+Function TFormflatproof.flatproofconfigtostr(flatproofconfig : Word):String;
+
+Var
+  enabled : Boolean;
+  Manual : boolean;
+  waitforapproval : boolean;
+  proofid : longint;
+  i : Longint;
+Begin
+  try
+    splitflatproofconfig(flatproofconfig,enabled,Manual,waitforapproval,proofid);
+    result := '';
+
+    if (proofid > 0) and (Nflatproofers > 0) and (Nflatproofers >= proofid) then
+    begin
+      for i := 1 to Nflatproofers do
+      begin
+        if flatproofers[i].id = proofid then
+        begin
+          result := flatproofers[i].name;
+          break;
+        end;
+      end;
+    end;
+
+    IF result <> '' then
+      result := result ;
+    IF enabled then
+    Begin
+      IF waitforapproval then
+        result := result + ' / Appr. required';
+
+    End
+    else
+      result := result + 'Off';
+  Except
+
+  end;
+end;
+
+Procedure TFormflatproof.splitflatproofconfig(flatproofconfig : Word;
+                                              var enabled : Boolean;
+                                              var Manual : boolean;
+                                              var waitforapproval : boolean;
+                                              var proofid  : Longint);
+
+Begin
+  enabled := flatproofconfig and 1 = 1;
+  waitforapproval := flatproofconfig and 2 = 2;
+  Manual := flatproofconfig and 4 = 4;
+  proofid := flatproofconfig SHR 8;
+End;
+
+procedure TFormflatproof.BitBtn1Click(Sender: TObject);
+Var
+  proofid : integer;
+
+begin
+  IF ComboBoxconf.Itemindex > 0 then
+    proofid := flatproofers[ComboBoxconf.Itemindex].id
+  else
+    proofid := 0;
+
+  Flatproofconfig := flatproofconfigcalc(ComboBoxconf.Itemindex > 0,
+                                         RadioGroupapproval.ItemIndex = 0,
+                                         proofid);
+
+end;
+
+
+procedure TFormflatproof.loadflatproofers;
+Var
+  defaultflatproofid : Longint;
+
+begin
+  defaultflatproofid := 1;
+  IF publicationid > 0 then
+  begin
+
+
+  end;
+  Nflatproofers := 0;
+  DataM1.Query1.SQL.Clear;
+  DataM1.Query1.SQL.Add('Select ProofId,ProofName from FlatProofConfigurations');
+  DataM1.Query1.SQL.Add('Order by ProofName');
+  DataM1.Query1.Open;
+  ComboBoxconf.Items.Add('Off');
+  While not DataM1.Query1.Eof do
+  begin
+    Inc(Nflatproofers);
+    flatproofers[Nflatproofers].id   := DataM1.Query1.fields[0].asInteger;
+    flatproofers[Nflatproofers].name := DataM1.Query1.fields[1].asstring;
+    ComboBoxconf.Items.Add(flatproofers[Nflatproofers].name );
+    DataM1.Query1.Next;
+  end;
+  DataM1.Query1.Close;
+
+end;
+
+procedure TFormflatproof.FormActivate(Sender: TObject);
+begin
+  ComboBoxconf.Items.Clear;
+  loadflatproofers;
+  if Prefs.AutoFlatProof then
+  begin
+    Panelnotauto.Visible := false;
+
+    RadioGroupapproval.ItemIndex := 1;
+  end
+  Else
+  begin
+    Panelnotauto.Visible := true;
+  end;
+
+  IF Nflatproofers > 0 then
+  Begin
+    ComboBoxconf.Itemindex := 1;
+  End
+  Else
+    ComboBoxconf.Itemindex := 0;
+end;
+
+procedure TFormflatproof.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  publicationid := -1;
+end;
+
+end.

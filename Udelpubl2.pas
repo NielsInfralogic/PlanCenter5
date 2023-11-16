@@ -1,0 +1,522 @@
+unit Udelpubl2;
+interface
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ComCtrls, StdCtrls, Buttons, ExtCtrls;
+type
+  TFormdelpublication2 = class(TForm)
+    Panel3: TPanel;
+    Image2: TImage;
+    Label7: TLabel;
+    Label8: TLabel;
+    GroupBox2: TGroupBox;
+    Label1: TLabel;
+    Label6: TLabel;
+    ComboBoxdellocation: TComboBox;
+    CheckBoxgenrep: TCheckBox;
+    CheckBoxpresssep: TCheckBox;
+    ComboBoxSectionFilter: TComboBox;
+    Panelbut: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    ListView1: TListView;
+    Paneldelpubl: TPanel;
+    Label3: TLabel;
+    Panel2: TPanel;
+    LabelBig: TLabel;
+    ImageAkt: TImage;
+    ProgressBardel: TProgressBar;
+    Label10: TLabel;
+    ComboBoxPagefilerday: TComboBox;
+    RadioGroupfiledel: TRadioGroup;
+    Edit1: TEdit;
+    Label2: TLabel;
+    Button1: TButton;
+    TabSheet2: TTabSheet;
+    ListViewlog: TListView;
+    Edit2: TEdit;
+    procedure FormActivate(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure ComboBoxPagefilerdayCloseUp(Sender: TObject);
+    procedure ComboBoxPagefilerdayDropDown(Sender: TObject);
+    procedure ListView1SelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure Button1Click(Sender: TObject);
+    procedure ComboBoxdellocationCloseUp(Sender: TObject);
+    procedure CheckBoxpresssepClick(Sender: TObject);
+    procedure RadioGroupfiledelClick(Sender: TObject);
+    procedure CheckBoxgenrepClick(Sender: TObject);
+  //  procedure cleanupproductionnames;
+  private
+    procedure setthedays;
+    procedure loadlist;
+    procedure Dodelete;
+  public
+    { Public declarations }
+  end;
+var
+  Formdelpublication2: TFormdelpublication2;
+implementation
+uses Udata,umain,utypes, UExportcustomplan,dateutils,
+  USelectfolder, UUtils, UPrefs, Ulogin;
+{$R *.dfm}
+procedure TFormdelpublication2.FormActivate(Sender: TObject);
+Var
+  i : Longint;
+begin
+  try
+    setthedays;
+    RadioGroupfiledel.itemindex := 0;
+    ComboBoxPagefilerday.ItemIndex := 0;
+    CheckBoxpresssep.Checked := true;
+    if (not Prefs.AllowOnlyDefaultLocationPress) then
+    Begin
+      ComboBoxdellocation.Items.Clear;
+      ComboBoxdellocation.Items := tnames1.locationnames;
+      ComboBoxdellocation.Items.Insert(0,'All');
+      ComboBoxdellocation.Itemindex := 0;
+    end
+    else
+    begin
+      ComboBoxdellocation.Items.Clear;
+      ComboBoxdellocation.Items.add(Prefs.DefaultLocation);
+      ComboBoxdellocation.Itemindex := 0;
+    end;
+    ComboBoxSectionFilter.Items.Clear;
+    ComboBoxSectionFilter.Items := tnames1.Sectionnames;
+    ComboBoxSectionFilter.Items.Insert(0,'All');
+    ComboBoxSectionFilter.Itemindex := 0;
+
+    loadlist;
+    CheckBoxgenrep.checked := Prefs.GenerateReportWhenDeleting;
+    CheckBoxpresssep.checked := Prefs.DeleteOnlyOnSelectedPress;
+   // CheckBoxpresssep.checked := true;
+  Except
+  end;
+end;
+
+procedure TFormdelpublication2.loadlist;
+Var
+  l : tlistitem;
+Begin
+  try
+    ListView1.Items.clear;
+    DataM1.Query1.SQL.Clear;
+    if Prefs.TreeExtraPublicationText[0] then
+    begin
+      IF ComboBoxdellocation.text <> 'All' then
+        DataM1.Query1.SQL.Add('Select distinct p1.pubdate,p1.publicationid,p2.publicationid,p2.name,p1.productionid,p1.miscint2,p1.pressid from pagetable p1, PublicationNames p2')
+      else
+        DataM1.Query1.SQL.Add('Select distinct p1.pubdate,p1.publicationid,p2.publicationid,p2.name,p1.miscint2,p1.pressid from pagetable p1, PublicationNames p2');
+    End
+    Else
+    begin
+      IF ComboBoxdellocation.text <> 'All' then
+        DataM1.Query1.SQL.Add('Select distinct p1.pubdate,p1.publicationid,p2.publicationid,p2.name,p1.productionid,p1.pressid from pagetable p1 WITH (NOLOCK), PublicationNames p2 WITH (NOLOCK) ')
+      else
+        DataM1.Query1.SQL.Add('Select distinct p1.pubdate,p1.publicationid,p2.publicationid,p2.name,p1.pressid from pagetable p1 WITH (NOLOCK), PublicationNames p2 WITH (NOLOCK) ');
+    end;
+
+    DataM1.Query1.SQL.Add('where p1.publicationid = p2.publicationid and p1.dirty = 0');
+    IF ComboBoxSectionFilter.text <> 'All' then
+      DataM1.Query1.SQL.add('and p1.Sectionid = '+ IntToStr(tnames1.sectionnametoid(ComboBoxSectionFilter.text)));
+    IF ComboBoxdellocation.text <> 'All' then
+    begin
+      DataM1.Query1.SQL.Add('and (p1.locationid = '+ IntToStr(tnames1.locationnametoid(ComboBoxdellocation.Text)));
+      DataM1.Query1.SQL.Add('and not exists(select p3.productionid from pagetable p3');
+      DataM1.Query1.SQL.Add('where p1.copyseparationset = p3.mastercopyseparationset');
+      DataM1.Query1.SQL.Add('and p3.locationid <> p1.locationid))');
+      //DataM1.Query1.SQL.Add('and p1.UniquePage = 1)');
+    end;
+    if Pressvisibilylimited then
+      datam1.Query1.SQL.Add('and p1.pressid IN ' + PressvisibilyIN);
+    if ComboBoxPagefilerday.Itemindex > 0 then
+    begin
+      datam1.Query1.SQL.Add(' and ' + DataM1.makedatastr('p1.',strtodate(ComboBoxPagefilerday.text) ));
+    end;
+
+    DataM1.Query1.SQL.Add('order by p1.pubdate,p2.name');
+    if Prefs.debug then datam1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'delpubllist.sql');
+    formmain.Tryopen(DataM1.Query1);
+    While not DataM1.Query1.eof do
+    begin
+      l := ListView1.Items.Add;
+      l.Caption := datetostr(DataM1.Query1.fields[0].asdatetime);
+      if (Prefs.TreeExtraPublicationText[0]) then
+      Begin
+        if DataM1.Query1.fieldbyname('miscint2').asinteger > 0 then
+          l.SubItems.Add(DataM1.Query1.fields[3].asstring+ '  Week:' + DataM1.Query1.fieldbyname('miscint2').asstring)
+        else
+          l.SubItems.Add(DataM1.Query1.fields[3].asstring);
+      end
+      else
+        l.SubItems.Add(DataM1.Query1.fields[3].asstring);
+      l.SubItems.Add(tnames1.pressnameIDtoname(DataM1.Query1.fieldbyname('pressid').asinteger));
+      l.SubItems.Add(DataM1.Query1.fields[3].asstring);
+
+      DataM1.Query1.Next;
+    end;
+    DataM1.Query1.close;
+         ListView1.SetFocus;
+    BitBtn1.Enabled := ListView1.Selected <> nil;
+
+  Except
+  end;
+end;
+
+procedure TFormdelpublication2.BitBtn1Click(Sender: TObject);
+begin
+  if ListView1.Selected = nil then exit;
+  if MessageDlg(formmain.InfraLanguage1.Translate('Are you sure you want to delete the selected publications ?'),
+    mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    if (RadioGroupfiledel.ItemIndex = 2) And (edit1.Text = '') then
+    begin
+      MessageDlg('No folder for file saving is defined', mterror,[mbOk], 0);
+      exit;
+    end;
+    Dodelete;
+  End;
+end;
+(*
+Procedure TFormdelpublication2.cleanupproductionnames;
+Begin
+  try
+    DataM1.Query1.sql.clear;
+    DataM1.Query1.sql.add('set lock_timeout 20000');
+    DataM1.Query1.sql.add('delete productionnames');
+    DataM1.Query1.sql.add('where not exists (');
+    DataM1.Query1.sql.add('select productionid from pagetable');
+    DataM1.Query1.sql.add('where productionnames.productionid = pagetable.productionid)');
+    DataM1.Query1.ExecSQL;
+    DataM1.Query1.sql.clear;
+    DataM1.Query1.sql.add('set lock_timeout 20000');
+    DataM1.Query1.sql.add('delete log ');
+    datam1.Query1.SQL.Add('Where event<800 and  not exists(Select separation from pagetable');
+    DataM1.Query1.sql.add('where pagetable.separation = log.separation)');
+    DataM1.Query1.ExecSQL;
+    DataM1.Query1.sql.clear;
+    DataM1.Query1.sql.add('set lock_timeout 20000');
+    DataM1.Query1.sql.add('delete pressrunid where');
+    DataM1.Query1.sql.add('not exists(Select pressrunid from pagetable');
+    DataM1.Query1.sql.add('where pagetable.pressrunid = pressrunid.pressrunid)');
+    DataM1.Query1.ExecSQL;
+    DataM1.Query1.sql.clear;
+    DataM1.Query1.sql.add('set lock_timeout 20000');
+    DataM1.Query1.sql.add('delete PrepollPageTable where');
+    DataM1.Query1.sql.add('not exists(Select mastercopyseparationset from pagetable');
+    DataM1.Query1.sql.add('where pagetable.mastercopyseparationset = PrepollPageTable.mastercopyseparationset)');
+    DataM1.Query1.ExecSQL;
+    IF FlatPageTablePossible then
+    begin
+      DataM1.Query1.sql.clear;
+      DataM1.Query1.sql.add('set lock_timeout 20000');
+      DataM1.Query1.sql.add('delete flatpagetable where');
+      DataM1.Query1.sql.add('not exists(Select flatseparation from pagetable');
+      DataM1.Query1.sql.add('where pagetable.flatseparation = flatpagetable.flatseparation)');
+      DataM1.Query1.ExecSQL;
+    End;
+  Except
+  end;
+end;
+   *)
+procedure TFormdelpublication2.Dodelete;
+Var
+  T, t2, t3, sqlconditions : String;
+  prodname : String;
+  Iitem,publid,dbretries : Longint;
+  pubdate,new100pubdate : tdatetime;
+  productionid : Longint;
+  resulttat : integer;
+  pressid,i,locationid,statid,mrres,pressSelid,Nplusdays : Longint;
+  userName : string;
+  IllegalDeleteProductionID : Integer;
+  dtPubdate : TDateTime;
+begin
+  try
+    IllegalDeleteProductionID := 0;
+    ProgressBardel.Max := 0;
+    ProgressBardel.Position := 0;
+    For Iitem := 0 to ListView1.Items.Count-1 do
+    begin
+      IF ListView1.Items[Iitem].Selected then
+      Begin
+        ProgressBardel.Max := ProgressBardel.Max +1;
+      End;
+    End;
+    ProgressBardel.Max := ProgressBardel.Max +4;
+    Paneldelpubl.visible := true;
+    Paneldelpubl.Repaint;
+    Paneldelpubl.Repaint;
+    Formdelpublication2.Repaint;
+    Application.ProcessMessages;
+     //tnames1.Loadnames;
+    tnames1.LoadNamesSmall();
+
+
+    For Iitem := 0 to ListView1.items.Count-1 do
+    begin
+      IF ListView1.Items[Iitem].Selected then
+      Begin
+        ProgressBardel.Position := ProgressBardel.Position+1;
+        ProgressBardel.repaint;
+        dbretries := 0;
+        Repeat
+          Nplusdays := 0;
+          productionid := -1;
+          publid  := tnames1.publicationnametoid(ListView1.Items[Iitem].subitems[2]);
+          pubdate := strtodate(ListView1.Items[Iitem].caption);
+          pressSelid := tnames1.pressnametoid(ListView1.Items[Iitem].subitems[1]);
+          sqlconditions := '';
+          if ComboBoxdellocation.Text <> 'All' then
+            sqlconditions :=  ' and LocationID = '+IntToStr(tnames1.locationnametoid(ComboBoxdellocation.Text)) + ' ';
+          if ComboBoxSectionFilter.Text <> 'All' then
+            sqlconditions := sqlconditions + ' and SectionID = '+ IntToStr(tnames1.sectionnametoid(ComboBoxSectionFilter.text)) + ' ';
+          if CheckBoxpresssep.Checked then
+            sqlconditions := sqlconditions + ' and PressID = '+ IntToStr(pressSelid) + ' ';
+          if publid < 1 then
+          begin
+            DataM1.Query1.SQL.Clear;
+            DataM1.Query1.SQL.add('Select distinct publicationid from PublicationNames');
+            DataM1.Query1.SQL.add('where Name = '+''''+ListView1.Items[Iitem].subitems[2]+'''');
+            if Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'DoDel1.sql');
+            DataM1.Query1.open;
+            IF Not DataM1.Query1.eof then
+              publid := DataM1.Query1.fields[0].asinteger;
+            DataM1.Query1.close;
+          end;
+          Application.ProcessMessages;
+
+          DataM1.Query1.SQL.Clear;
+          DataM1.Query1.SQL.add('Select distinct productionid from pagetable WITH (NOLOCK) ');
+          DataM1.Query1.SQL.add('where publicationid = '+inttostr(publid));
+          if (sqlconditions <> '') then
+            DataM1.Query1.SQL.add(sqlconditions);
+          DataM1.Query1.SQL.add('and '+  DataM1.makedatastr('pagetable.',pubdate));
+          if Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'DoDel2.sql');
+          DataM1.Query1.open;
+          productionid := -1;
+          if not DataM1.Query1.Eof then
+          begin
+            productionid := DataM1.Query1.Fields[0].asinteger;
+          end;
+          DataM1.Query1.Close;
+
+          // Try without press in select???
+          if (Productionid < 1) then
+          begin
+            DataM1.Query1.SQL.Clear;
+            DataM1.Query1.SQL.add('Select distinct productionid from pagetable');
+            DataM1.Query1.SQL.add('where publicationid = '+inttostr(publid));
+            DataM1.Query1.SQL.add('and ' +  DataM1.makedatastr('',pubdate));
+            if Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'DoDel3.sql');
+            DataM1.Query1.open;
+            productionid := -1;
+            IF not DataM1.Query1.eof then
+            begin
+              productionid := DataM1.Query1.Fields[0].AsInteger;
+            end;
+            DataM1.Query1.Close;
+          end;
+          Inc(dbretries);
+        Until ((Productionid > 0) and (publid > 0)) OR (dbretries > 1000);
+        IF (Productionid > 0) and (publid > 0) then
+        begin
+          Nplusdays := 0;
+          // ## 20190115 - check that we are not deleting unique pages used by other productions
+          // P2 : other product with common/forced page
+          // P1 : This product (to delete) with unique page
+          IllegalDeleteProductionID := 0;
+          DataM1.Query1.SQL.Clear;
+          DataM1.Query1.SQL.add('SELECT TOP 1 P2.ProductionID FROM PageTable P2 WITH (NOLOCK) ');
+          DataM1.Query1.SQL.add('WHERE P2.Dirty=0 AND P2.UniquePage<>1 AND P2.ProductionID<>'+IntToStr(Productionid) );
+          DataM1.Query1.SQL.add('AND EXISTS (SELECT P1.MasterCopySeparationSet FROM PageTable P1 WITH (NOLOCK)   ');
+          DataM1.Query1.SQL.add('WHERE P1.Dirty=0 AND P1.ProductionID='+IntToStr(Productionid) + ' AND P1.UniquePage=1 AND P1.MasterCopySeparationSet=P2.MasterCopySeparationSet)');
+          DataM1.Query1.open;
+        //  productionid := -1;
+          IF not DataM1.Query1.eof then
+          begin
+            IllegalDeleteProductionID := DataM1.Query1.Fields[0].AsInteger;
+          end;
+          DataM1.Query1.Close;
+          (*if (IllegalDeleteProductionID > 0) AND (Prefs.RestrictUniqueDelete) then
+          begin
+            t2 := '';
+            t3 := '';
+            DataM1.Query1.SQL.add('SELECT TOP 1 PRESS.PressName,PUB.Name,PubDate');
+            DataM1.Query1.SQL.add('FROM PageTable P WITH (NOLOCK) ');
+            DataM1.Query1.SQL.add('INNER JOIN PublicationNames PUB ON PUB.PublicationID=P.PublicationID ');
+            DataM1.Query1.SQL.add('INNER JOIN PressNames PRESS ON PRESS.PressID=P.PressID ');
+            DataM1.Query1.SQL.add('WHERE P.ProductionID=' + IntToStr(IllegalDeleteProductionID));
+            DataM1.Query1.open;
+            if not DataM1.Query1.eof then
+            begin
+              t2 := DataM1.Query1.Fields[0].AsString;
+              t2 := t2 + ' ';
+              t2 := DataM1.Query1.Fields[1].AsString;
+              DateTimeToString(t3, 'dd/mm/yyyy', DataM1.Query1.Fields[2].AsDateTime);
+              t2 := t2 + ' ' +  t3;
+            end;
+            DataM1.Query1.Close;
+            t2 :=      'Unable to delete production! ' + #13#10 + ' Another product ('+t2+') depends on unique pages';
+            Paneldelpubl.visible := false;
+            MessageDlg(t2, mtInformation,[mbOk], 0);
+            continue;
+          end;
+          *)
+
+          new100pubdate := incyear(pubdate,100);
+          DataM1.Query1.SQL.clear;
+          DataM1.Query1.SQL.add('UPDATE pagetable SET pubdate = :newdate, PlanPageName='''',Comment='''',Dirty = 1');
+          DataM1.Query1.SQL.add('WHERE publicationid = '+inttostr(publid));
+          DataM1.Query1.SQL.add('and '+  DataM1.makedatastr('',pubdate));
+          if (sqlconditions <> '') then
+            DataM1.Query1.SQL.add(sqlconditions);
+          DataM1.Query1.params[0].asdatetime := new100pubdate;
+          datam1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'delupdate1.sql');
+          formmain.trysql(DataM1.Query1);
+          // 20210409  Ensure weeknumber is also shifted
+          DataM1.Query1.SQL.clear;
+          DataM1.Query1.SQL.add('UPDATE pagetable SET MiscInt2=MiscInt2+100 ');
+          DataM1.Query1.SQL.add('WHERE MiscInt2>0 AND ProductionID = '+IntToStr(productionid));
+          DataM1.Query1.ExecSql;
+          //
+          DataM1.Query1.SQL.Clear;
+          DataM1.Query1.SQL.Add('UPDATE pagetable SET dirty = 1 WHERE YEAR(PubDate) > 2100 ');
+          DataM1.Query1.ExecSql;
+          // 20181220 - delete prepoll-entries for this production
+          DataM1.Query1.SQL.Clear;
+          DataM1.Query1.SQL.Add('DELETE FROM PrePollPageTable WHERE MasterCopySeparationSet IN ');;
+          DataM1.Query1.SQL.add('(SELECT DISTINCT MasterCopySeparationSet FROM PageTable WITH (NOLOCK)');
+          DataM1.Query1.SQL.add('WHERE publicationid = '+inttostr(publid));
+          DataM1.Query1.SQL.add('and '+  DataM1.makedatastr('',pubdate));
+          if (sqlconditions <> '') then
+            DataM1.Query1.SQL.add(sqlconditions);
+          DataM1.Query1.SQL.add(')');
+          DataM1.Query1.ExecSql;
+
+          DataM1.Query1.SQL.Clear;
+          DataM1.Query1.SQL.add('Insert ProductDeleteQueue ');
+          DataM1.Query1.SQL.add('Values ( ' + IntToStr(productionid)+',');
+          DataM1.Query1.SQL.add(IntToStr(publid)+',');
+          DataM1.Query1.SQL.add(' :newdate  ,');
+          DataM1.Query1.SQL.add('0,');
+          IF ComboBoxSectionFilter.text <> 'All' then
+            DataM1.Query1.SQL.add( inttostr(tnames1.sectionnametoid(ComboBoxSectionFilter.text)) + ',')
+          Else
+            DataM1.Query1.SQL.add('0,');
+          DataM1.Query1.SQL.add(inttostr(RadioGroupfiledel.ItemIndex)+',');
+          DataM1.Query1.SQL.add(inttostr(Integer(CheckBoxgenrep.Checked))+',');
+          DataM1.Query1.SQL.add('getdate(),');
+          IF RadioGroupfiledel.ItemIndex = 2 then
+            DataM1.Query1.SQL.add(''''+edit1.Text+''''+',')
+          else
+            DataM1.Query1.SQL.add(''''+''+''''+',');
+          userName := Prefs.username;
+          if (Prefs.CurrentWindowsUser <> '') then
+            userName :=  Prefs.CurrentWindowsUser;
+          DataM1.Query1.SQL.add(''''+userName+''''+')');
+          DataM1.Query1.params[0].asdate := new100pubdate;
+          IF Prefs.debug then datam1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'delupdate2.sql');
+          formmain.trysql(DataM1.Query1);
+          prodName := ListView1.Items[Iitem].subitems[2] + ' ' +  ListView1.Items[Iitem].caption + '  ' + ListView1.Items[Iitem].subitems[1];
+          FormMain.SaveEventlog(989,0,0,'Plan delete queued',prodname,1,productionid);
+        End;
+      End;
+    End;
+    Application.ProcessMessages;
+
+    While ProgressBardel.Position < ProgressBardel.max do
+    Begin
+      ProgressBardel.Position := ProgressBardel.Position+1;
+      ProgressBardel.repaint;
+    end;
+    Paneldelpubl.visible := false;
+    loadlist();
+  finally
+    Paneldelpubl.visible := false;
+  end;
+end;
+
+
+procedure TFormdelpublication2.ComboBoxPagefilerdayCloseUp(
+  Sender: TObject);
+Var
+  found : Longint;
+begin
+  IF TComboBox(Sender).ItemIndex < 0 then
+  Begin
+    found := 0;
+    TComboBox(Sender).ItemIndex := found;
+  End;
+  TComboBox(Sender).text := TComboBox(Sender).items[TComboBox(Sender).ItemIndex];
+  loadlist;
+end;
+procedure TFormdelpublication2.ComboBoxPagefilerdayDropDown(
+  Sender: TObject);
+Begin
+  setthedays;
+End;
+procedure TFormdelpublication2.setthedays;
+Begin
+  ComboBoxPagefilerday.Items.Clear;
+  ComboBoxPagefilerday.Items.add(formmain.LabelAlldays.Caption);
+  Try
+    DataM1.Query1.sql.clear;
+    DataM1.Query1.SQL.add('Select distinct pubdate from pagetable');
+    DataM1.Query1.SQL.add('Where active > 0 and Dirty = 0');
+    IF Prefs.AllowOnlyDefaultLocationPress then
+    begin
+      DataM1.Query1.SQL.add('and locationid = ' + inttostr(tnames1.locationnametoid(Prefs.DefaultLocation)));
+    end;
+    DataM1.Query1.SQL.add('order by pubdate');
+    DataM1.Query1.open;
+    While not DataM1.Query1.eof do
+    begin
+      ComboBoxPagefilerday.Items.add(datetostr(DataM1.Query1.fields[0].asdatetime));
+      DataM1.Query1.next;
+    end;
+    DataM1.Query1.close;
+  Except
+  end;
+End;
+procedure TFormdelpublication2.ListView1SelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+begin
+  BitBtn1.Enabled := ListView1.Selected <> nil;
+end;
+procedure TFormdelpublication2.Button1Click(Sender: TObject);
+begin
+  {IF FormSelectfolder.showmodal = mrok then
+  begin
+    edit1.Text := FormSelectfolder.ShellTreeView1.Path;
+  end;    }
+   with TFileOpenDialog.Create(nil) do
+        try
+          Options := [fdoPickFolders];
+          if Execute then
+            edit1.Text  := FileName;
+        finally
+          Free;
+        end;
+  ListView1.setfocus;
+end;
+procedure TFormdelpublication2.ComboBoxdellocationCloseUp(Sender: TObject);
+begin
+  loadlist;
+end;
+procedure TFormdelpublication2.CheckBoxpresssepClick(Sender: TObject);
+begin
+  ListView1.setfocus;
+end;
+procedure TFormdelpublication2.RadioGroupfiledelClick(Sender: TObject);
+begin
+  ListView1.setfocus;
+end;
+procedure TFormdelpublication2.CheckBoxgenrepClick(Sender: TObject);
+begin
+  ListView1.setfocus;
+end;
+end.

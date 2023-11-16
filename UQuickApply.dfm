@@ -1,0 +1,66 @@
+object SelectDevice: TSelectDevice
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Select Device for Quick Apply'
+  ClientHeight = 124
+  ClientWidth = 290
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Position = poMainFormCenter
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 9
+    Top = 43
+    Width = 129
+    Height = 13
+    Caption = 'Device/destination for plan'
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 8
+    Width = 270
+    Height = 13
+    Caption = 'Quick fix for missing template  for 1-up transmission plan'
+  end
+  object Panelsys: TPanel
+    Left = 8
+    Top = 77
+    Width = 280
+    Height = 43
+    BevelOuter = bvNone
+    TabOrder = 0
+    object BitBtn1: TBitBtn
+      Left = 55
+      Top = 10
+      Width = 75
+      Height = 25
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+      OnClick = BitBtn1Click
+    end
+    object BitBtn2: TBitBtn
+      Left = 149
+      Top = 10
+      Width = 78
+      Height = 25
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 1
+      OnClick = BitBtn2Click
+    end
+  end
+  object ComboBoxApplyDevices: TComboBox
+    Left = 144
+    Top = 40
+    Width = 117
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 1
+  end
+end

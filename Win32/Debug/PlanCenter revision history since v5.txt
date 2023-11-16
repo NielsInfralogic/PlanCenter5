@@ -1,0 +1,491 @@
+PlanCenter revision history:
+
+v. 5.7.1.2
+
+- Added 'Quick apply plan' right click menu in thumbnail tree. This is used to fast apply a simple 1-up plan (Berlingske)
+
+
+v. 5.7.1.1
+
+- Updated compiler (Rio 10.3.1)
+
+- Updated database drivers (DbExpress 7.5.7)
+
+v. 5.6.1.9
+
+- Fixed problem setting deleted jobs in queue for ProductDeleteService
+
+- Added Thumbnail right-click option 'Link to masterpage', allowing a common page to link to a unique page in another edition and/or 
+  to another press version of the page. This option is for linking press plan pages to dummy plan pages
+
+v. 5.6.1.8
+
+- Fixed high/low plate setting issue when loading saved press plans with multiple plate copies
+
+v. 5.6.1.7
+
+- Fixed problem show correct PageFormat in thumbnails top statusbar, using new per-page pageformat possibility
+
+- Fixed missing assignments of RipSetups,PageFormats when applying plan in planning
+
+V. 5.6.1.6
+
+- Fixed issue for Tree option for showing alias before long publication name in plate tree
+
+V. 5.6.1.5
+
+- Fixed problem related to startup 'default press' when using press groups
+
+V. 5.6.1.4
+
+- Introducted Dirty-flag for PrePollPageTable (set when deleting)
+
+V. 5.6.1.3
+
+- Added thumbanil option 'Also show forced pages...' to show both unique and forced pages in Thumbnail view when selecting 'Show only unique pages'
+
+
+V. 5.6.1.2
+
+- Fix plan load/apply 'No change' to template selection
+
+- Added clear of PlanPageName and Comment when deleting products to avoid messing up deleted and new product pages
+
+V. 5.6.1.1
+
+- Major revision of high/low plate settings in planning. Fixes problems using differrent naming schemes (static prefs vs db prefs) for high and low.
+
+V. 5.5.1.11
+
+- Tree option for showing alias before long publication name in tree
+
+V. 5.5.1.10
+
+- New preview setting 'Force gray background around image' to cater for Windows theme using white as default color
+
+V. 5.5.1.9
+
+- Removed dependency of c:\temp folder existence
+
+- Changed ImposeCalc.dll to respect readonly in installation folder
+
+V. 5.5.1.8
+
+- Fixed default selection of page format when using Reprocess pages
+
+V. 5.5.1.7
+
+- Automatic re-proof of production if pubdate or edition changed using 'Edit pubdate' in planning. 
+  This is becuse Webcenter requires valid production data inside JPEG preview tags
+
+V. 5.5.1.6
+
+- Prevent FileCenter file retry (PDFs from archive) when existing plans are overwritten (create or load action)
+
+v. 5.5.1.5
+
+- Plan Apply on already applied plan now possible (will prompt for confirmation)
+
+v. 5.5.1.4
+
+- Ability to envoke external plan load module.
+  Set option (General Settings - Planning) 'Use external plan loader' and set 'Plan load exe-file'
+
+v. 5.5.1.3
+
+- Changed manual stacker set to set same sortingposition on all related presses (plateview)
+
+v. 5.5.1.2
+
+- Fixed problem using MakePDFBook option (Creates PDF document with all previews of product)
+
+- Fixed problem when setting devices in Production view when no DeviceGroups exist
+
+v. 5.5.1.1
+
+- Added Features to File Menu : 'Backup configuration data' and 'Restore configuration data'. Requires database table 
+  BackupApplicationConfigFiles
+
+v. 5.4.1.5
+
+- Added Advanced setting (tree) - 'Show Pages-out-of-range' that will highlight productions in tree with illegal pages   present in archive. This requires ProdeuctDeleteService configured for reporting this
+
+- Fixed press selection in planning 'Create' and 'Load'
+
+v. 5.4.1.4
+
+- Fixed problem in planeditor when using 'Edit pagenumbers'. This feature is an alternative to 'Move pages' for manual imposition
+
+v. 5.4.1.3
+
+- Removed logic for sync'ing a new PlanCenter.ini file from installation folder to public folder (c:\Users\Public\Documents)
+
+v. 5.4.1.2
+
+- Added exception message to PlanCenter.ini read problems
+
+- Planning - isolated use of global vars for holding production-info during planning
+
+v. 5.4.1.1
+
+- Added planning checkbox 'Only show default press publications' to limit publication selection
+  (for plan create and load). Initial setting can be controlled with setting in advanced settings.
+
+- Option 'Show simple plan loading dialog' now hides publication/page count filter in Load plan dialog.
+
+- Compiler upgrade (v. 10.2 rev 2)
+
+- ImageEn library upgrade (v. 7.5)
+
+v. 5.3.3.10
+
+- Fixed 'run-only-once' problem when PlanCenter is launched in another session
+
+- Added creep mode selection to edit creep dialog (Production tab)
+
+v 5.3.3.9
+
+- Fixed problem with missing default dT in 'Ink preset' dialog in Plateview (OTM-special)
+
+v 5.3.3.8
+
+- Antoher problem with Device groups in production load fixed
+
+- In Plan edit - Combine, pagination for multiple sections are re-calculated to inserted run-through pagination
+
+
+v 5.3.3.7
+
+- Fixed problem related to publication choice when applying an existing production with press plan
+
+v 5.3.3.6
+
+- Fixed bug when specifying Device og Device Group in Apply Production ('Run'). Devicegroup was not set correctly
+
+v 5.3.3.5
+
+- Giant bug in Apply production fixed (only allowed apply of first section)
+
+v 5.3.3.4
+
+- Fixed bug in Planning -> Load plan involving setting edition in edition/section popup dialog
+
+v 5.3.3.3
+
+- Added ability to edit publication name and edition name for existing production. These selections are added to the formder 'Edit date' dialog in Planning. Edition name can only be changed for single eidtion products.
+
+v 5.3.3.2
+
+- Fixed check in Load press plan to prevent publication is not set
+
+- Added load plan right click options 'Rename press plan name' and 'Delete press plan'
+
+v 5.3.3.1
+
+- Added pop-command 'Re-transmit PDF' to thumbnail and plateview for re-sending original PDF from archive to pre-defined folder (performed by InputCenter)
+  Storec procedure spTransmitUpdateStatusPDF is required for this operation
+
+v 5.3.2.1
+
+- Renamed 'Set page back to start' to 'Reset page status' and fixed bug related to approval reset
+
+- Added thumbnail feature 'Set page rotaion' (right click menu), allowing PDF rotation command for FileCenter (0,90,180,270 degrees).
+  Note that FileCenter must be configured with 'PDF rotation action' for this to work
+  This option must be enabled in General settings -> Thumbnails - Allow PDF rotation
+
+- Changed thumbnail option 'Reverse page numbers' to use new PDF rotation with FileCenter instead of page rotation at output time
+
+v 5.3.1.6
+
+- Fixed multi-selection using mouse and SHIFT key in Thumbnail- and Plate-view
+
+v 5.3.1.5
+
+- Making plate filter 'Show missing' depending on external 'Bending' state (if set in settings)
+
+v 5.3.1.4
+
+- Fix for problem with log cleaning so that delete event were erased from log table
+
+v 5.3.1.3
+
+- Added Tools->'Show log for product create/delete' opening notepad with last 10 days history of product create and delete
+  Log creation are generated by stored procedure 'spPlanCreateDeleteLog' 
+
+v 5.3.1.2
+
+- Registration of username in log table when creating plan 
+
+v 5.3.1.1
+
+- Recompiled 10.2 release 1
+
+- Delete productions in tools menu was controlled by user group property MayRunProducts -> corrected to property MayDeleteProducts
+
+v 5.2.7.2
+
+- Changed back to standard DatePicker for pubdate
+
+- Plancenter will try to load User's toolbar-action file (.act) based on usergroupname.act (if preset). If not present usual username.act will be loaded
+
+- Changed action category of 'Send page back to start' to thumbnail group
+
+- Registration of username in log table when deleting plan
+
+v. 5.2.7.1
+
+- Database query optimizations (many SELECT * .. rewritten for better index usage performance)
+
+- Minor change to Separation view 
+
+v. 5.2.6.3
+
+- Minor changes to plate view drawing
+
+v. 5.2.6.2
+
+- Removed annoying 'This production does not exist any longer' message when selecting a (now) deleted product.
+
+v. 5.2.6.1
+
+- Now PlanCenter only uses pre-generated readview files made by proof process in InputCenter
+  (old fallback method of generation inside PlanCenter is not available)
+
+v. 5.2.5.4
+
+- Extended AD Group search to include nested member groups
+
+- Fixed bug related to readview when no pre-generated readviews exists
+
+v 5.2.5.3
+
+- Fixed pubdate bug (french SQL server) in Excel Generation dialog 
+
+- Changed LoggInGroups.exe to .NET 3.5 (downgrade for compatibility)
+
+v 5.2.5.2
+
+- Added startup parameters:
+  -d forces debug mode
+  -b forces use of backup database parameters in PlanCenter.ini
+
+- Moved PlanCenter.ini (and other ini-files) to ..\Users\Public\Documents\PlanCenter - (changed from ..\ProgramData\PlanCenter which is   write protected for certain environments)
+
+v 5.2.5.1
+
+- Moved PlanCenter.ini (and other ini-files) to ..\ProgramData\PlanCenter folder. First time loading PlanCenter will copy the inifiles   to this folder if they are not already here.
+
+v 5.2.4.5
+
+- Fixed issued with restricted users unable to write to PlanCenter application folder
+
+v 5.2.4.4
+
+- Fixed error in Add Copy function in Production view (post check of added copy not functioning correctly)
+
+v 5.2.4.3
+
+- Fixed missing Refresh button in Production view
+
+v 5.2.4.2
+
+- Fixed various non-working right click menus in the trees - e.g. device change and hold/release changes in plateview tree
+
+V 5.2.4.1
+
+- Change to Admin group authentication 
+
+v 5.2.3.3
+
+- Changes to platesettings in plateview (popup) now suggests current press tower/zone/cylinder/plateside as default in dialog
+
+- If cylinder are defined in database as comma-separated values (e.g. Cylinder for C=1,2) then cylinder dialog now only shows cylinder for selected plate side correctly
+
+
+v 5.2.3.2
+
+- Change to Excel report generation. Prompt for local folder only done once when multiple reports are asked for
+
+v 5.2.3.1
+
+- Changed plateview to fully flat look
+
+- Fixed problem adding editions in edition view
+
+- Added safety workaround in case plans are overwritten where PressSectionNumber mistakenly becomes wrong
+
+v 5.2.2.5
+
+- Fixed remaining datepicker in planning editor
+
+- Minor optimizations in thumbnail and plate drawings
+
+v 5.2.2.4
+
+- Fixed grid problem in production view
+
+- Fixed status inconsistency in plate details view
+
+v 5.2.2.3
+
+- Fixed bug with localized date separator for date selections
+
+v 5.2.2.2
+
+- Fixed bugs related to database queries for Excel generation ('Generate Excel report' dialog)
+
+- Added default settings for Excel report generation
+  Excel-generation is now always generated by central ExcelGeneration-service.
+  Make sure 'Central Excel archive folder' is set. The service always stores sheets here so that PlanCenter 
+  can copy them to the final destination folder selected by the user.
+
+- Added selection of Excel-email: No email, Email to default receiver and email to specified receiver
+
+- Fixed problems related to report statistics for products on multiple presses
+
+- Added statistics for 'Updated plates' (new version for customer) and 'Damaged plates' (re-imaged plates)
+
+- Shows wait dialog when running long reports
+
+v 5.2.2.1
+
+- Added 'Flat look' simplified look for thumbnails and plates
+
+- Workaround for problematic date chooser on Win10 Creators Update
+
+v 5.2.1.18
+
+- Added dialog for 'Manual halfweb override' (Advanced settings - Plates) so that selection of halfweb pages can be made manually
+
+- Enabled theme support
+
+v 5.2.1.17
+
+- Added 'Edit page numbers' for manual page numbering of plate pages in Plan editor. Select a plate nad choos right-click and select 'Edit pagenumbers'. This will bring up a   form for manual page number editing. Note that dummy pages on half-web plates must be indicated as page number '0'.
+
+v 5.2.1.16
+
+- Fixed problem with database re-connect in case of lost connections
+
+- Major rewrite of location/press/press group filter management. Filter mode is set in General settings. 
+  Changes to mode requires PlanCenter restart  
+  Note: limits to locations are adjusted via 'Visible presses' list
+  
+
+v 5.2.1.15
+
+- Fixed bug related to 'Pages ready' flag from WebCenter (makes green color background in tree)
+
+- Straighen out tree-publication extra texts for Production Order number and Pressrun Order number
+
+v 5.2.1.14
+
+- Added capability to use existing Windows (domain) user as default login user name
+
+- Added ability to use Admin groups to restrict publication name access
+
+- Added ability to lookup AD Group and check against existing Admin Group names
+  Requires file LoggedInGroups.exe present in PlanCenter installation folder (+ .net 4 or later installed)
+
+- Loging information (groups etc.) visible in About dialog
+
+V 5.2.1.13
+
+- Fixed bug in initial page tree update (missing lamps unitl first auto-refresh)
+
+- New option in General settings - preview : 'Show page note indicator' 
+
+- Fixed bug in show page note (exception if no message found)
+
+v 5.2.1.12
+
+- New compiler Delphi 10.2 Tokyo and updated database dbExpress MSSQL module 
+
+v 5.1.1.12
+
+- Fixed backward compatibility problem - Field DeviceGroupID used in Production view without checking if field exists in database
+
+- Added overall settings to Advanced Setting -> Tree : 'Limit visible towers' and 'Limit visible presses'
+
+- Fixed bug related to registering of Process
+
+
+v 5.1.1.11
+
+- Fixed bug intruduced in ver 5.1.1.9 related to limits of sections available for selection during plan create
+
+
+v 5.1.1.10
+
+- Fixed allocation bug when adding empty sheets to existing plan using Edit plan
+
+- Added Plate renumber option (Plate view) to allow changing both Platenumber and MiscString3 (ink plate number)
+
+V 5.1.1.9
+---------
+
+- Fixed bug related to section selection in Honeywell GUS files
+
+- Fixed bug with Change Press toolbutton in Planning view
+
+V 5.1.1.8
+---------
+
+- Strengthen error recovery after database connection failure
+
+v 5.1.1.7
+---------
+
+- Fixed missing action for 'Set Status back to start' in Plate view pop-up
+
+- Added custom stacker dialog to plate view (Setting: 'Custom manual stacker change')
+
+v 5.1.1.6
+---------
+
+- Fixed database query problem in tree update process (related to date selection)
+
+- Broken load plan fixed in case week number is not used. 
+
+- Bug in colorimage list visible in Reimage dialog
+
+- Fixed missing action for Output Method in Production view pop-up
+
+v 5.1.1.5
+---------
+
+- Added support for dedicated PlanCenter user set in FileServers table ServerType 11
+
+- Moved unknown files folder scan to background thread
+
+- Optimized ID names reload various places
+
+- Fixed Edit colors popup in thumbnail view to insert missing color separations
+
+- Fixed problems setting OutputMethod 
+
+- Fixed several database query open/close bugs
+
+v 5.1.1.4
+---------
+
+- Ability to clear tower settings in Plateview
+
+- Fixed missing action handlers for Renumber plate and ink preset in plate view
+
+v 5.1.1.3
+---------
+
+- Added background thread for unknown page list update
+
+v 5.1.1.2
+---------
+
+- Fixed 0-width Production view columns
+
+- Fixed position problem for press group filter 
+
+v 5.1.1.1
+---------
+
+- Initial release with new platform runtime

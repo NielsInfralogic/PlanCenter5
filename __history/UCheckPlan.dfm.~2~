@@ -1,0 +1,103 @@
+object FormCheckPlan: TFormCheckPlan
+  Left = 0
+  Top = 0
+  Caption = 'Check imported plan'
+  ClientHeight = 291
+  ClientWidth = 474
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnActivate = FormActivate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel3: TPanel
+    Left = 0
+    Top = 0
+    Width = 474
+    Height = 54
+    Align = alTop
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 0
+    ExplicitWidth = 427
+    object Label7: TLabel
+      Left = 12
+      Top = 12
+      Width = 225
+      Height = 24
+      AutoSize = False
+      Caption = 'Check imported plan'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 54
+    Width = 474
+    Height = 196
+    Align = alClient
+    Caption = 'Page link check'
+    TabOrder = 1
+    ExplicitWidth = 427
+    ExplicitHeight = 212
+    object ListView1: TListView
+      Left = 2
+      Top = 15
+      Width = 470
+      Height = 179
+      Align = alClient
+      Columns = <
+        item
+          AutoSize = True
+          Caption = 'Press'
+        end
+        item
+          Caption = 'Edition'
+        end
+        item
+          Caption = 'Section'
+        end
+        item
+          Caption = 'Pages'
+        end
+        item
+          Caption = 'Status'
+        end
+        item
+          Caption = 'PressRunID'
+        end>
+      GridLines = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 250
+    Width = 474
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 2
+    ExplicitWidth = 427
+    object BitBtn1: TBitBtn
+      Left = 200
+      Top = 6
+      Width = 75
+      Height = 25
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+    end
+  end
+end

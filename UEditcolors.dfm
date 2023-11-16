@@ -1,0 +1,87 @@
+object Formeditcolors: TFormeditcolors
+  Left = 636
+  Top = 366
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Edit colors'
+  ClientHeight = 284
+  ClientWidth = 299
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poMainFormCenter
+  OnActivate = FormActivate
+  TextHeight = 13
+  object CheckListBoxColors: TCheckListBox
+    Left = 0
+    Top = 0
+    Width = 299
+    Height = 236
+    Align = alClient
+    ItemHeight = 17
+    TabOrder = 0
+    OnClick = CheckListBoxColorsClick
+    ExplicitWidth = 295
+    ExplicitHeight = 235
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 236
+    Width = 299
+    Height = 48
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    ExplicitTop = 235
+    ExplicitWidth = 295
+    object BitBtn1: TBitBtn
+      Left = 67
+      Top = 12
+      Width = 75
+      Height = 25
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+      OnClick = BitBtn1Click
+    end
+    object BitBtn2: TBitBtn
+      Left = 151
+      Top = 12
+      Width = 75
+      Height = 25
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 1
+    end
+  end
+  object ListBox1: TListBox
+    Left = 168
+    Top = 8
+    Width = 121
+    Height = 73
+    ItemHeight = 13
+    TabOrder = 2
+    Visible = False
+  end
+  object ListBox2: TListBox
+    Left = 168
+    Top = 96
+    Width = 121
+    Height = 69
+    ItemHeight = 13
+    TabOrder = 3
+    Visible = False
+  end
+  object ListBox3: TListBox
+    Left = 168
+    Top = 172
+    Width = 121
+    Height = 57
+    ItemHeight = 13
+    TabOrder = 4
+    Visible = False
+  end
+end

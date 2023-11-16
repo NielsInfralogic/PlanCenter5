@@ -1,0 +1,1082 @@
+object Formprodplan: TFormprodplan
+  Left = 549
+  Top = 154
+  BorderIcons = [biSystemMenu, biMaximize]
+  Caption = 'Plan editor'
+  ClientHeight = 614
+  ClientWidth = 912
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnActivate = FormActivate
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnResize = FormResize
+  PixelsPerInch = 96
+  TextHeight = 13
+  object ListBoxnumsort: TListBox
+    Left = 28
+    Top = 116
+    Width = 161
+    Height = 121
+    ItemHeight = 13
+    Sorted = True
+    TabOrder = 5
+    Visible = False
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 105
+    Width = 912
+    Height = 386
+    ActivePage = TabSheet2
+    Align = alClient
+    TabOrder = 0
+    OnChange = PageControl1Change
+    ExplicitTop = 74
+    ExplicitHeight = 417
+    object TabSheet2: TTabSheet
+      Caption = 'Plates'
+      ImageIndex = 1
+      object ScrollBoxplan: TScrollBox
+        Left = 0
+        Top = 41
+        Width = 904
+        Height = 317
+        Align = alClient
+        PopupMenu = PopupActionBarExplan
+        TabOrder = 0
+        Visible = False
+        ExplicitHeight = 348
+        object ProgressBarprod: TProgressBar
+          Left = 180
+          Top = 392
+          Width = 150
+          Height = 17
+          Step = 1
+          TabOrder = 0
+        end
+      end
+      object Panel19: TPanel
+        Left = 0
+        Top = 0
+        Width = 904
+        Height = 41
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 1
+        object Labelpageindex: TLabel
+          Left = 139
+          Top = 13
+          Width = 94
+          Height = 13
+          Caption = 'Page index system :'
+        end
+        object CheckBoxsmallimagesinEdit: TCheckBox
+          Left = 499
+          Top = 8
+          Width = 73
+          Height = 17
+          Caption = 'Small icons'
+          TabOrder = 0
+          OnClick = CheckBoxsmallimagesinEditClick
+        end
+        object CheckBoxsubedselection: TCheckBox
+          Left = 371
+          Top = 8
+          Width = 124
+          Height = 17
+          Caption = 'Select all subeditions'
+          TabOrder = 1
+          OnClick = CheckBoxsubedselectionClick
+        end
+        object Edit1: TEdit
+          Left = 908
+          Top = 0
+          Width = 149
+          Height = 21
+          TabOrder = 2
+          Text = 'Edit1'
+          Visible = False
+        end
+        object Edit2: TEdit
+          Left = 940
+          Top = 0
+          Width = 149
+          Height = 21
+          TabOrder = 3
+          Text = 'Edit1'
+          Visible = False
+        end
+        object Button4: TButton
+          Left = 808
+          Top = 0
+          Width = 75
+          Height = 25
+          Caption = 'test'
+          TabOrder = 4
+          Visible = False
+          OnClick = Button4Click
+        end
+        object ComboBoxdefpagina: TComboBox
+          Left = -51
+          Top = 39
+          Width = 109
+          Height = 21
+          Style = csDropDownList
+          ItemIndex = 0
+          TabOrder = 5
+          Text = 'Simple 0'
+          OnChange = ComboBoxdefpaginaChange
+          Items.Strings = (
+            'Simple 0'
+            'Inserted 1'
+            'Consecutive 2')
+        end
+        object GroupBox3: TGroupBox
+          Left = 0
+          Top = 0
+          Width = 129
+          Height = 41
+          Align = alLeft
+          Caption = 'Page text'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'MS Sans Serif'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 6
+          object CheckBoxname: TCheckBox
+            Left = 8
+            Top = 16
+            Width = 61
+            Height = 17
+            Caption = 'Name'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+            OnClick = CheckBoxnameClick
+          end
+          object CheckBoxpagina: TCheckBox
+            Left = 64
+            Top = 16
+            Width = 61
+            Height = 17
+            Caption = 'Pagina'
+            TabOrder = 1
+            OnClick = CheckBoxnameClick
+          end
+          object CheckBoxindex: TCheckBox
+            Left = 140
+            Top = 12
+            Width = 50
+            Height = 17
+            Caption = 'Index'
+            TabOrder = 2
+            Visible = False
+            OnClick = CheckBoxnameClick
+          end
+        end
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'Pages'
+      object PBExListview1: TPBExListview
+        Left = 0
+        Top = 0
+        Width = 904
+        Height = 389
+        Align = alClient
+        Columns = <
+          item
+            Caption = 'Page'
+            Width = 100
+          end
+          item
+            Caption = 'Edition'
+            Width = 100
+          end
+          item
+            Caption = 'Run'
+          end
+          item
+            Caption = 'Sheet'
+          end
+          item
+            Caption = 'Side'
+          end
+          item
+            Caption = 'Copy'
+          end
+          item
+            Caption = 'Template'
+            Width = 100
+          end
+          item
+            Caption = 'Section'
+            Width = 100
+          end
+          item
+            Caption = 'Type'
+            Width = 100
+          end
+          item
+            Caption = 'Pagina'
+          end
+          item
+            Caption = 'Pageindex'
+          end
+          item
+            Caption = 'Common edition'
+            Width = 100
+          end
+          item
+            Caption = 'Color'
+          end
+          item
+            Caption = 'Active'
+          end
+          item
+            Caption = 'Stackposition'
+            MaxWidth = 50
+            Width = 41
+          end
+          item
+            Caption = 'Tower'
+            Width = 100
+          end
+          item
+            Caption = 'Zone'
+            Width = 100
+          end
+          item
+            Caption = 'Cylinder'
+            Width = 100
+          end
+          item
+            Caption = 'High/low'
+            Width = 100
+          end
+          item
+            MaxWidth = 5
+            Width = 4
+          end
+          item
+            MaxWidth = 5
+            Width = 4
+          end
+          item
+            MaxWidth = 5
+            Width = 4
+          end
+          item
+            Caption = 'Index'
+            MaxWidth = 5
+            Width = 4
+          end
+          item
+            Caption = 'Ipage'
+            MaxWidth = 5
+            Width = 4
+          end
+          item
+            Caption = 'Master'
+            MaxWidth = 5
+            Width = 4
+          end>
+        GridLines = True
+        MultiSelect = True
+        RowSelect = True
+        PopupMenu = PopupActionBarExdatapopup
+        TabOrder = 0
+        ViewStyle = vsReport
+        OnAdvancedCustomDrawItem = PBExListview1AdvancedCustomDrawItem
+        OnClick = PBExListview1Click
+        OnColumnClick = PBExListview1ColumnClick
+        OnCompare = PBExListview1Compare
+        OnEdited = PBExListview1Edited
+        horzmove = 0
+        horzpos = 0
+        Vertpos = 0
+      end
+    end
+  end
+  object ActionToolBar1: TActionToolBar
+    Left = 0
+    Top = 0
+    Width = 912
+    Height = 54
+    ActionManager = ActionManagerPlanning
+    Caption = 'ActionToolBar1'
+    Color = clMenuBar
+    ColorMap.DisabledFontColor = 7171437
+    ColorMap.HighlightColor = clWhite
+    ColorMap.BtnSelectedFont = clBlack
+    ColorMap.UnusedColor = clWhite
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    Spacing = 0
+    ExplicitHeight = 23
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 595
+    Width = 912
+    Height = 19
+    Panels = <
+      item
+        Text = 'Progress'
+        Width = 100
+      end
+      item
+        Style = psOwnerDraw
+        Text = 'progress'
+        Width = 200
+      end
+      item
+        Width = 50
+      end
+      item
+        Width = 50
+      end
+      item
+        Width = 50
+      end>
+    OnDrawPanel = StatusBar1DrawPanel
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 491
+    Width = 912
+    Height = 104
+    Align = alBottom
+    Caption = 'Dummy pages'
+    TabOrder = 1
+    Visible = False
+    object ScrollBoxDummyPages: TScrollBox
+      Left = 2
+      Top = 15
+      Width = 908
+      Height = 87
+      VertScrollBar.Range = 400
+      Align = alClient
+      AutoScroll = False
+      TabOrder = 0
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Top = 54
+    Width = 912
+    Height = 51
+    Align = alTop
+    Caption = 'Production data'
+    TabOrder = 2
+    ExplicitTop = 23
+    object Label1: TLabel
+      Left = 311
+      Top = 10
+      Width = 89
+      Height = 13
+      AutoSize = False
+      Caption = 'Date'
+    end
+    object Label2: TLabel
+      Left = 472
+      Top = 12
+      Width = 52
+      Height = 13
+      Caption = 'Publication'
+    end
+    object Label3: TLabel
+      Left = 8
+      Top = 12
+      Width = 145
+      Height = 13
+      AutoSize = False
+      Caption = 'Location'
+    end
+    object Label4: TLabel
+      Left = 160
+      Top = 12
+      Width = 145
+      Height = 13
+      AutoSize = False
+      Caption = 'Press'
+    end
+    object Label5: TLabel
+      Left = 636
+      Top = 12
+      Width = 149
+      Height = 13
+      AutoSize = False
+      Caption = 'Production name'
+    end
+    object Label6: TLabel
+      Left = 416
+      Top = 12
+      Width = 47
+      Height = 13
+      Caption = 'Week no.'
+    end
+    object DateTimePickerPubdate: TDateTimePicker
+      Left = 311
+      Top = 24
+      Width = 98
+      Height = 21
+      Date = 38616.000000000000000000
+      Time = 0.742890787027136000
+      TabOrder = 0
+      OnChange = DateTimePickerPubdateChange
+    end
+    object ComboBoxPublication: TComboBox
+      Left = 472
+      Top = 24
+      Width = 145
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 1
+      OnSelect = ComboBoxPublicationSelect
+    end
+    object ComboBoxLocation: TComboBox
+      Left = 8
+      Top = 24
+      Width = 145
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 2
+      OnSelect = ComboBoxLocationSelect
+    end
+    object ComboBoxpress: TComboBox
+      Left = 160
+      Top = 24
+      Width = 145
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 3
+      OnSelect = ComboBoxpressSelect
+    end
+    object EditProductionname: TEdit
+      Left = 636
+      Top = 24
+      Width = 225
+      Height = 21
+      ReadOnly = True
+      TabOrder = 4
+    end
+    object Button5: TButton
+      Left = 756
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = 'Test'
+      TabOrder = 5
+      Visible = False
+    end
+    object Edit3: TEdit
+      Left = 416
+      Top = 24
+      Width = 49
+      Height = 21
+      TabOrder = 6
+    end
+  end
+  object ActionManagerPlanning: TActionManager
+    ActionBars = <
+      item
+        Items = <
+          item
+            Action = ActionWizard
+            Caption = '&Create'
+            ImageIndex = 77
+          end
+          item
+            Caption = '-'
+          end
+          item
+            Action = ActionLoad
+            Caption = '&Load'
+            ImageIndex = 22
+          end
+          item
+            Action = ActionSave
+            ImageIndex = 17
+          end
+          item
+            Action = ActionDelete
+            Caption = '&Delete'
+            ImageIndex = 79
+          end
+          item
+            Caption = '-'
+          end
+          item
+            Action = ActionRun
+            Caption = '&Run'
+            ImageIndex = 98
+          end>
+      end
+      item
+        Items = <
+          item
+            Action = ActionRun
+            Caption = '&Run'
+            ImageIndex = 98
+          end
+          item
+            Action = Actionexit
+            Caption = 'E&xit'
+          end
+          item
+            Caption = '-'
+          end
+          item
+            Action = ActionLoad
+            Caption = '&Load'
+            ImageIndex = 22
+          end
+          item
+            Action = ActionSave
+            ImageIndex = 17
+          end
+          item
+            Action = ActionWizard
+            Caption = 'Cr&eate'
+            ImageIndex = 77
+          end
+          item
+            Action = Actionclear
+            Caption = '&Clear'
+            ImageIndex = 107
+          end
+          item
+            Action = ActionDelete
+            Caption = '&Delete template'
+            ImageIndex = 141
+          end
+          item
+            Caption = '-'
+          end
+          item
+            Action = Actioncopyadd
+            Caption = '&Add copy'
+            ImageIndex = 113
+          end
+          item
+            Action = Actioncopydelete
+            Caption = 'Delete co&py'
+            ImageIndex = 114
+          end
+          item
+            Action = ActionediteditionRun
+            Caption = 'Ed&it run'
+            ImageIndex = 74
+          end
+          item
+            Action = Actionplaaddcons
+            Caption = 'Add r&un'
+            ImageIndex = 187
+          end
+          item
+            Action = ActionCombine
+            Caption = 'C&ombine'
+            ImageIndex = 156
+          end
+          item
+            Action = Actioneditpages
+            Caption = 'Edit pa&ges'
+            ImageIndex = 177
+          end
+          item
+            Visible = False
+            Action = ActionMovepages
+            Caption = '&Move pages'
+          end
+          item
+            Action = ActionAutoHW
+            Caption = 'Auto &Halfweb'
+            ImageIndex = 76
+          end
+          item
+            Action = ActionPlanningRearrangePages
+            Caption = 'Re-arra&nge pages'
+          end>
+        ActionBar = ActionToolBar1
+      end
+      item
+      end>
+    DisabledImages = FormImage.ImageList2
+    LargeDisabledImages = FormImage.ImageList2
+    LargeImages = FormImage.ImageList1
+    Images = FormImage.ImageList2
+    Left = 72
+    Top = 172
+    StyleName = 'XP Style'
+    object ActionWizard: TAction
+      Category = 'Plan'
+      Caption = 'Create'
+      ImageIndex = 77
+      OnExecute = ActionWizardExecute
+    end
+    object ActionSave: TAction
+      Category = 'Plan'
+      Caption = '&Save'
+      ImageIndex = 17
+      OnExecute = ActionSaveExecute
+    end
+    object ActionLoad: TAction
+      Category = 'Plan'
+      Caption = 'Load'
+      ImageIndex = 22
+      OnExecute = ActionLoadExecute
+    end
+    object ActionDelete: TAction
+      Category = 'Plan'
+      Caption = 'Delete'
+      ImageIndex = 79
+      OnExecute = ActionDeleteExecute
+    end
+    object ActionRun: TAction
+      Category = 'Plan'
+      Caption = 'Run'
+      ImageIndex = 98
+      OnExecute = ActionRunExecute
+    end
+    object Actionclear: TAction
+      Category = 'Plan'
+      Caption = 'Clear'
+      ImageIndex = 107
+      OnExecute = ActionclearExecute
+    end
+    object Actionhalfweb: TAction
+      Category = 'Popup'
+      Caption = 'Half web'
+      ImageIndex = 76
+      OnExecute = ActionhalfwebExecute
+    end
+    object Actioncommon: TAction
+      Category = 'Popup'
+      Caption = 'Produce common plate'
+      ImageIndex = 95
+      OnExecute = ActioncommonExecute
+    end
+    object Actioneditcolors: TAction
+      Category = 'Popup'
+      Caption = 'Edit colors'
+      ImageIndex = 96
+      OnExecute = ActioneditcolorsExecute
+    end
+    object Actionlayout: TAction
+      Category = 'Popup'
+      Caption = 'Change layout'
+      ImageIndex = 33
+      OnExecute = ActionlayoutExecute
+    end
+    object Actioncenterspread: TAction
+      Category = 'Popup'
+      Caption = 'Center spread'
+      Hint = 'Center spread'
+      OnExecute = ActioncenterspreadExecute
+    end
+    object Actionsinglespread: TAction
+      Category = 'Popup'
+      Caption = 'Single spread'
+    end
+    object Actionpagepagenamenameedit: TAction
+      Category = 'Pages'
+      Caption = 'Pagename'
+      ImageIndex = 101
+      OnExecute = ActionpagepagenamenameeditExecute
+    end
+    object Actionpagestackpos: TAction
+      Category = 'Pages'
+      Caption = 'Stackposition'
+      ImageIndex = 81
+      OnExecute = ActionpagestackposExecute
+    end
+    object Actionpagetower: TAction
+      Category = 'Pages'
+      Caption = 'Tower'
+      ImageIndex = 80
+      OnExecute = ActionpagetowerExecute
+    end
+    object Actionpagecylinder: TAction
+      Category = 'Pages'
+      Caption = 'Cylinder'
+      ImageIndex = 82
+      OnExecute = ActionpagecylinderExecute
+    end
+    object Actionpagezone: TAction
+      Category = 'Pages'
+      Caption = 'Zone'
+      OnExecute = ActionpagezoneExecute
+    end
+    object ActionpageHighlow: TAction
+      Category = 'Pages'
+      Caption = 'High/low'
+      OnExecute = ActionpageHighlowExecute
+    end
+    object Action1pagerefresh: TAction
+      Category = 'Pages'
+      Caption = 'Refresh'
+      ImageIndex = 39
+      OnExecute = Action1pagerefreshExecute
+    end
+    object ActionSetuniquepages: TAction
+      Category = 'Plan'
+      Caption = 'Set unique pages'
+      ImageIndex = 112
+      OnExecute = ActionSetuniquepagesExecute
+    end
+    object Actionplaterefresh: TAction
+      Category = 'Popup'
+      Caption = 'Refresh'
+      ImageIndex = 39
+      OnExecute = ActionplaterefreshExecute
+    end
+    object Actioncopyadd: TAction
+      Category = 'Plan'
+      Caption = 'Add copy'
+      ImageIndex = 113
+      OnExecute = ActioncopyaddExecute
+    end
+    object Actioncopydelete: TAction
+      Category = 'Plan'
+      Caption = 'Delete copy'
+      ImageIndex = 114
+      OnExecute = ActioncopydeleteExecute
+    end
+    object Actionexit: TAction
+      Category = 'Plan'
+      Caption = 'Exit'
+      OnExecute = ActionexitExecute
+    end
+    object ActionediteditionRun: TAction
+      Category = 'Plan'
+      Caption = 'Edit run'
+      ImageIndex = 74
+      OnExecute = ActionediteditionRunExecute
+    end
+    object ActionSetuniquepage: TAction
+      Category = 'Pages'
+      Caption = 'Set to unique'
+      ImageIndex = 48
+      OnExecute = ActionSetuniquepageExecute
+    end
+    object ActionCombine: TAction
+      Category = 'Plan'
+      Caption = 'Combine'
+      ImageIndex = 156
+      OnExecute = ActionCombineExecute
+    end
+    object Actionplatemark: TAction
+      Category = 'Popup'
+      Caption = 'Plate options'
+      ImageIndex = 85
+      OnExecute = ActionplatemarkExecute
+    end
+    object Actionsetpressrundata: TAction
+      Category = 'Popup'
+      Caption = 'Press run data'
+      ImageIndex = 170
+      OnExecute = ActionsetpressrundataExecute
+    end
+    object Actionplanproofing: TAction
+      Category = 'Popup'
+      Caption = 'Proof settings'
+      ImageIndex = 172
+      OnExecute = ActionplanproofingExecute
+    end
+    object Actionplanflatproof: TAction
+      Category = 'Popup'
+      Caption = 'Flatproof settings'
+      ImageIndex = 173
+      OnExecute = ActionplanflatproofExecute
+    end
+    object Actionplantower: TAction
+      Category = 'Popup'
+      Caption = 'Tower name'
+      ImageIndex = 80
+      OnExecute = ActionplantowerExecute
+    end
+    object Actionswappages: TAction
+      Category = 'Popup'
+      Caption = 'Swap pagepositions'
+      ImageIndex = 175
+      OnExecute = ActionswappagesExecute
+    end
+    object Actionswapfrontback: TAction
+      Category = 'Popup'
+      Caption = 'Swap front back'
+      ImageIndex = 176
+      OnExecute = ActionswapfrontbackExecute
+    end
+    object Actioneditpages: TAction
+      Category = 'Plan'
+      Caption = 'Edit pages'
+      ImageIndex = 177
+      OnExecute = ActioneditpagesExecute
+    end
+    object Actionplaaddcons: TAction
+      Category = 'Plan'
+      Caption = 'Add run'
+      ImageIndex = 187
+      OnExecute = ActionplaaddconsExecute
+    end
+    object ActionMovepages: TAction
+      Category = 'Plan'
+      Caption = 'Move pages'
+      Visible = False
+      OnExecute = ActionMovepagesExecute
+    end
+    object ActionPlancopypage: TAction
+      Category = 'Popup'
+      Caption = 'Copy'
+      OnExecute = ActionPlancopypageExecute
+    end
+    object ActionPlanpastpage: TAction
+      Category = 'Popup'
+      Caption = 'Paste'
+      OnExecute = ActionPlanpastpageExecute
+    end
+    object Actionpopuppresssysname: TAction
+      Category = 'Popup'
+      Caption = 'Press system'
+      OnExecute = ActionpopuppresssysnameExecute
+    end
+    object ActionaddSheet: TAction
+      Category = 'Popup'
+      Caption = 'Add empty sheet'
+      OnExecute = ActionaddSheetExecute
+    end
+    object ActionRemoveSheet: TAction
+      Category = 'Popup'
+      Caption = 'Remove blank sheets'
+      OnExecute = ActionRemoveSheetExecute
+    end
+    object ActionSetMomigraf: TAction
+      Category = 'Popup'
+      Caption = 'SetMomigraf'
+      OnExecute = ActionSetMomigrafExecute
+    end
+    object ActionZone: TAction
+      Category = 'Popup'
+      Caption = 'Zone name'
+      ImageIndex = 219
+      OnExecute = ActionZoneExecute
+    end
+    object ActionSetRipSetup: TAction
+      Category = 'Popup'
+      Caption = 'Page processing'
+      ImageIndex = 289
+      OnExecute = ActionSetRipSetupExecute
+    end
+    object ActionHighlow: TAction
+      Category = 'Popup'
+      Caption = 'High / Low'
+      ImageIndex = 246
+      OnExecute = ActionHighlowExecute
+    end
+    object ActiontrueSheetside: TAction
+      Category = 'Popup'
+      Caption = 'True Sheetside'
+      OnExecute = ActiontrueSheetsideExecute
+    end
+    object Actionpresscylname: TAction
+      Category = 'Popup'
+      Caption = 'Cylinder name'
+      ImageIndex = 82
+      OnExecute = ActionpresscylnameExecute
+    end
+    object ActionAutoHW: TAction
+      Category = 'Plan'
+      Caption = 'Auto HW'
+      ImageIndex = 76
+      OnExecute = ActionAutoHWExecute
+    end
+    object Actionpagechangemaster: TAction
+      Category = 'Pages'
+      Caption = 'Change master page (automatic)'
+      ImageIndex = 269
+      OnExecute = ActionpagechangemasterExecute
+    end
+    object Actionmakeplatepageunique: TAction
+      Category = 'Popup'
+      Caption = 'Set page to unique'
+      ImageIndex = 48
+      OnExecute = ActionmakeplatepageuniqueExecute
+    end
+    object Actionmakeplateunique: TAction
+      Category = 'Popup'
+      Caption = 'Set plate'#39's to unique'
+      ImageIndex = 270
+      OnExecute = ActionmakeplateuniqueExecute
+    end
+    object ActionPlanEditPagenumbers: TAction
+      Category = 'Popup'
+      Caption = 'Edit pagenumbers'
+      ImageIndex = 177
+      OnExecute = ActionPlanEditPagenumbersExecute
+    end
+    object ActionPlanningRearrangePages: TAction
+      Category = 'Popup'
+      Caption = 'Re-arrange pages'
+      Hint = 'Re-position pages in production'
+      OnExecute = ActionPlanningRearrangePagesExecute
+    end
+    object ActionMoveSheetForward: TAction
+      Category = 'Plan'
+      Caption = 'Move sheet forward'
+      OnExecute = ActionMoveSheetForwardExecute
+    end
+    object ActionMoveSheetBackward: TAction
+      Category = 'Plan'
+      Caption = 'Move sheet backward'
+      OnExecute = ActionMoveSheetBackwardExecute
+    end
+  end
+  object PopupActionBarExplan: TPopupActionBar
+    Images = FormImage.ImageList1
+    Left = 72
+    Top = 231
+    object Editcolors1: TMenuItem
+      Action = Actioneditcolors
+    end
+    object Changelayout1: TMenuItem
+      Action = Actionlayout
+    end
+    object Plateoptions1: TMenuItem
+      Action = Actionplatemark
+    end
+    object Producecommonplate1: TMenuItem
+      Action = Actioncommon
+    end
+    object Halfweb1: TMenuItem
+      Action = Actionhalfweb
+    end
+    object Presssettings1: TMenuItem
+      Caption = 'Press settings'
+      object Presssystem1: TMenuItem
+        Action = Actionpopuppresssysname
+      end
+      object ower2: TMenuItem
+        Action = Actionplantower
+      end
+      object Zonename1: TMenuItem
+        Action = ActionZone
+      end
+      object HighLow2: TMenuItem
+        Action = ActionHighlow
+      end
+      object Cylindername1: TMenuItem
+        Action = Actionpresscylname
+      end
+      object SetMomigraf1: TMenuItem
+        Action = ActionSetMomigraf
+      end
+    end
+    object Refresh1: TMenuItem
+      Action = Actionplaterefresh
+    end
+    object Centerspread1: TMenuItem
+      Action = Actioncenterspread
+    end
+    object rueSheetside1: TMenuItem
+      Action = ActiontrueSheetside
+    end
+    object Proofsettings1: TMenuItem
+      Action = Actionplanproofing
+    end
+    object Flatproofsettings1: TMenuItem
+      Action = Actionplanflatproof
+    end
+    object Pressrundata1: TMenuItem
+      Action = Actionsetpressrundata
+    end
+    object Swappagepositions1: TMenuItem
+      Action = Actionswappages
+    end
+    object Swapfrontback1: TMenuItem
+      Action = Actionswapfrontback
+    end
+    object Copy1: TMenuItem
+      Action = ActionPlancopypage
+    end
+    object Paste1: TMenuItem
+      Action = ActionPlanpastpage
+    end
+    object Addplate1: TMenuItem
+      Action = ActionaddSheet
+    end
+    object Removeblanksheets1: TMenuItem
+      Action = ActionRemoveSheet
+    end
+    object Editions1: TMenuItem
+      Caption = 'Editions'
+      object Makeunique1: TMenuItem
+        Action = Actionmakeplatepageunique
+      end
+      object Setplatestounique1: TMenuItem
+        Action = Actionmakeplateunique
+      end
+    end
+    object Setplatenumbers1: TMenuItem
+      Caption = 'Set platenumbers'
+    end
+    object RipSetup1: TMenuItem
+      Action = ActionSetRipSetup
+    end
+    object Editpagenumbers1: TMenuItem
+      Action = ActionPlanEditPagenumbers
+    end
+    object Rearrangepages1: TMenuItem
+      Action = ActionPlanningRearrangePages
+      ImageIndex = 34
+    end
+    object Movesheetforward1: TMenuItem
+      Action = ActionMoveSheetForward
+    end
+    object Movesheetbackward1: TMenuItem
+      Action = ActionMoveSheetBackward
+    end
+  end
+  object PopupActionBarExdatapopup: TPopupActionBar
+    Images = FormImage.ImageList1
+    Left = 248
+    Top = 169
+    object Pagename1: TMenuItem
+      Action = Actionpagepagenamenameedit
+    end
+    object Stackposition1: TMenuItem
+      Action = Actionpagestackpos
+    end
+    object ower1: TMenuItem
+      Action = Actionpagetower
+    end
+    object Zone1: TMenuItem
+      Action = Actionpagezone
+    end
+    object Cylinder1: TMenuItem
+      Action = Actionpagecylinder
+    end
+    object Highlow1: TMenuItem
+      Action = ActionpageHighlow
+    end
+    object Settounique1: TMenuItem
+      Action = ActionSetuniquepage
+    end
+    object Changemasterpageautomatic1: TMenuItem
+      Action = Actionpagechangemaster
+    end
+  end
+end

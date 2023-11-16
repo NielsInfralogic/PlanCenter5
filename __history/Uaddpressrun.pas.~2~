@@ -1,0 +1,1203 @@
+unit Uaddpressrun;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ImgList, StdCtrls, ComCtrls, PBExListview, Buttons, ExtCtrls, system.UITypes,
+  CheckLst, Menus;
+
+type
+  TFormAddpressrun = class(TForm)
+    GroupBox1: TGroupBox;
+    PBExListviewSections: TPBExListview;
+    Panel1: TPanel;
+    Label4: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    editto: TEdit;
+    Editpre: TEdit;
+    Editpost: TEdit;
+    ComboBoxSection: TComboBox;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    Label10: TLabel;
+    Label11: TLabel;
+    EditFoffset: TEdit;
+    Editboffset: TEdit;
+    UpDownFoffset: TUpDown;
+    UpDownboffset: TUpDown;
+    Label1: TLabel;
+    Editoffset: TEdit;
+    UpDown1: TUpDown;
+    Panel2: TPanel;
+    Panela: TPanel;
+    Image1: TImage;
+    Label5: TLabel;
+    Label12: TLabel;
+    Panel3: TPanel;
+    RadioGroupcollection: TRadioGroup;
+    GroupBoxspecialplan: TGroupBox;
+    CheckBoxbindingstyle: TCheckBox;
+    CheckBoxCombinetoonerun: TCheckBox;
+    GroupBox3: TGroupBox;
+    EditCopies: TEdit;
+    UpDowncopies: TUpDown;
+    Panel4: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn6: TBitBtn;
+    ComboBoxcovername: TComboBox;
+    Label13: TLabel;
+    GroupBox4: TGroupBox;
+    RadioGroupdoctype: TRadioGroup;
+    Panel5: TPanel;
+    CheckListBoxcolors: TCheckListBox;
+    Panelb: TPanel;
+    Image2: TImage;
+    Label2: TLabel;
+    Label9: TLabel;
+    CheckBoxprepaired: TCheckBox;
+    GroupBoxmanual: TGroupBox;
+    CheckBoxManual: TCheckBox;
+    EditManualplates: TEdit;
+    Label3: TLabel;
+    UpDown2: TUpDown;
+    EditManPplate: TEdit;
+    Label14: TLabel;
+    PopupMenumanclalc: TPopupMenu;
+    Manpacalc: TMenuItem;
+    ButtonClear: TButton;
+    Label15: TLabel;
+    Editdefhw: TEdit;
+    UpDown3: TUpDown;
+    BitBtn7: TBitBtn;
+    CheckBoxApplyonlyplannedcolors: TCheckBox;
+    CheckBoxsplitall1up: TCheckBox;
+    CheckBoxbackward: TCheckBox;
+    procedure FormActivate(Sender: TObject);
+    procedure PBExListviewSectionsSelectItem(Sender: TObject;
+      Item: TListItem; Selected: Boolean);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure RadioGroupdoctypeClick(Sender: TObject);
+    procedure ManpacalcClick(Sender: TObject);
+    procedure ButtonClearClick(Sender: TObject);
+    procedure PBExListviewSectionsKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure ComboBoxSectionChange(Sender: TObject);
+    procedure BitBtn7Click(Sender: TObject);
+    procedure edittoChange(Sender: TObject);
+    procedure Panel1Click(Sender: TObject);
+  private
+    Npagenotappl : Longint;
+    Npagesappl  : Longint;
+    Npagestot : Longint;
+
+    procedure AddApressrun(InsertPos : Longint);
+    Procedure addmanycons(InsertPos : Longint);
+    function isaoknumberofpages(npaget : String):Boolean;
+    Function checkpages:Boolean;
+    Function checkthispages(Tpages : string):Boolean;
+    { Private declarations }
+  public
+    { Public declarations }
+    autoinit : Boolean;
+    Ncolors   : Integer;
+    Nsections : Integer;
+    Npages    : Integer;
+    Nsplits   : Integer;
+    colorType   : Integer; //1=bw,2=color,3=pdf
+    Splitonconsec : boolean;
+    Oldstyleinsert : boolean;
+    Multisecplan : boolean;
+    Commastrlist : array[1..100] of Integer;
+    nup : longint;
+    MaxOnPress : Longint;
+    Allowcalconchange : Boolean;
+    procedure RemoteInitialize;
+    procedure Initialize;
+    procedure gotonext;
+
+    procedure makesplitlist;
+    Function npagestrtonpages(commastr : string;
+                              Var Nsplit : Integer):Longint;
+  end;
+
+var
+  FormAddpressrun: TFormAddpressrun;
+
+implementation
+
+{$R *.dfm}
+Uses
+  utypes,umain, Udata, Uproof, USelecttemplate, Usettings,
+  Uprodplan,uplanframe,
+  Uaddplan, UUtils;
+
+
+Var
+  Applyingpdf : boolean;
+
+
+procedure TFormAddpressrun.FormActivate(Sender: TObject);
+Begin
+
+  Initialize;
+
+  if (Prefs.Proversion = 2) then
+  begin
+
+    RadioGroupcollection.ItemIndex := 0;
+    GroupBox3.Visible := false;
+    EditCopies.Text := '1';
+    UpDowncopies.Position := 1;
+    CheckBoxApplyonlyplannedcolors.Visible := false;
+    CheckBoxApplyonlyplannedcolors.checked := false;
+
+    CheckBoxbackward.Visible := false;
+    CheckBoxbackward.checked := false;
+
+    //CheckBoxsplitall1up.Visible := false;
+    //CheckBoxsplitall1up.Checked := true;
+  end;
+
+
+  CheckBoxsplitall1up.checked := Prefs.Split1UpRuns;
+  Allowcalconchange := false;
+  IF formprodplan.PartialPlanning then
+  Begin
+    IF PBExListviewSections.Items.count > 0 then
+    begin
+      ComboBoxSection.ItemIndex := ComboBoxSection.Items.IndexOf(PBExListviewSections.Items[0].caption);
+      ComboBoxSectionChange(self);
+      PBExListviewSections.Items[0].subitems[4] := Editboffset.Text;
+      PBExListviewSections.Items[0].subitems[5] := Editoffset.Text;
+    End;
+
+    Allowcalconchange := true;
+  End;
+
+
+  if Globalsystemtype  = 3 then
+  begin
+    Panel1.Align := albottom;
+    PBExListviewSections.Align := alclient;
+    RadioGroupdoctype.ItemIndex := 1;
+    CheckBoxManual.Checked := false;
+    EditCopies.Text := '1';
+    RadioGroupcollection.ItemIndex := 0;
+    CheckBoxbindingstyle.Checked := false;
+    CheckBoxbackward.Checked := false;
+    CheckBoxprepaired.Checked := false;
+    CheckBoxApplyonlyplannedcolors.Checked := false;
+  //  CheckBoxsplitall1up.Checked := false;
+    Panel3.Visible := false;
+  end;
+
+  if (Prefs.Proversion = 2) then
+  begin
+
+    RadioGroupcollection.ItemIndex := 0;
+    GroupBox3.Visible := false;
+    EditCopies.Text := '1';
+    UpDowncopies.Position := 1;
+    CheckBoxApplyonlyplannedcolors.Visible := false;
+    CheckBoxApplyonlyplannedcolors.checked := false;
+    CheckBoxprepaired.Visible := false;
+    CheckBoxprepaired.checked := false;
+
+    CheckBoxbackward.Visible := false;
+    CheckBoxbackward.checked := false;
+
+    //CheckBoxsplitall1up.Visible := false;
+//    CheckBoxsplitall1up.Checked := true;
+  end;
+
+
+End;
+
+procedure TFormAddpressrun.Initialize;
+Var
+  I,i2 : Integer;
+  T  : string;
+  doctype : longint;
+begin
+
+  GroupBoxmanual.Visible := Prefs.AllowManualPlanning;
+  EditFoffset.Text := '0';
+  Editboffset.Text := '0';
+  CheckBoxbackward.Checked := Prefs.PlanningDefaultBackwardNumbering;
+  Applyingpdf := false;
+  if (Prefs.PlanningDefaultPDF) then
+    doctype := 1
+  else
+    doctype := 0;
+
+  IF (formprodplan.Editmode = PLANADDMODE_APPLY) and (formprodplan.NApplymodecolors > 0) then
+  Begin
+    for i2 := 1 to formprodplan.NApplymodecolors do
+    begin
+      if formprodplan.Applymodecolors[i2] = tnames1.PDFCOLORID then
+      Begin
+        Applyingpdf := true;
+
+        break;
+      end;
+    End;
+
+    if Applyingpdf then
+      doctype := 1
+    else
+      doctype := 0;
+
+  end;
+  RadioGroupdoctype.enabled := true;
+
+  IF (formprodplan.Editmode = PLANADDMODE_APPLY) and (formprodplan.NApplymodecolors > 0) then
+  Begin
+    RadioGroupdoctype.enabled := false;
+  end;
+
+  RadioGroupdoctype.ItemIndex := doctype;
+
+  if doctype = 1 then
+  begin
+    RadioGroupdoctype.ItemIndex := 1;
+    CheckListBoxcolors.Items.Clear;
+    CheckListBoxcolors.items.add('PDF');
+    CheckListBoxcolors.checked[0] := true;
+    CheckListBoxcolors.Visible := false;
+  End
+  Else
+  begin
+    CheckListBoxcolors.Items.Clear;
+    For I := 0 to tNames1.Colornames.Count-1 do
+    begin
+      IF (Uppercase(tNames1.Colornames[i]) <> 'DINKY') and (Uppercase(tNames1.Colornames[i]) <> 'PDF') then
+        CheckListBoxcolors.Items.Add(tNames1.Colornames[i]);
+    end;
+
+    For i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      CheckListBoxcolors.Checked[i] := false;
+    End;
+
+    For i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      T := uppercase(CheckListBoxcolors.Items[i]);
+
+      if (T = 'K') or (T = 'BLACK') then
+      Begin
+        CheckListBoxcolors.Checked[i] := true;
+        if (Prefs.PlanningDefaultToMono) then
+          break;
+      End
+      Else
+      Begin
+        IF ((T = 'C') OR (T = 'M') OR (T = 'Y') or (T = 'CYAN') or (T = 'MAGENTA') or (T = 'YELLOW')) and (not Prefs.PlanningDefaultToMono) then
+        Begin
+          CheckListBoxcolors.Checked[i] := true;
+        End;
+      End;
+    end;
+
+    CheckListBoxcolors.visible := true;
+  end;
+
+  IF (formprodplan.Editmode = PLANADDMODE_APPLY) and (formprodplan.NApplymodecolors > 0) then
+  begin
+    For i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      CheckListBoxcolors.Checked[i] := false;
+    End;
+    for i2 := 1 to formprodplan.NApplymodecolors do
+    begin
+      For i := 0 to CheckListBoxcolors.Items.Count-1 do
+      begin
+        if tnames1.Colornametoid(CheckListBoxcolors.items[i])  = formprodplan.Applymodecolors[i2] then
+          CheckListBoxcolors.Checked[i] := true;
+      End;
+    End;
+  end;
+
+  ComboBoxSection.Items := tNames1.sectionnames;
+  ComboBoxSection.Itemindex := 0;
+
+  if (formprodplan.Editmode <> PLANADDMODE_APPLY) and (formaddplan.publicationid > 0) then
+  begin
+    if Formmain.Limitsectionselection(formaddplan.publicationid,ComboBoxSection.items) then
+    begin
+      ComboBoxSection.ItemIndex := 0;
+    end;
+  end;
+
+  if (Prefs.AddPressRunDefaultSection <> '') then
+  begin
+    if ComboBoxSection.Items.IndexOf(Prefs.AddPressRunDefaultSection) > -1 then
+      ComboBoxSection.Itemindex := ComboBoxSection.Items.IndexOf(Prefs.AddPressRunDefaultSection);
+
+  end;
+
+  if (Prefs.PlanClearSections) then
+  Begin
+    PBExListviewSections.Items.clear;
+    editto.Text := '1';
+    Editpre.Text := '';
+    Editpost.Text := '';
+    EditFoffset.Text := '0';
+    Editboffset.Text := '0';
+    Editoffset.Text := '0';
+  End;
+
+  IF PBExListviewSections.Items.Count > 0 then
+  Begin
+    PBExListviewSections.selected := PBExListviewSections.Items[0];
+    PBExListviewSections.refresh;
+  End;
+  BitBtn1.Enabled :=  PBExListviewSections.Items.Count > 0;
+
+  For I := 0 to PBExListviewSections.Items.Count-1 do
+  begin
+    While PBExListviewSections.Items[i].SubItems.Count < 6 do
+      PBExListviewSections.Items[i].SubItems.Add('');
+  end;
+  IF ((formprodplan.Editmode = 6) OR (formprodplan.PartialPlanning)) and (Prefs.PartialNoSecionChange) then
+  begin
+
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select distinct p.Sectionid,p.PressSectionNumber,pr.pressrunid from pagetable p WITH (NOLOCK), pressrunid pr WITH (NOLOCK)');
+    DataM1.Query1.SQL.add('Where p.LocationId = ' + inttostr(plateframeslocationid));
+    DataM1.Query1.SQL.add('and p.Pressid = '+  inttostr(plateframespressid));
+    DataM1.Query1.SQL.add('and p.Publicationid = '+  inttostr(plateframesPublicationid));
+    DataM1.Query1.SQL.add('and p.pressrunid = pr.pressrunid');
+    DataM1.Query1.SQL.add('and pr.plantype = 0');
+    DataM1.Query1.SQL.add('and '+  DataM1.makedatastr('p.',plateframesPubdate));
+    DataM1.Query1.SQL.add('order by p.PressSectionNumber');
+
+    IF Prefs.debug then datam1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'Unapplall.sql');
+
+    formmain.tryopen(DataM1.Query1);
+    ComboBoxSection.Items.Clear;
+
+    while not DataM1.Query1.Eof do
+    begin
+      T:= tnames1.sectionIDtoname(DataM1.Query1.fields[0].asinteger);
+      IF ComboBoxSection.Items.IndexOf(T) < 0 then
+        ComboBoxSection.Items.Add(T);
+      DataM1.Query1.Next;
+    end;
+    DataM1.Query1.Close;
+  end;
+
+end;
+
+procedure TFormAddpressrun.PBExListviewSectionsSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+Var
+  I :Integer;
+begin
+  IF PBExListviewSections.selected <> nil then
+  begin
+    ComboBoxSection.Itemindex := 0;
+    for I :=0 to ComboBoxSection.Items.Count-1 do
+    begin
+      if PBExListviewSections.selected.caption = ComboBoxSection.Items[i] then
+      begin
+        ComboBoxSection.Itemindex := i;
+        break;
+      end;
+    end;
+    editto.Text := PBExListviewSections.selected.SubItems[0];
+    Editpre.Text := PBExListviewSections.selected.SubItems[1];
+    Editpost.Text := PBExListviewSections.selected.SubItems[2];
+
+    EditFoffset.Text := PBExListviewSections.selected.SubItems[3];
+    EditBoffset.Text := PBExListviewSections.selected.SubItems[4];
+    Editoffset.Text := PBExListviewSections.selected.SubItems[5];
+    if PBExListviewSections.selected.SubItems.count = 6 then
+      PBExListviewSections.selected.SubItems.add('');
+    ComboBoxcovername.Text := PBExListviewSections.selected.SubItems[6];
+
+  End;
+end;
+
+procedure TFormAddpressrun.BitBtn1Click(Sender: TObject);
+Begin
+  gotonext;
+
+end;
+procedure TFormAddpressrun.gotonext;
+
+Var
+  I,p,s : Integer;
+  secexists : boolean;
+begin
+  if (FormAddpressrun.CheckBoxprepaired.Checked) and (FormAddpressrun.nup = 1) then
+  begin
+    RadioGroupcollection.ItemIndex := 0;
+  end;
+
+  formprodplan.Applyonlyplannedcolors := CheckBoxApplyonlyplannedcolors.checked;
+  secexists := false;
+  For i := 0 to PBExListviewSections.Items.count-1 do
+  begin
+    if PBExListviewSections.Items[i].Caption = ComboBoxSection.Items[ComboBoxSection.Itemindex] then
+    Begin
+      secexists := true;
+      break;
+    end;
+  end;
+  formprodplan.ManualImposistion := CheckBoxManual.Checked;
+  formprodplan.ManualNPlates := strtoint(EditManualplates.Text);
+  Multisecplan :=  secexists;
+
+  Nsections := PBExListviewSections.Items.count;
+  Npages := 0;
+  Nsplits := 0;
+  For i := 0 to PBExListviewSections.Items.count-1 do
+  Begin
+    p := npagestrtonpages(PBExListviewSections.Items[i].SubItems[0],s);
+    IF s > 1 then
+    begin
+      Inc(Nsplits,s);
+    end;
+    Inc(Npages,p);
+  End;
+
+  makesplitlist;
+
+  colorType := 1;
+  Ncolors := 0;
+  For i := 0 to CheckListBoxcolors.Items.count-1 do
+  begin
+    if CheckListBoxcolors.checked[i] then
+    Begin
+      IF uppercase(CheckListBoxcolors.Items[i]) = 'PDF' then
+        colorType := 3;
+      inc(Ncolors);
+    End;
+  end;
+
+  IF (colortype=1) and (Ncolors > 1) then
+    colortype := 2;
+End;
+
+procedure TFormAddpressrun.BitBtn3Click(Sender: TObject);
+begin
+  AddApressrun(-1);
+
+end;
+
+procedure TFormAddpressrun.AddApressrun(InsertPos : Longint);
+var
+  I : Integer;
+  l : tlistitem;
+  T : string;
+  Addok : boolean;
+  secexists : boolean;
+  Nsplit,sumofsecpage : longint;
+begin
+  IF (CheckBoxManual.Checked) and (EditManPplate.Text = '') then
+    ManpacalcClick(self);
+  addok := isaoknumberofpages(editto.text);
+
+  if (not Prefs.IgnoreImposeCalcNumbering) then
+  begin
+    if addok then
+    begin
+      addok := checkthispages(editto.text);
+    end;
+  End
+  Else
+    addok := true;
+  sumofsecpage := 0;
+  secexists := false;
+  For i := 0 to PBExListviewSections.Items.count-1 do
+  begin
+    if PBExListviewSections.Items[i].Caption = ComboBoxSection.Items[ComboBoxSection.Itemindex] then
+    Begin
+      secexists := true;
+      sumofsecpage := sumofsecpage + FormAddpressrun.npagestrtonpages(PBExListviewSections.Items[i].SubItems[0],Nsplit);
+    end;
+  end;
+
+  IF secexists then
+  begin
+    (*
+    IF strtoint(Editoffset.text) < sumofsecpage then
+    begin
+      MessageDlg(formmain.InfraLanguage1.Translate('Offset is too low'), mtInformation,[mbOk], 0);
+      addok := false;
+    end;
+    *)
+  end;
+
+  if addok then
+  begin
+
+    if (pos(',',editto.Text) > 0) and (RadioGroupcollection.ItemIndex = 0) then
+    begin
+      addmanycons(-1);
+    end
+    Else
+    begin
+      l := PBExListviewSections.Items.add;
+      l.Caption := ComboBoxSection.Items[ComboBoxSection.Itemindex];
+      l.SubItems.Add(editto.text);
+      l.SubItems.Add(Editpre.text);
+      l.SubItems.Add(Editpost.text);
+      l.SubItems.Add(EditFoffset.text);
+      l.SubItems.Add(EditBoffset.text);
+      l.SubItems.Add(Editoffset.text);
+      l.SubItems.Add(ComboBoxcovername.Text);
+      IF CheckBoxManual.Checked then
+        l.SubItems.Add(EditManPplate.text )
+      Else
+        l.SubItems.Add('');
+
+      if (ComboBoxcovername.ItemIndex < 8) then
+        ComboBoxcovername.ItemIndex := ComboBoxcovername.ItemIndex + 1;
+
+      T := editto.text;
+      Splitonconsec := (RadioGroupcollection.itemindex=0) and (pos(',',t) > 0);
+      PBExListviewSections.selected := l;
+      BitBtn1.Enabled :=  PBExListviewSections.Items.Count > 0;
+      IF BitBtn1.Enabled then
+      begin
+        BitBtn1.Enabled :=checkpages;
+      End;
+    End;
+  End;
+end;
+
+procedure TFormAddpressrun.BitBtn4Click(Sender: TObject);
+Var
+  addok : boolean;
+  Insertpos : Longint;
+begin
+  addok := isaoknumberofpages(editto.text);
+  if addok then
+  begin
+    addok := checkthispages(editto.text);
+  end;
+
+  if addok then
+  begin
+    if (pos(',',editto.Text) > 0) and (RadioGroupcollection.ItemIndex = 0) and (PBExListviewSections.Selected <> nil) then
+    begin
+      Insertpos := PBExListviewSections.Selected.Index;
+      PBExListviewSections.items.Delete(Insertpos);
+      addmanycons(Insertpos);
+    end
+    Else
+    Begin
+      IF PBExListviewSections.Selected <> nil then
+      begin
+        PBExListviewSections.Selected.Caption := ComboBoxSection.Items[ComboBoxSection.Itemindex];
+
+        PBExListviewSections.Selected.subitems[0] := editto.text;
+        PBExListviewSections.Selected.subitems[1] := Editpre.text;
+        PBExListviewSections.Selected.subitems[2] := Editpost.text;
+        PBExListviewSections.Selected.subitems[3] := EditFoffset.text;
+        PBExListviewSections.Selected.subitems[4] := EditBoffset.text;
+        PBExListviewSections.Selected.subitems[5] := Editoffset.text;
+        if PBExListviewSections.selected.SubItems.count = 6 then
+          PBExListviewSections.selected.SubItems.add('');
+
+        PBExListviewSections.Selected.subitems[6] := ComboBoxcovername.Text;
+
+      end;
+    End;
+    BitBtn1.Enabled :=  PBExListviewSections.Items.Count > 0;
+    IF BitBtn1.Enabled then
+    begin
+      BitBtn1.Enabled :=checkpages;
+    End;
+  End;
+end;
+
+procedure TFormAddpressrun.BitBtn5Click(Sender: TObject);
+begin
+  IF PBExListviewSections.Selected <> nil then
+    PBExListviewSections.Selected.Delete;
+  BitBtn1.Enabled :=  PBExListviewSections.Items.Count > 0;
+  IF BitBtn1.Enabled then
+  begin
+    BitBtn1.Enabled :=checkpages;
+  End;
+
+  IF PBExListviewSections.items.Count = 0 then
+  begin
+    editto.Text := '1';
+    Editpre.Text := '';
+    Editpost.Text := '';
+    EditFoffset.Text := '0';
+    Editboffset.Text := '0';
+    Editoffset.Text := '0';
+
+  end;
+
+end;
+
+Function TFormAddpressrun.npagestrtonpages(commastr : string;
+                                           Var Nsplit : Integer):Longint;
+Var
+  T : string;
+  N,N2 : Integer;
+
+Begin
+  n2 := 0;
+  n := 0;
+  IF pos(',',commastr) > 0 then
+  begin
+    While pos(',',commastr) > 0 do
+    begin
+      Inc(n2);
+      T := copy(commastr,1,pos(',',commastr)-1);
+      n := n + strtoint(t);
+      Commastrlist[n2] := strtoint(t);
+      delete(commastr,1,pos(',',commastr));
+    End;
+    IF length(commastr) > 0 then
+    begin
+      Inc(n2);
+      n := n + strtoint(commastr);
+      Commastrlist[n2] := strtoint(commastr);
+    end;
+  end
+  else
+  begin
+    IF commastr = '' then
+      n :=  0
+    else
+
+      n := strtoint(commastr);
+    Commastrlist[1] := n;
+  end;
+  Nsplit := n2;
+  result := n;
+end;
+
+procedure TFormAddpressrun.makesplitlist;
+Var
+  T,commastr : string;
+  N,N2,i : Integer;
+Begin
+  try
+
+    Nsplitliste := 0;
+    Oldstyleinsert := false;
+    if RadioGroupcollection.ItemIndex = 1 then
+    begin
+      Oldstyleinsert := PBExListviewSections.Items.Count > 1;
+      for i := 0 to PBExListviewSections.Items.Count-1 do
+      begin
+        commastr := PBExListviewSections.Items[i].subitems[0];
+        IF pos(',',commastr) > 0 then
+        Begin
+          Oldstyleinsert := false;
+        end;
+      end;
+    end;
+    if not Oldstyleinsert then
+    begin
+      for i := 0 to PBExListviewSections.Items.Count-1 do
+      begin
+        commastr := PBExListviewSections.Items[i].subitems[0];
+        n2 := 0;
+        n := 0;
+        if Pos(',',commastr) > 0 then
+        begin
+          While Pos(',',commastr) > 0 do
+          begin
+            Inc(n2);
+            T := Copy(commastr, 1, Pos(',',commastr)-1);
+            n := n + StrToInt(t);
+            delete(commastr, 1, Pos(',',commastr));
+            Inc(Nsplitliste);
+            splitliste[Nsplitliste] := StrToInt(t);
+          End;
+          IF length(commastr) > 0 then
+          begin
+            n := n + StrToInt(commastr);
+            Inc(Nsplitliste);
+            splitliste[Nsplitliste] := StrToInt(commastr);
+          end;
+        end
+        else
+        begin
+          Inc(n2);
+          IF commastr = '' then
+            n :=  0
+          else
+          Begin
+            n := StrToInt(commastr);
+            Inc(Nsplitliste);
+            splitliste[Nsplitliste] := StrToInt(commastr);
+          End;
+        end;
+      end;
+    End;
+  Except
+  end;
+end;
+
+function TFormAddpressrun.isaoknumberofpages(npaget : String):Boolean;
+Var
+  I : Integer;
+Begin
+  result := true;
+  IF npaget = '' then
+  Begin
+    result := false;
+  End
+  else
+  begin
+    for i := 1 to Length(npaget) do
+    begin
+      if (not (npaget[i] IN tal)) then
+      begin
+         IF npaget[i]<>',' then
+           result := false;
+      end;
+    end;
+  end;
+end;
+
+Function TFormAddpressrun.checkpages:Boolean;
+var
+  i : Integer;
+Begin
+  result := true;
+  For i := 0 to PBExListviewSections.Items.Count-1 do
+  begin
+    result := checkthispages(PBExListviewSections.Items[i].SubItems[0]);
+    if not result then
+      break;
+  end;
+end;
+
+Function TFormAddpressrun.checkthispages(Tpages : string):Boolean;
+var
+  isp : Integer;
+  T : string;
+  Np : Integer;
+begin
+  result := true;
+
+  T := Tpages;
+  if T = '' then
+  begin
+    MessageDlg(formmain.InfraLanguage1.Translate('Number of pages missing'), mtInformation,[mbOk], 0);
+    result := false;
+  end;
+  if result then
+  begin
+    np := npagestrtonpages(T,isp);
+    if np mod 2 <> 0 then
+    begin
+      MessageDlg(formmain.InfraLanguage1.Translate('Number of pages do not fit template layout'), mtInformation,[mbOk], 0);
+      result := false;
+    end;
+  End;
+  if result then
+  begin
+    IF Pos(',',t) > 0 then
+    begin
+      if (PBExListviewSections.Items.Count > 1) and (RadioGroupcollection.itemindex=1) then
+      begin
+        MessageDlg(formmain.InfraLanguage1.Translate('Multible inserted sections cannot be split'), mtInformation,[mbOk], 0);
+        result := false;
+      end;
+    end;
+  end;
+end;
+
+procedure TFormAddpressrun.RadioGroupdoctypeClick(Sender: TObject);
+Var
+  I : Longint;
+  T : string;
+begin
+  IF (Applyingpdf) or (RadioGroupdoctype.ItemIndex = 1) then
+  begin
+    CheckListBoxcolors.Items.Clear;
+    CheckListBoxcolors.items.add('PDF');
+    CheckListBoxcolors.checked[0] := true;
+    CheckListBoxcolors.Visible := false;
+  End
+  Else
+  begin
+    CheckListBoxcolors.Items.Clear;
+    for I := 0 to tNames1.Colornames.Count-1 do
+    begin
+      IF (Uppercase(tNames1.Colornames[i]) <> 'DINKY') and (Uppercase(tNames1.Colornames[i]) <> 'PDF') then
+        CheckListBoxcolors.Items.add(tNames1.Colornames[i]);
+    end;
+
+    for i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      CheckListBoxcolors.Checked[i] := false;
+    end;
+
+    for i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      T := uppercase(CheckListBoxcolors.Items[i]);
+
+      if (T = 'K') or (T = 'BLACK') then
+      Begin
+        CheckListBoxcolors.Checked[i] := true;
+        if (Prefs.PlanningDefaultToMono) then
+          break;
+      end
+      else
+      begin
+        if ((T = 'C') OR (T = 'M') OR (T = 'Y') or (T = 'CYAN') or (T = 'MAGENTA') or (T = 'YELLOW')) and (not Prefs.PlanningDefaultToMono) then
+          CheckListBoxcolors.Checked[i] := true;
+      end;
+    end;
+
+    CheckListBoxcolors.visible := true;
+  end;
+end;
+
+Procedure TFormAddpressrun.addmanycons(InsertPos : Longint);
+Var
+  l : tlistitem;
+  T,t2 : string;
+
+  Npa,i,ioff : Longint;
+  pa : array[1..100] of record
+                          npages : Longint;
+                          offset : Longint;
+                        end;
+begin
+  Npa := 0;
+  ioff := 0;
+  T := editto.text;
+  t2 := '';
+  for i := 1 to length(t) do
+  begin
+    if (t[i] = ',') then
+    begin
+      Inc(Npa);
+      pa[Npa].npages := StrToInt(t2);
+      pa[Npa].offset := ioff;
+      Inc(ioff,pa[Npa].npages);
+      t2 := '';
+    end
+    else
+    begin
+      if t[i] IN tal then
+        t2 := t2 + t[i];
+    end;
+  end;
+  if t2 <> '' then
+  begin
+    Inc(Npa);
+    pa[Npa].npages := StrToInt(t2);
+    pa[Npa].offset := ioff;
+    Inc(ioff,pa[Npa].npages);
+    t2 := '';
+  end;
+
+
+  IF Editoffset.text = '' then
+    Editoffset.text := '0';
+
+  for i := 1 to npa do
+  begin
+    IF InsertPos > -1 then
+    begin
+      l := PBExListviewSections.Items.Insert(InsertPos);
+      Inc(InsertPos);
+    End
+    else
+      l := PBExListviewSections.Items.add;
+    l.Caption := ComboBoxSection.Items[ComboBoxSection.Itemindex];
+    l.SubItems.Add(inttostr(pa[i].npages));
+    l.SubItems.Add(Editpre.text);
+    l.SubItems.Add(Editpost.text);
+    l.SubItems.Add(EditFoffset.text);
+    l.SubItems.Add(EditBoffset.text);
+    l.SubItems.Add(IntToStr(StrToInt(Editoffset.Text) + pa[i].offset));
+    l.SubItems.Add(ComboBoxcovername.Text);
+  end;
+  Splitonconsec := false;
+  PBExListviewSections.selected := l;
+  BitBtn1.Enabled :=  PBExListviewSections.Items.Count > 0;
+end;
+
+procedure TFormAddpressrun.ManpacalcClick(Sender: TObject);
+Var
+  MT1 : String;
+  MI1,MI2,MI3 : Longint;
+  np,isp : Longint;
+
+begin
+  IF (EditManualplates.Text <> '') And (CheckBoxManual.checked) and (editto.text <> '') and (editto.text <> '1') then
+  begin
+    np := npagestrtonpages(editto.text,isp);
+    EditManPplate.Text := '';
+    IF MT1 = '' then
+    begin
+      MI1 := 0;
+      MI3 := 0;
+      For MI2 := 1 to StrToInt(EditManualplates.Text) do
+      begin
+        Inc(MI1,nup);
+        IF MI1 > np then
+        Begin
+          if mi1 - nup < np then
+          begin
+            MI3 := mi1 - np;
+            mi1 := np + nup+2;
+          end
+          else
+            MI3 := 0;
+        end
+        Else
+        Begin
+          MI3 := nup;
+        end;
+
+        MT1 := MT1+IntToStr(MI3)+',';
+      End;
+      Delete(MT1, Length(mt1),1000);
+      EditManPplate.Text := MT1;
+    end;
+
+  End;
+end;
+
+procedure TFormAddpressrun.ButtonClearClick(Sender: TObject);
+begin
+  PBExListviewSections.Items.Clear;
+  editto.Text := '1';
+  Editpre.Text := '';
+  Editpost.Text := '';
+  Editboffset.Text := '0';
+  EditFoffset.Text := '0';
+  Editoffset.Text := '0';
+  BitBtn1.Enabled :=  false;
+end;
+
+pprocedure TFormAddpressrun.Panel1Click(Sender: TObject);
+begin
+
+end;
+
+rocedure TFormAddpressrun.PBExListviewSectionsKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  IF key = 46 then
+  begin
+    BitBtn5.Click;
+  end;
+end;
+
+procedure TFormAddpressrun.FormCreate(Sender: TObject);
+begin
+  autoinit := false;
+end;
+
+
+procedure TFormAddpressrun.RemoteInitialize;
+Var
+  I : Integer;
+  T : string;
+  doctype : longint;
+begin
+  GroupBoxmanual.Visible := Prefs.AllowManualPlanning;
+  EditFoffset.Text := '0';
+  Editboffset.Text := '0';
+  CheckBoxbackward.Checked := Prefs.PlanningDefaultBackwardNumbering;
+  Applyingpdf := false;
+  if (Prefs.PlanningDefaultPDF) then
+    doctype := 1
+  else
+    doctype := 0;
+
+  RadioGroupdoctype.ItemIndex := doctype;
+
+  IF doctype = 1 then
+  begin
+    RadioGroupdoctype.ItemIndex := 1;
+    CheckListBoxcolors.Items.Clear;
+    CheckListBoxcolors.items.Add('PDF');
+    CheckListBoxcolors.Checked[0] := true;
+    CheckListBoxcolors.Visible := false;
+  End
+  Else
+  begin
+    CheckListBoxcolors.Items.Clear;
+    for I := 0 to tNames1.Colornames.Count-1 do
+    begin
+      if (Uppercase(tNames1.Colornames[i]) <> 'DINKY') and (Uppercase(tNames1.Colornames[i]) <> 'PDF') then
+        CheckListBoxcolors.Items.add(tNames1.Colornames[i]);
+    end;
+
+    for i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      CheckListBoxcolors.Checked[i] := false;
+    end;
+
+    for i := 0 to CheckListBoxcolors.Items.Count-1 do
+    begin
+      T := uppercase(CheckListBoxcolors.Items[i]);
+
+      if (T = 'K') or (T = 'BLACK') then
+      begin
+        CheckListBoxcolors.Checked[i] := true;
+        if (Prefs.PlanningDefaultToMono) then
+          break;
+      end
+      else
+      begin
+        if ((T = 'C') OR (T = 'M') OR (T = 'Y') or (T = 'CYAN') or (T = 'MAGENTA') or (T = 'YELLOW')) and (not Prefs.PlanningDefaultToMono) then
+        begin
+          CheckListBoxcolors.Checked[i] := true;
+        end;
+      end;
+    end;
+
+    CheckListBoxcolors.visible := true;
+  end;
+
+  ComboBoxSection.Items := tNames1.sectionnames;
+  ComboBoxSection.Itemindex := 0;
+  if (formprodplan.Editmode <> PLANADDMODE_APPLY) and (formaddplan.publicationid > 0) then
+  begin
+    if Formmain.Limitsectionselection(formaddplan.publicationid,ComboBoxSection.items) then
+    begin
+      ComboBoxSection.ItemIndex := 0;
+    end;
+  end;
+
+  For I := 0 to PBExListviewSections.Items.Count-1 do
+  begin
+    While PBExListviewSections.Items[i].SubItems.Count < 6 do
+      PBExListviewSections.Items[i].SubItems.Add('');
+  end;
+
+end;
+
+
+
+procedure TFormAddpressrun.ComboBoxSectionChange(Sender: TObject);
+begin
+  IF formprodplan.PartialPlanning then
+  begin
+
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select distinct(p.pressrunid), COUNT(p.pageindex) from pagetable p WITH (NOLOCK), PressRunID pr WITH (NOLOCK)');
+    DataM1.Query1.SQL.add('where pr.PressRunID = p.PressRunID and pr.PlanType = 0');
+    DataM1.Query1.SQL.add('and p.ProductionID  = '+inttostr(Tplantreedata(formmain.TreeViewplan.Selected.Data^).productionid));
+    DataM1.Query1.SQL.add('and p.PressID  = '+inttostr(Tplantreedata(formmain.TreeViewplan.Selected.Data^).pressid));
+    DataM1.Query1.SQL.add('and p.SectionID = ' + inttostr(tnames1.sectionnametoid(ComboBoxSection.Text) ));
+    DataM1.Query1.SQL.add('And p.pagetype < 3 ');
+    DataM1.Query1.SQL.add('and p.ColorID = 4');
+    DataM1.Query1.SQL.add('Group by pr.PressRunID,p.pressrunid');
+    IF Prefs.debug then datam1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'getNpaaddpr1.sql');
+    formmain.tryopen(datam1.Query1);
+    IF not DataM1.Query1.Eof then
+      Npagenotappl := DataM1.Query1.Fields[1].AsInteger
+    else
+      Npagenotappl := 0;
+
+    DataM1.Query1.close;
+
+    IF (Npagenotappl > MaxOnPress) AND (FormAddpressrun.MaxOnPress > 0) then
+      editto.Text := IntToStr(MaxOnPress)
+    else
+      editto.Text := IntToStr(Npagenotappl);
+
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select distinct(p.pressrunid), COUNT(p.pageindex) from pagetable p WITH (NOLOCK), PressRunID pr WITH (NOLOCK)');
+    DataM1.Query1.SQL.add('where pr.PressRunID = p.PressRunID and pr.PlanType = 1');
+    DataM1.Query1.SQL.add('and p.ProductionID  = '+inttostr(Tplantreedata(formmain.TreeViewplan.Selected.Data^).productionid));
+    DataM1.Query1.SQL.add('and p.PressID  = '+inttostr(Tplantreedata(formmain.TreeViewplan.Selected.Data^).pressid));
+    DataM1.Query1.SQL.add('and p.SectionID = ' + inttostr(tnames1.sectionnametoid(ComboBoxSection.Text) ));
+    DataM1.Query1.SQL.add('And p.pagetype < 3 ');
+    DataM1.Query1.SQL.add('and p.ColorID = 4');
+    DataM1.Query1.SQL.add('Group by pr.PressRunID,p.pressrunid');
+    if Prefs.Debug then datam1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'getNpaaddpr2.sql');
+
+    FormMain.tryopen(datam1.Query1);
+    Npagesappl := 0;
+    while not DataM1.Query1.Eof do
+    begin
+      Npagesappl := Npagesappl + DataM1.Query1.Fields[1].AsInteger;
+      DataM1.Query1.Next;
+    end;
+    DataM1.Query1.Close;
+
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select COUNT(p.pageindex) from pagetable p WITH (NOLOCK)');
+    DataM1.Query1.SQL.add('where p.ProductionID  = '+inttostr(Tplantreedata(formmain.TreeViewplan.Selected.Data^).productionid));
+    DataM1.Query1.SQL.add('and p.PressID  = '+inttostr(Tplantreedata(formmain.TreeViewplan.Selected.Data^).pressid));
+    DataM1.Query1.SQL.add('and p.SectionID = ' + inttostr(tnames1.sectionnametoid(ComboBoxSection.Text) ));
+    DataM1.Query1.SQL.add('And p.pagetype < 3 ');
+    DataM1.Query1.SQL.add('and p.ColorID = 4');
+    if Prefs.debug then datam1.Query1.Sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'getNpaaddpr3.sql');
+    formmain.tryopen(datam1.Query1);
+
+    if not DataM1.Query1.Eof then
+      Npagestot := DataM1.Query1.Fields[0].AsInteger;
+
+    DataM1.Query1.Close;
+    Editboffset.Text := '0';
+    Editoffset.Text := '0';
+    BitBtn7Click(Self);
+    (*
+    Editboffset.Text := IntToStr((Npagestot-Npagesappl)-Npagenotappl);
+
+    IF Npagesappl > 0 then
+      Editoffset.Text := IntToStr(Npagesappl DIV 2);
+    *)
+  end;
+end;
+
+procedure TFormAddpressrun.BitBtn7Click(Sender: TObject);
+Var
+  X : Longint;
+begin
+  X := (Npagestot-Npagesappl) - strtoint(editto.text) ;
+  Editboffset.Text := IntToStr(X);
+  IF Npagesappl > 0 then
+    Editoffset.Text := IntToStr(Npagesappl DIV 2);
+
+end;
+
+procedure TFormAddpressrun.edittoChange(Sender: TObject);
+Var
+  X : Longint;
+
+begin
+
+  exit;
+  // DISABLED!!!
+  IF (editto.Text <> '') And (editto.Text <> '0') and (formprodplan.PartialPlanning) and (Allowcalconchange) then
+  Begin
+    try
+      X := StrToInt(editto.Text);
+      IF X MOD 2 <> 1 then
+      begin
+        X := (Npagestot-Npagesappl) - StrToInt(editto.text) ;
+        Editboffset.Text := IntToStr(X);
+        IF Npagesappl > 0 then
+          Editoffset.Text := IntToStr(Npagesappl DIV 2);
+      End;
+    Except
+    End;
+  End;
+end;
+
+end.
+
+

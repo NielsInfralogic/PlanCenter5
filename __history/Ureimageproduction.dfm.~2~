@@ -1,0 +1,42 @@
+object Formreimageproduction: TFormreimageproduction
+  Left = 405
+  Top = 475
+  BorderStyle = bsDialog
+  Caption = 'Reimage production'
+  ClientHeight = 122
+  ClientWidth = 292
+  Color = clBtnFace
+  ParentFont = True
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  PixelsPerInch = 120
+  TextHeight = 13
+  object CheckBox1: TCheckBox
+    Left = 39
+    Top = 26
+    Width = 169
+    Height = 21
+    Caption = 'Reset device'
+    Checked = True
+    State = cbChecked
+    TabOrder = 0
+  end
+  object BitBtn1: TBitBtn
+    Left = 39
+    Top = 70
+    Width = 93
+    Height = 30
+    Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 1
+  end
+  object BitBtn2: TBitBtn
+    Left = 156
+    Top = 70
+    Width = 92
+    Height = 30
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 2
+  end
+end

@@ -1,0 +1,151 @@
+unit Usavename;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, CheckLst, ExtCtrls;
+
+type
+  TFormsavename = class(TForm)
+    Panel1: TPanel;
+    Panel3: TPanel;
+    Image2: TImage;
+    Label7: TLabel;
+    Label8: TLabel;
+    Panel4: TPanel;
+    GroupBox3: TGroupBox;
+    ComboBoxname: TComboBox;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtnappend: TBitBtn;
+    BitBtn3: TBitBtn;
+    procedure ComboBoxnameChange(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure BitBtnappendClick(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    ids : array[0..5000] of longint;
+    appending : boolean;
+    { Public declarations }
+  end;
+
+var
+  Formsavename: TFormsavename;
+
+implementation
+
+uses UPlanframe,utypes,UQplanedit,umain,uprodplan, Udata, Uappendruns,
+  Uaddpressrun;
+
+{$R *.dfm}
+
+procedure TFormsavename.ComboBoxnameChange(Sender: TObject);
+Var
+  I : longint;
+  kind : integer;
+  T : string;
+begin
+  kind := -1;
+  BitBtn1.Caption := 'Save';
+  if ComboBoxname.Text <> '' then
+  begin
+    kind := 0;
+    T := uppercase(ComboBoxname.Text);
+    for i := 0 to ComboBoxname.items.count-1 do
+    begin
+      if T = uppercase(ComboBoxname.items[i]) then
+      begin
+        kind := 1;
+        break;
+      end;
+    end;
+  end;
+  case kind of
+    -1 : begin
+           BitBtn1.Enabled := false;
+           BitBtnappend.Enabled := false;
+         end;
+    0  : begin
+           BitBtn1.Enabled := true;
+           BitBtnappend.Enabled := false;
+         end;
+    1  : begin
+           BitBtn1.Enabled := true;
+           BitBtn1.Caption := 'Overwrite';
+           BitBtnappend.Enabled := true;
+         end;
+
+  end;
+
+end;
+
+procedure TFormsavename.FormActivate(Sender: TObject);
+Var
+  IPLF : Longint;
+  T : string;
+begin
+  ComboBoxnameChange(self);
+
+end;
+
+procedure TFormsavename.BitBtnappendClick(Sender: TObject);
+begin
+  appending := true;
+end;
+
+procedure TFormsavename.BitBtn1Click(Sender: TObject);
+begin
+  appending := false;
+end;
+
+procedure TFormsavename.BitBtn3Click(Sender: TObject);
+ Var
+  Iplf,ipl,ip : Longint;
+  Lpage : Longint;
+Begin
+  ComboBoxname.Text := tnames1.pressnameIDtoname(plateframespressid) + ' (' ;
+
+
+  For Iplf := 1 to Nplateframes do
+  begin
+    lpage := 0;
+    For ipl := 0 to plateframes[iplf].Nprodplates do
+    begin
+      for ip := 1 to PlatetemplateArray[plateframesdata[iplf].prodplates[ipl].templatelistid].NupOnplate do
+      begin
+        Inc(lpage);
+      (*
+        if plateframes[iplf].prodplates[ipl].Pages[ip].pageindex < lpage then
+          lpage := plateframes[iplf].prodplates[ipl].Pages[ip].pageindex;
+      *)
+      end;
+    end;
+
+    ComboBoxname.Text := ComboBoxname.Text +inttostr(lpage);
+    if Iplf < Nplateframes then
+    begin
+      ComboBoxname.Text := ComboBoxname.Text +',';
+    end;
+  end;
+  if FormAddpressrun.CheckBoxbindingstyle.checked then
+    ComboBoxname.Text := 'P ' +  ComboBoxname.Text +')'
+
+  Else
+
+    ComboBoxname.Text := 'S ' +  ComboBoxname.Text +')';
+
+
+  DataM1.Query1.sql.clear;
+  DataM1.Query1.sql.add('Select Count(PresstemplateID) from Presstemplatenames');
+  DataM1.Query1.sql.add('Where name = ' + ''''+ComboBoxname.Text+'''');
+  formmain.Tryopen(DataM1.Query1);
+  IF DataM1.Query1.fields[0].AsInteger > 0 then
+    ComboBoxname.Text := ComboBoxname.Text + inttostr(DataM1.Query1.fields[0].AsInteger+1);
+  DataM1.Query1.close;
+end;
+
+end.

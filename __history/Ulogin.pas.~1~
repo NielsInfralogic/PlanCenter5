@@ -1,0 +1,129 @@
+unit Ulogin;
+
+interface
+
+uses
+  inifiles,Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, system.UITypes;
+
+type
+  TFormlogin = class(TForm)
+    Edit1: TEdit;
+    Label1: TLabel;
+    Edit2: TEdit;
+    Label2: TLabel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Panel1: TPanel;
+    Image1: TImage;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure Edit2KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    loggedout : boolean;
+    LoggedIN         : Boolean;
+    Loinerror : Boolean;
+    username : string;
+    UsernameOnStatusbar : String;
+    lastuser : boolean;
+    Usergroup : longint;
+    Usergroupname : string;
+    MayConfigure     : Boolean;
+    MayReImage       : Boolean;
+    MayKillColor     : Boolean;
+    MayRunProducts   : Boolean;
+    MayDeleteProducts  : Boolean;
+    MayApprove       : Boolean;
+    readonly         : Boolean;
+    ISadministrator : Boolean;
+    issuperuser     : Boolean;
+    { Public declarations }
+  end;
+
+var
+  Formlogin: TFormlogin;
+  closeisok : Boolean;
+implementation
+
+uses UUser, utypes,udata, Umain, UUtils;
+
+{$R *.dfm}
+
+procedure TFormlogin.BitBtn1Click(Sender: TObject);
+Var
+  Ausername : String;
+begin
+  closeisok := false;
+  Ausername := Edit1.Text;
+  UsernameOnStatusbar := Edit1.Text;
+  Formusers.userlevel := Formusers.chkusername(Ausername,Edit2.Text);
+  if Formusers.userlevel < 0 then
+  begin
+    LoggedIN := false;
+    MessageDlg(formmain.InfraLanguage1.Translate('Wrong user or password'), mtInformation,[mbOk], 0);
+  end
+  else
+  begin
+    username := Ausername;
+    LoggedIN := true;
+    closeisok := true;
+    modalresult := mrok;
+    Formlogin.close;
+  end;
+end;
+
+procedure TFormlogin.FormActivate(Sender: TObject);
+Var
+  ini : tinifile;
+begin
+  LoggedIN := false;
+  IF not loggedout then
+  begin
+    ini := tinifile.Create(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory())+'LastUser.ini');
+
+    IF ini.ReadString('system','lastuser','') <> '' then
+    begin
+      edit1.text := ini.ReadString('system','lastuser','');
+      Edit2.SetFocus;
+      lastuser := true;
+    end;
+  End
+  Else
+  Begin
+    formlogin.lastuser := false;
+    formlogin.edit1.text := '';
+  End;
+  username := '';
+  closeisok := false;
+  Edit2.SetFocus;
+end;
+
+procedure TFormlogin.BitBtn2Click(Sender: TObject);
+begin
+  LoggedIN := false;
+  Loinerror := true;
+end;
+
+procedure TFormlogin.Edit2KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_RETURN then
+  Begin
+    key := 0;
+    BitBtn1Click(self);
+  End;
+end;
+
+procedure TFormlogin.FormCreate(Sender: TObject);
+begin
+  Loinerror := false;
+  loggedout := false;
+  LoggedIN  := false;
+end;
+
+end.

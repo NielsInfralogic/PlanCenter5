@@ -1,0 +1,56 @@
+02-02-17 Build 5.1.1.4
+Missing 2 action.execute in popupmenu PopupActionBarEx1plateview. Add. Renumber plate and Ink preset.
+
+06-12-16 Build 10.0.0.73
+ADSI unit and in Delphi Type lib add 
+
+07-12-16 Build 10.0.0.72
+Project modify to check tiwce startup of program
+
+29-11-16 Build 10.0.0.72
+Plateview tab. Popup menu - Ink edit. Change longname to shortname in combobox. small error correct
+
+15-11-16 Build 10.0.0.71
+New toolbar item "Tool - CC remote control". This execute CCRemote.exe file (Produce in Lazarus).
+Remote control and status for FileCenter. Using [ControlCenter].[dbo].[FileCenterState].
+
+10-11-16 Build 10.0.0.70
+Some ".count" changes to "count - 1" in for/next loops. This can give overfloat in array.
+
+25-10-16 Build 10.0.0.70
+Productions tab. Filter don't work if text in tree contain more than pubname (eg. section or alias).
+Changes: CheckBox (CheckListBoxprodpubl) now contain an object with PublicationsID. The filter go after ID insted of Pubname.
+  
+ 
+25-10-16 Build 10.0.0.69
+Seperations tab. Edit collomns row index now with top/bottom  buttom.
+Save button also now save direct in the DataListorder.ini file. 
+
+24-10-16
+Tree expand automatic when click in level >= prblications. Setting in "Adv. setting - Tree - Alwayes full tree expand...."
+
+23-10-16
+A "Refresh" plateview set after edit
+
+20-10-16
+Productions tab. Publications sorted by pubname.
+
+20-10-16
+Plateview tab. Ink preset popupmenuitem + form for changes.
+
+19-10-16
+Page without plan introduce. Config in "General setting/Files/Page without plan"
+True=Panel in right side based on spGetAllUnplannedPages.
+
+12-10-16
+All TActions now in actionslist. Enable/Disable works for all actions.
+
+03-10-16
+Plateview tab. Renumber of plates popupmenuitems + form for edit.
+
+02-10-16
+Planning pos. of ½ web. Config in "General setting/Planning/Set halfweb position"
+
+
+
+  

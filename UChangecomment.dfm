@@ -1,0 +1,127 @@
+object FormChangecomment: TFormChangecomment
+  Left = 728
+  Top = 331
+  ActiveControl = EditChangeComment
+  Caption = 'Set comment'
+  ClientHeight = 128
+  ClientWidth = 458
+  Color = clBtnFace
+  ParentFont = True
+  OnActivate = FormActivate
+  TextHeight = 15
+  object Label1: TLabel
+    Left = 12
+    Top = 16
+    Width = 43
+    Height = 12
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Comment'
+  end
+  object PanelYesNO: TPanel
+    Left = 0
+    Top = 88
+    Width = 458
+    Height = 40
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitTop = 87
+    ExplicitWidth = 454
+    object BitBtn1: TBitBtn
+      Left = 187
+      Top = 8
+      Width = 74
+      Height = 25
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+    end
+    object BitBtn2: TBitBtn
+      Left = 274
+      Top = 8
+      Width = 75
+      Height = 25
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 1
+    end
+    object BitBtn3: TBitBtn
+      Left = 99
+      Top = 8
+      Width = 75
+      Height = 25
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = 'Erase'
+      Glyph.Data = {
+        36030000424D3603000000000000360000002800000010000000100000000100
+        1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
+        FFFFFF000080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FFC0C0FF000080FFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF
+        C0C0FFC0C0FF0000C0000080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFC0C0FFC0C0FFC0C0FF0000C00000C00000C0000080FF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF
+        0000C00000C00000C00000C00000C0000080FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF0000C00000C00000C00000C000
+        00C0000080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFC0C0FF0000C00000C00000C00000C0FFFFFF800000FFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF0000C00000C0FF
+        FFFFFFFFFFFF8080800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFC0C0FFFFFFFFFFFFFFFF8080FF8080FF8080800000FFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF
+        8080FF8080FF8080FF8080FF8080800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF8080FF8080FF8080FF8080FF80
+        80800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFC0C0FF8080FF8080FF8080FF8080FF8080800000FFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF8080FF8080FF80
+        80FF8080FF8080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFC0C0FF8080FF8080FF8080800000FFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FF80
+        80800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0FFFFFFFFFFFFFFFFFF}
+      ModalResult = 7
+      TabOrder = 2
+    end
+  end
+  object EditChangeComment: TEdit
+    Left = 13
+    Top = 32
+    Width = 417
+    Height = 23
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    TabOrder = 1
+  end
+  object CheckBoxallsubed: TCheckBox
+    Left = 12
+    Top = 55
+    Width = 186
+    Height = 17
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Caption = 'Set on all sub editions'
+    TabOrder = 2
+  end
+end

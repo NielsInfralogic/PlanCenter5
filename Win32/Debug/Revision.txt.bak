@@ -1,0 +1,42 @@
+Revision 2.4.4.11
+
+Files tab: in generalsettings
+Alternative IP by doubleclick on files paths 
+
+Production tab: in general settings
+Production grid setup of each coulmn can be set font size and style use doubleclick
+
+Integration tab: in general settings
+New preset system PERRETTA and ABB
+
+Timed editions:
+Just a test version 
+Select Allow timed editions on edition tab in general settings
+selection of locking rule.
+
+Trees views can show timed editions
+
+No cleanup in ReportExportJobs
+
+Revision 2.4.4.12
+
+Orange lamp in trees if a page need approval
+
+
+Revision 2.4.4.13
+
+No edition order when partial apply to single edition production
+
+
+hide finished productions in production view hides all pressruns where
+all plates are made.
+
+Revision 2.4.4.17
+
+Change layout on single pressrun (popup in Planning tab)
+plate layout and imposistion can be changed from eg. 2up to 4up on all plates in pressrun
+
+Revision 2.4.4.26
+
+Fromzone in pressrunid is now editionorder on all editions that are timed
+simpel geografik editions are editionorder 0

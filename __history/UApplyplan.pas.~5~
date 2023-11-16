@@ -1,0 +1,1129 @@
+unit UApplyplan;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, CheckLst, Menus;
+
+type
+  TFormApplyproduction = class(TForm)
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    Label6: TLabel;
+    PopupMenu1: TPopupMenu;
+    Deadline1: TMenuItem;
+    Pubdate1: TMenuItem;
+    oday1: TMenuItem;
+    PopupMenu2: TPopupMenu;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    Panelchannel: TPanel;
+    Panel6: TPanel;
+    Image1: TImage;
+    Label11: TLabel;
+    Label12: TLabel;
+    Panel7: TPanel;
+    Panelstandard: TPanel;
+    Panel3: TPanel;
+    Image3: TImage;
+    Label8: TLabel;
+    Label10: TLabel;
+    PageControlapply: TPageControl;
+    TabSheet1: TTabSheet;
+    GroupBoxApplytomany: TGroupBox;
+    CheckListBoxApplyto: TCheckListBox;
+    Panel4: TPanel;
+    GroupBox1: TGroupBox;
+    RadioGroupapprovalnew: TRadioGroup;
+    CheckBoxapproveNochange: TCheckBox;
+    GroupBox2: TGroupBox;
+    RadioGrouphold: TRadioGroup;
+    CheckBoxholdnochange: TCheckBox;
+    RadioGroupApplymode: TRadioGroup;
+    GroupBox3: TGroupBox;
+    CheckBoxkeepcolors: TCheckBox;
+    GroupBoxRipsetup: TGroupBox;
+    ComboBoxRIPsetup: TComboBox;
+    TabSheetadvanced: TTabSheet;
+    CheckBoxAllowunplannedcolors: TCheckBox;
+    CheckBoxractivateonlyblack: TCheckBox;
+    GroupBox5: TGroupBox;
+    Editcreep: TEdit;
+    GroupBox7: TGroupBox;
+    Editextragutter: TEdit;
+    GroupBox14: TGroupBox;
+    DateTimePickerdeadlinetime: TDateTimePicker;
+    DateTimePickerdeadlinedate: TDateTimePicker;
+    CheckBoxUsepresstowerconf: TCheckBox;
+    GroupBox6: TGroupBox;
+    Label9: TLabel;
+    ComboBoxplannedname: TComboBox;
+    Editweek: TEdit;
+    UpDownweek: TUpDown;
+    TabSheet6: TTabSheet;
+    ListViewpress: TListView;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Label29: TLabel;
+    Label30: TLabel;
+    Editpresspresssystemnamee: TEdit;
+    Editissuese: TEdit;
+    BitBtn3: TBitBtn;
+    Editissuese2: TEdit;
+    GroupBox12: TGroupBox;
+    DateTimePickerProductiondate: TDateTimePicker;
+    DateTimePickerproductiontime: TDateTimePicker;
+    TabSheet2: TTabSheet;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    DateTimePickerhotTimestart: TDateTimePicker;
+    DateTimePickerhotdatestart: TDateTimePicker;
+    DateTimePickerhotTimeEnd: TDateTimePicker;
+    DateTimePickerhotdateend: TDateTimePicker;
+    EditbeforeH: TEdit;
+    UpDownhotbefore: TUpDown;
+    Editduringh: TEdit;
+    UpDownunder: TUpDown;
+    EditAfterh: TEdit;
+    UpDownafter: TUpDown;
+    TabSheet4: TTabSheet;
+    GroupBox10: TGroupBox;
+    Label17: TLabel;
+    RadioGroupapproval: TRadioGroup;
+    ComboBoxconf: TComboBox;
+    GroupBox11: TGroupBox;
+    Label19: TLabel;
+    RadioGrouphardproofapproval: TRadioGroup;
+    ComboBoxHproofconf: TComboBox;
+    TabSheet5: TTabSheet;
+    Label15: TLabel;
+    CheckListBoxmarkgroups: TCheckListBox;
+    TabSheetChannelsetup: TTabSheet;
+    CheckListBoxchannels: TCheckListBox;
+    BitBtn4: TBitBtn;
+    Label13: TLabel;
+    GroupBox4: TGroupBox;
+    Editordernumber: TEdit;
+    GroupBox8: TGroupBox;
+    Edit1: TEdit;
+    Label14: TLabel;
+    GroupBoxspecik: TGroupBox;
+    LabelPreflightSetup: TLabel;
+    LabelInksaveSetup: TLabel;
+    LabelRipSetup: TLabel;
+    CheckBoxpressspecifik: TCheckBox;
+    ComboBoxPreflightSetup: TComboBox;
+    ComboBoxInksaveSetup: TComboBox;
+    ComboBoxRipSetupname: TComboBox;
+    GroupBox13: TGroupBox;
+    ComboBoxOutputMetode: TComboBox;
+    Label16: TLabel;
+    ComboBoxPageFormat: TComboBox;
+    Label18: TLabel;
+    ComboBoxPlatesorting: TComboBox;
+    Label20: TLabel;
+    ComboBoxdevice: TComboBox;
+    Label21: TLabel;
+    procedure FormActivate(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure ListViewpressSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure Deadline1Click(Sender: TObject);
+    procedure Pubdate1Click(Sender: TObject);
+    procedure oday1Click(Sender: TObject);
+    procedure MenuItem3Click(Sender: TObject);
+    procedure MenuItem2Click(Sender: TObject);
+    procedure MenuItem1Click(Sender: TObject);
+    procedure DateTimePickerdeadlinedateChange(Sender: TObject);
+    procedure ComboBoxPreflightSetupChange(Sender: TObject);
+    procedure ComboBoxInksaveSetupChange(Sender: TObject);
+    procedure ComboBoxRipSetupnameChange(Sender: TObject);
+
+  private
+    activated : boolean;
+    Mgrpid : Array[0..100] of integer;
+    procedure Loadmarks;
+    procedure setpublproofers(proofid : Integer;
+                              Hardproofid : Integer);
+
+    { Private declarations }
+  public
+    Creep : Single;
+    xtragutter : Integer;
+    newmarks : string;
+    ApplyweekNumber : Integer;
+    Nautoapplyto : Integer;
+    autoapplyto : Array[1..100] of record
+                                     pressid    : Integer;
+                                     autoapply  : boolean;
+                                     templateid : Integer;
+                                     ripsetup   : string;
+                                     isthemain  : Boolean;
+                                   end;
+
+    procedure Initialize(Autopress : Boolean);
+    procedure LoadSchedules;
+    procedure LoadSchedulesfromsavedplanes;
+  end;
+
+var
+  FormApplyproduction: TFormApplyproduction;
+  //PLMA-1028-A-001-A
+implementation
+
+uses DateUtils,Usettings, Udata,uplanframe, Uprodplan,utypes,umain, Uloadpressplan, Uflatproof, UUtils;
+
+{$R *.dfm}
+
+
+procedure TFormApplyproduction.FormActivate(Sender: TObject);
+Var
+  i : Integer;
+Begin
+  if (Prefs.Proversion = 2) then
+  begin
+    GroupBox4.Visible := false;
+    for i := 1 to PageControlapply.PageCount-1 do
+      PageControlapply.Pages[i].TabVisible := false;
+
+  end;
+  activated := true;
+  IF (Globalsystemtype = 3)  then
+  begin
+
+    CheckListBoxchannels.Items.Clear;
+
+    IF (not Panelchannel.visible ) then
+    begin
+      Panelstandard.Align := alnone;
+      Panelstandard.visible := false;
+      Panelchannel.visible := true;
+      Panelchannel.Left := 10;
+      Panelchannel.top := 10;
+      Panelchannel.Align := alclient;
+    End;
+  end;
+
+
+
+End;
+
+
+procedure TFormApplyproduction.FormCreate(Sender: TObject);
+begin
+  activated := false;
+end;
+
+procedure TFormApplyproduction.setpublproofers(proofid : Integer; Hardproofid : Longint);
+Var
+  iplf,ipl,ip : Integer;
+begin
+  For Iplf := 1 to Nplateframes do
+  begin
+    For ipl := 0 to plateframes[iplf].Nprodplates do
+    begin
+      for ip := 1 to PlatetemplateArray[plateframesdata[iplf].prodplates[ipl].templatelistid].NupOnplate do
+      begin
+        plateframesdata[iplf].prodplates[ipl].Pages[ip].proofid := proofid;
+        plateframesdata[iplf].prodplates[ipl].HardProofConfigurationID  := Hardproofid;
+      end;
+    end;
+  end;
+end;
+
+
+// This is OK button!
+procedure TFormApplyproduction.BitBtn1Click(Sender: TObject);
+Var
+  I : Integer;
+  f : single;
+  iplf : Integer;
+
+Begin
+  For iplf := 1 to Nplateframes do
+  begin
+    plateframes[iplf].PressTime := StrToDateTime(ListViewpress.Items[iplf-1].SubItems[0]);
+
+    plateframes[iplf].presssystemname := ListViewpress.Items[iplf-1].SubItems[1];
+    IF ListViewpress.Items[iplf-1].SubItems[2] <> '' then
+      plateframes[iplf].NumberOfIssues := strtoint(ListViewpress.Items[iplf-1].SubItems[2])
+    Else
+      plateframes[iplf].NumberOfIssues := 0;
+
+    IF ListViewpress.Items[iplf-1].SubItems[3] <> '' then
+      plateframes[iplf].NumberOfIssues2 := strtoint(ListViewpress.Items[iplf-1].SubItems[3])
+    Else
+      plateframes[iplf].NumberOfIssues2 := 0;
+
+    plateframes[iplf].Productiontime := plateframes[iplf].PressTime;
+  End;
+
+  newmarks := '';
+  For i := 0 to CheckListBoxmarkgroups.Items.Count-1 do
+  begin
+    IF CheckListBoxmarkgroups.checked[i] then
+    begin
+      newmarks := newmarks + ',' + inttostr(Mgrpid[i]);
+    end;
+  end;
+
+  IF length(newmarks) > 0 then
+    delete(newmarks,1,1);
+
+  f := StrToFloat(Editextragutter.Text)*1000;
+  xtragutter := Round(f);
+  Creep := StrToFloat(editcreep.Text);
+end;
+
+procedure TFormApplyproduction.Loadmarks;
+Var
+  tmpln,tmplid : Integer;
+
+begin
+  IF Formloadpressplan.ComboBoxtemplate.ItemIndex = 0 then
+  begin
+    CheckListBoxmarkgroups.Items.clear;
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select distinct p2.MarkGroupName,p2.MarkGroupID,p1.templateid,p1.presstemplateid from presstemplate p1, MarkGroupNames p2');
+    DataM1.Query1.SQL.add('where p1.templateid = p2.templateid');
+    DataM1.Query1.SQL.add('and p1.presstemplateid = ' + inttostr(Formloadpressplan.selectedplanid));
+    DataM1.Query1.SQL.add('GROUP BY p2.MarkGroupName,p2.MarkGroupID,p1.templateid,p1.presstemplateid');
+    DataM1.Query1.open;
+    While not DataM1.Query1.eof do
+    begin
+      CheckListBoxmarkgroups.Items.add(DataM1.Query1.fields[0].asstring);
+      CheckListBoxmarkgroups.Checked[CheckListBoxmarkgroups.Items.count-1] := false;
+      Mgrpid[CheckListBoxmarkgroups.Items.count-1] := DataM1.Query1.fields[1].asinteger;
+      DataM1.Query1.next;
+    end;
+    DataM1.Query1.close;
+  End
+  Else
+  begin
+    CheckListBoxmarkgroups.Items.clear;
+    tmpln := inittypes.gettemplatelistnumberfromname(Formloadpressplan.ComboBoxtemplate.Items[Formloadpressplan.ComboBoxtemplate.ItemIndex]);
+    tmplid := platetemplatearray[tmpln].TemplateID;
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select distinct MarkGroupName,MarkGroupID from MarkGroupNames');
+    DataM1.Query1.SQL.add('where templateid = ' + inttostr(tmplid));
+    DataM1.Query1.SQL.add('Order by MarkGroupName');
+    DataM1.Query1.open;
+    While not DataM1.Query1.eof do
+    begin
+      CheckListBoxmarkgroups.Items.add(DataM1.Query1.fields[0].asstring);
+      CheckListBoxmarkgroups.Checked[CheckListBoxmarkgroups.Items.count-1] := false;
+      Mgrpid[CheckListBoxmarkgroups.Items.count-1] := DataM1.Query1.fields[1].asinteger;
+      DataM1.Query1.next;
+    end;
+    DataM1.Query1.close;
+  end;
+end;
+
+procedure TFormApplyproduction.LoadSchedules;
+Var
+
+  iplf : Integer;
+  L : tlistitem;
+
+  i : Word;
+  maxcirc1,maxcirc2 : Integer;
+
+Begin
+  For I := 1 to Nplateframes do
+  Begin
+    IF plateframes[I].NumberOfIssues < 1 then
+    begin
+      maxcirc1 := 0;
+      maxcirc2 := 0;
+
+      IF DBVersion > 1 then
+      Begin
+
+        DataM1.Query1.SQL.Clear;
+        DataM1.Query1.SQL.add('Select max(pre.Circulation), p.productionid from pressrunid pre  WITH (NOLOCK), pagetable p  WITH (NOLOCK)');
+        DataM1.Query1.SQL.add('where pre.pressrunid = p.pressrunid and p.publicationid = ' + inttostr(plateframespublicationid));
+        DataM1.Query1.SQL.add('and  ' +DataM1.makedatastr('p.',plateframespubdate));
+        DataM1.Query1.SQL.add(' and p.editionid = ' + inttostr(plateframesdata[I].prodplates[0].EditionID));
+
+        DataM1.Query1.SQL.add('group by p.productionid');
+        DataM1.Query1.open;
+        IF not DataM1.Query1.eof then
+        begin
+          maxcirc1 := DataM1.Query1.fields[0].AsInteger;
+          maxcirc2 := DataM1.Query1.fields[1].AsInteger;
+        End;
+        DataM1.Query1.close;
+      End;
+      plateframes[I].NumberOfIssues  := maxcirc1;
+      plateframes[I].NumberOfIssues2 := maxcirc2;
+    end;
+  end;
+
+  ListViewpress.items.clear;
+  For iplf := 1 to Nplateframes do
+  begin
+    l := ListViewpress.items.add;
+    l.caption := plateframes[iplf].GroupBoxtop.caption;
+    IF yearof(plateframes[iplf].PressTime) < 2006 then
+    begin
+      plateframes[iplf].PressTime := dateof(plateframespubdate)+timeof(encodetime(12,0,0,0));
+    end;
+
+    plateframes[iplf].Productiontime := plateframes[iplf].PressTime;
+
+    l.SubItems.Add(datetimetostr(plateframes[iplf].PressTime));
+    l.SubItems.Add(plateframes[iplf].presssystemname);
+    l.SubItems.Add(inttostr(plateframes[iplf].NumberOfIssues));
+    l.SubItems.Add(inttostr(plateframes[iplf].NumberOfIssues2));
+
+  End;
+end;
+
+
+procedure TFormApplyproduction.ListViewpressSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+Var
+  isel,i : Integer;
+begin
+  isel := -1;
+  try
+    For i := 0 to ListViewpress.Items.Count-1 do
+    begin
+      IF ListViewpress.Items[i].Selected then
+      begin
+        isel := i;
+        break;
+      end;
+    end;
+
+    IF isel > -1 then
+    begin
+      DateTimePickerProductiondate.date := strtodatetime(ListViewpress.Items[i].SubItems[0]);
+      DateTimePickerProductiontime.time := strtodatetime(ListViewpress.Items[i].SubItems[0]);
+
+      Editpresspresssystemnamee.Text := ListViewpress.Items[i].SubItems[1];
+      Editissuese.Text := ListViewpress.Items[i].SubItems[2];
+      Editissuese2.Text := ListViewpress.Items[i].SubItems[3];
+    End;
+  except
+    Editpresspresssystemnamee.Text := '';
+    Editissuese.Text := '';
+    Editissuese2.Text := '';
+  end;
+
+end;
+
+procedure TFormApplyproduction.BitBtn3Click(Sender: TObject);
+Var
+  I : Integer;
+begin
+  For i := 0 to ListViewpress.items.count-1 do
+  begin
+    IF ListViewpress.items[i].selected then
+    begin
+      ListViewpress.items[i].subitems[0] := formmain.dateandtimetostr(DateTimePickerProductiondate.date,
+                                                                      DateTimePickerproductiontime.time);
+      ListViewpress.items[i].subitems[1] := Editpresspresssystemnamee.Text;
+      ListViewpress.items[i].subitems[2] := Editissuese.Text;
+      ListViewpress.items[i].subitems[3] := Editissuese2.Text;
+    end;
+  end;
+end;
+
+procedure TFormApplyproduction.LoadSchedulesfromsavedplanes;
+Var
+  iplf : Integer;
+  L : tlistitem;
+  T : String;
+Begin
+  ListViewpress.items.clear;
+  For iplf := 1 to Nplateframes do
+  begin
+    l := ListViewpress.items.add;
+    l.caption := plateframes[iplf].GroupBoxtop.caption;
+    IF yearof(plateframes[iplf].PressTime) < 2006 then
+    begin
+      plateframes[iplf].PressTime := plateframespubdate;
+    end;
+    l.SubItems.Add(datetimetostr(plateframes[iplf].PressTime));
+    l.SubItems.Add(plateframes[iplf].presssystemname);
+    l.SubItems.Add(inttostr(plateframes[iplf].NumberOfIssues));
+    l.SubItems.Add(inttostr(plateframes[iplf].NumberOfIssues2));
+  End;
+end;
+
+(*
+        Function dateandtimetostr(Adate : Tdatetime;
+                              ATime : Tdatetime):String;
+
+    procedure strTodateandtime(Adatetimestr : String;
+                               Var Adate : Tdatetime;
+                               Var ATime : Tdatetime);
+
+
+*)
+procedure TFormApplyproduction.Deadline1Click(Sender: TObject);
+begin
+  DateTimePickerhotdatestart.date := DateTimePickerdeadlinedate.date;
+  DateTimePickerhotTimestart.time := DateTimePickerdeadlinetime.time;
+
+end;
+
+procedure TFormApplyproduction.Pubdate1Click(Sender: TObject);
+begin
+  DateTimePickerhotdatestart.date := plateframespubdate;
+  DateTimePickerhotTimestart.time := encodetime(12,0,0,0);
+end;
+
+procedure TFormApplyproduction.oday1Click(Sender: TObject);
+begin
+  DateTimePickerhotdatestart.date := now;
+  DateTimePickerhotTimestart.time := encodetime(hourof(now),0,0,0);
+end;
+
+procedure TFormApplyproduction.MenuItem3Click(Sender: TObject);
+begin
+  DateTimePickerhotdateend.date := now;
+  DateTimePickerhotTimeend.time := encodetime(hourof(now),0,0,0);
+
+end;
+
+procedure TFormApplyproduction.MenuItem2Click(Sender: TObject);
+begin
+  DateTimePickerhotdateend.date := plateframespubdate;
+  DateTimePickerhotTimeend.time := encodetime(12,0,0,0);
+
+end;
+
+procedure TFormApplyproduction.MenuItem1Click(Sender: TObject);
+begin
+  DateTimePickerhotdateend.date := DateTimePickerdeadlinedate.date;
+  DateTimePickerhotTimeend.time := DateTimePickerdeadlinetime.time;
+
+end;
+
+procedure TFormApplyproduction.DateTimePickerdeadlinedateChange(
+  Sender: TObject);
+Var
+  deadl : TDateTime;
+begin
+  IF (Prefs.PlanningHotTimeFromDeadline) then
+  begin
+    deadl := 0;
+    deadl := DateOf(DateTimePickerdeadlinedate.date) + TimeOf(DateTimePickerdeadlinetime.time);
+    deadl := IncHour(deadl, Prefs.PlanningHotTimeFromDeadlineAddHours);
+    DateTimePickerhotdatestart.Date := DateOf(deadl);
+    DateTimePickerhotTimestart.Time := TimeOf(deadl);
+
+    deadl := IncHour(deadl, Prefs.HotHourPriorityLength);
+    DateTimePickerhotdateend.Date := DateOf(deadl);
+    DateTimePickerhotTimeEnd.Time := TimeOf(deadl);
+  end;
+end;
+
+
+procedure TFormApplyproduction.Initialize(Autopress : Boolean);
+Var
+  i,j : Integer;
+  DefaultProofID : Integer;
+  DefaultHardProofID : Integer;
+  DefaultFlatProofID : Integer;
+  DefaultFlatHardProofID,DefaultDevID,DefaultHold : Integer;
+  DefaultFlatProofName : String;
+  DefaultFlatHardProofname : String;
+   DefaultPageFormatID : Integer;
+  foundpubltime : Boolean;
+  deadl : Tdatetime;
+  od,op : String;
+  RipSetup, t, t1,t2,t3 : string;
+  n : Integer;
+  DefaultSortingPosition : string;
+begin
+  try
+    DefaultPageFormatID := 0;
+    RipSetup := '';
+    DefaultSortingPosition := '';
+    IF Prefs.ApplyPlanAutoMultiPress then
+    begin
+      CheckListBoxApplyto.Items.Clear;
+      CheckListBoxApplyto.Items := tnames1.pressnames;
+
+      Nautoapplyto := 0;
+
+      For i := 0 to CheckListBoxApplyto.Items.Count-1 do
+      begin
+        autoapplyto[i+1].pressid := tnames1.pressnametoid(CheckListBoxApplyto.Items[i]);
+        autoapplyto[i+1].autoapply := false;
+        autoapplyto[i+1].templateid :=-1;
+        autoapplyto[i+1].ripsetup :='';
+        autoapplyto[i+1].isthemain :=false;
+        Nautoapplyto := i+1;
+        IF tnames1.pressnametoid(CheckListBoxApplyto.Items[i]) = plateframespressid then
+        begin
+          CheckListBoxApplyto.checked[i] := true;
+          autoapplyto[i+1].isthemain := true;
+          break;
+        end;
+      end;
+
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.add('Select distinct pressid,TemplateID,RipSetup,StackPosition from PublicationTemplates (NOLOCK)');
+      DataM1.Query1.SQL.add('Where publicationid = '+inttostr(plateframespublicationid));
+      IF Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'GetdefmultPublicationTemplates.sql');
+      DataM1.Query1.open;
+      while not DataM1.Query1.eof do
+      begin
+        For i := 0 to CheckListBoxApplyto.Items.Count-1 do
+        begin
+          IF tnames1.pressnameIDtoname(DataM1.Query1.fields[0].asinteger) = CheckListBoxApplyto.Items[i] then
+          begin
+            CheckListBoxApplyto.checked[i] := true;
+            autoapplyto[i+1].autoapply := true;
+            autoapplyto[i+1].templateid := DataM1.Query1.fields[1].asinteger;
+            autoapplyto[i+1].ripsetup := DataM1.Query1.fields[2].asstring;
+
+            DefaultSortingPosition := DataM1.Query1.fields[3].asstring;
+            IF plateframespressid <> DataM1.Query1.fields[0].asinteger then
+              autoapplyto[i+1].isthemain := true;
+            break;
+          end;
+        end;
+        DataM1.Query1.next;
+      end;
+      DataM1.Query1.close;
+
+    End;
+
+    IF Prefs.EnablePressSpecificSelection then
+    begin
+      GroupBoxspecik.Visible := true;
+      CheckBoxpressspecifik.Checked := Prefs.PressSpecific;
+    end;
+
+    FormApplyproduction.Editordernumber.Text := '';
+    ComboBoxPlatesorting.Items.Clear;
+    ComboBoxPlatesorting.Items.Add('');
+    For i := 0 to Length(Prefs.StackNamesList)-1 do
+      ComboBoxPlatesorting.Items.Add(Prefs.StackNamesList[i]);
+
+    if (DefaultSortingPosition <> '') then
+      ComboBoxPlatesorting.Text :=  DefaultSortingPosition;
+
+
+    Editissuese.text := '0';
+
+    ComboBoxconf.Items.Clear;
+    Formflatproof.loadflatproofers;
+    For i := 1 to Formflatproof.Nflatproofers do
+      ComboBoxconf.Items.add(Formflatproof.flatproofers[i].name);
+    ComboBoxconf.Itemindex := 0;
+    ComboBoxconf.Items.Clear;
+    Formflatproof.loadflatproofers;
+    ComboBoxconf.Items.add('Off');
+    For i := 1 to Formflatproof.Nflatproofers do
+      ComboBoxconf.Items.add(Formflatproof.flatproofers[i].name);
+    ComboBoxconf.Itemindex := 0;
+    ComboBoxHproofconf.Items := ComboBoxconf.Items;
+    ComboBoxHproofconf.Itemindex := 0;
+
+    RadioGroupApplymode.ItemIndex := 0;
+
+    Editextragutter.Text := '0';
+    newmarks := '';
+    UpDownweek.Position := WeekOf(plateframesPubdate);
+    ComboBoxplannedname.Items.Clear;
+    For i := 0 to Length(Prefs.PlannedNameDefinitions)-1 do
+    Begin
+      ComboBoxplannedname.Items.Add(Prefs.PlannedNameDefinitions[i].Name);
+      if Prefs.PlannedNameDefinitions[i].Enabled then
+        ComboBoxplannedname.Itemindex := ComboBoxplannedname.Items.Count-1;
+    End;
+
+    if (GroupBoxspecik.Visible) then
+      CheckBoxpressspecifik.checked := Prefs.PressSpecific OR Prefs.EnablePressSpecificSelection;
+
+
+    IF Editcreep.Text = '' then
+      Editcreep.Text := '0';
+    Creep := strtofloat(editcreep.text);
+
+
+    CheckBoxUsepresstowerconf.Checked := Prefs.UseDatabasePressTowerInfo;
+
+    IF (Prefs.PlanningAutoOrderNumberBergen) then
+    begin
+      FormApplyproduction.Editordernumber.enabled := false;
+      od := inttostr(dayof(plateframespubdate));   //pressrun 1-9 dd ppp
+      if length(od) < 2 then
+        od := '0'+od;
+
+      op := inttostr(plateframesPublicationid);
+      While Length(op) < 3 do
+        op := '0'+op;
+      FormApplyproduction.Editordernumber.Text := '1' +od+op;
+    End;
+
+    FormApplyproduction.EditbeforeH.text := '50';
+    FormApplyproduction.Editduringh.text := '50';
+    FormApplyproduction.EditAfterh.text  := '50';
+
+    Loadmarks;
+
+    FormApplyproduction.DateTimePickerhotdatestart.Date := plateframesPubdate;
+    FormApplyproduction.DateTimePickerhottimestart.Time := plateframesPubdate;
+    FormApplyproduction.DateTimePickerhotdateend.Date := plateframesPubdate;
+    FormApplyproduction.DateTimePickerhottimeend.Time := plateframesPubdate;
+
+    FormApplyproduction.DateTimePickerhotdatestart.Checked := false;
+    FormApplyproduction.DateTimePickerhotdateend.Checked := false;
+
+
+
+    foundpubltime := false;
+
+
+    DefaultFlatProofID := -1;
+    try
+      DataM1.Query1.SQL.Clear;           // flatproof0    1       2       3     4
+      DataM1.Query1.SQL.add('Select TOP 1 MiscString,RipSetup,Priority,Fanout,Copies,StackPosition  from PublicationTemplates (NOLOCK)');
+      DataM1.Query1.SQL.add('Where PressID = '+inttostr(plateframespressid));
+      DataM1.Query1.SQL.add('and publicationid = '+inttostr(plateframespublicationid));
+      IF Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'GetPublicationTemplates.sql');
+      DataM1.Query1.Open;
+      IF not DataM1.Query1.Eof then
+      begin
+        IF DataM1.Query1.fields[0].AsString <> '' then
+        begin
+          DefaultFlatProofID := StrToIntDef(DataM1.Query1.fields[0].AsString,-1);
+        End;
+
+        DefaultSortingPosition := DataM1.Query1.fields[5].AsString;
+
+      End;
+      DataM1.Query1.Close;
+    Except
+    end;
+      //      DefaultFlatHardProofID : Integer;
+    IF DefaultFlatProofID > -1 then
+    begin
+      DefaultFlatProofName := '';
+      DefaultFlatHardProofName := '';
+      For i := 1 to Formflatproof.Nflatproofers do
+      begin
+        IF Formflatproof.flatproofers[i].id = DefaultFlatProofID then
+        begin
+          DefaultFlatProofName := Formflatproof.flatproofers[i].name;
+          break;
+        end;
+      End;
+      IF DefaultFlatProofName <> '' then
+      begin
+        For i := 0 to ComboBoxconf.items.count-1 do
+        begin
+          IF ComboBoxconf.items[i] = DefaultFlatProofName then
+          begin
+            ComboBoxconf.itemindex := i;
+            break;
+          end;
+        end;
+      End;
+    End
+    Else
+    Begin
+      IF Formflatproof.Nflatproofers > 0 then
+      begin
+        ComboBoxconf.itemindex := 0;
+      end;
+    End;
+
+    DataM1.Query1.SQL.Clear;               //0                   1                        2                          3                               4                            5
+    DataM1.Query1.SQL.Add('Select TOP 1 p1.PressRunID,p1.SequenceNumber,min(p1.PriorityBeforeHottime),min(p1.PriorityDuringHottime),min(p1.PriorityAfterHottime),min(p1.PriorityHottimeBegin)');
+                               //   6                            7               8               9                 10
+    DataM1.Query1.SQL.Add(',min(p1.PriorityHottimeEnd),min(p1.OrderNumber),p2.pressrunid,min(p2.presstime),max(p2.deadline) from pressrunid p1 WITH (NOLOCK), pagetable p2 WITH (NOLOCK) ');
+    DataM1.Query1.SQL.Add('Where p1.PressRunID = p2.PressRunID');
+    DataM1.Query1.SQL.Add('and p2.publicationid = '+inttostr(plateframespublicationid));
+    DataM1.Query1.SQL.Add(' and ' + DataM1.makedatastr('p2.',plateframesPubdate));
+    DataM1.Query1.SQL.Add(' group by p1.PressRunID,p1.SequenceNumber,p2.pressrunid');
+
+    IF Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'Activateapplyplan.sql');
+
+    DataM1.Query1.Open;
+
+    IF not DataM1.Query1.Eof then
+    begin
+      foundpubltime := true;
+      FormApplyproduction.EditbeforeH.text := DataM1.Query1.fields[2].asstring;
+      FormApplyproduction.Editduringh.text := DataM1.Query1.fields[3].asstring;
+      FormApplyproduction.EditAfterh.text := DataM1.Query1.fields[4].asstring;
+
+      DateTimePickerdeadlinedate.DateTime := DataM1.Query1.fields[10].asdatetime;
+      DateTimePickerdeadlinetime.DateTime := DataM1.Query1.fields[10].asdatetime;
+
+      FormApplyproduction.DateTimePickerhotdatestart.Date := DataM1.Query1.fields[5].asdatetime;
+      FormApplyproduction.DateTimePickerhottimestart.Time := DataM1.Query1.fields[5].asdatetime;
+      FormApplyproduction.DateTimePickerhotdateend.Date := DataM1.Query1.fields[6].asdatetime;
+      FormApplyproduction.DateTimePickerhottimeend.Time := DataM1.Query1.fields[6].asdatetime;
+      IF Not Prefs.PlanningAutoOrderNumberBergen then
+        FormApplyproduction.Editordernumber.Text := DataM1.Query1.fields[7].asstring;
+
+      if YearOf(FormApplyproduction.DateTimePickerhotdatestart.Date) > 2000 then
+        FormApplyproduction.DateTimePickerhotdatestart.Checked := true;
+      if YearOf(FormApplyproduction.DateTimePickerhotdateend.Date) > 2000 then
+        FormApplyproduction.DateTimePickerhotdateend.Checked := true;
+
+      IF yearof(DateTimePickerdeadlinedate.DateTime) < 1980 then
+      begin
+        foundpubltime := false;
+      end;
+
+    end
+    Else
+    begin
+      foundpubltime := false;
+    end;
+
+    DataM1.Query1.Close;
+
+    IF Not foundpubltime then
+    begin
+      deadl := formmain.Getdafaultdeadline(plateframesPubdate,plateframespublicationid);
+      FormApplyproduction.DateTimePickerdeadlinedate.Date := dateof(deadl);
+      FormApplyproduction.DateTimePickerdeadlinetime.time := timeof(deadl);
+
+      IF publdeadpossible then
+      begin
+        DataM1.Query1.SQL.Clear;
+        DataM1.Query1.SQL.Add('Select deadline from publicationnames (NOLOCK)');
+        DataM1.Query1.SQL.Add('where publicationid = ' + inttostr(plateframespublicationid) );
+        DataM1.Query1.Open;
+        IF not DataM1.Query1.eof then
+        begin
+          DateTimePickerdeadlinedate.checked := yearof(DataM1.Query1.fields[0].AsDateTime) > 1980;
+        End;
+        DataM1.Query1.Close;
+      End;
+    end;
+
+    LoadSchedules;
+    formprodplan.findpossibledevises;
+
+    ComboBoxdevice.Items.clear;
+    ComboBoxdevice.Items.add('Use workload');
+    For i := 1 to Naktdeviceidlist do
+    begin
+      ComboBoxdevice.Items.add(tnames1.deviceidtoname(aktdeviceidlist[i]));
+    end;
+    For i := 0 to Aktdevicegrplist.Count-1 do
+    Begin
+      ComboBoxdevice.items.Add(Aktdevicegrplist[i]);
+    End;
+
+    ComboBoxdevice.Itemindex := 0;
+
+    if (Prefs.DefaultPlanHold) then
+      RadioGrouphold.ItemIndex := 1;
+
+    if (Prefs.DefaultToApprovalRequired) then
+      RadioGroupapprovalnew.ItemIndex := 1;
+
+
+    if (Prefs.PlanningUsePublicationDefaults)  then
+    begin
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.add('Select DefaultApprove,DefaultHardProofID,DefaultProofID,PageFormatID from publicationnames');
+      DataM1.Query1.SQL.add('Where publicationid = ' + IntToStr(plateframespublicationid));
+      DataM1.Query1.open;
+      IF not DataM1.Query1.eof then
+      begin
+        RadioGroupapprovalnew.ItemIndex :=  DataM1.Query1.fields[0].AsInteger;
+        DefaultHardProofID := DataM1.Query1.fields[1].AsInteger;
+        DefaultProofID := DataM1.Query1.fields[2].AsInteger;
+        DefaultPageFormatID := DataM1.Query1.fields[3].AsInteger;
+        IF DefaultProofID < 1 then
+          DefaultProofID := 1;
+        IF DefaultHardProofID < 1 then
+          DefaultHardProofID := 1;
+        setpublproofers(DefaultProofID,DefaultHardProofID);
+      end;
+      DataM1.Query1.close;
+    end;
+  Except
+  end;
+
+
+
+  if (Prefs.FlatproofWaitForApproval) then
+    RadioGroupapproval.ItemIndex := 0
+  else
+    RadioGroupapproval.ItemIndex := 1;
+
+  if (Prefs.HardproofWaitForApproval) then
+    RadioGrouphardproofapproval.ItemIndex := 0
+  else
+    RadioGrouphardproofapproval.ItemIndex := 1;
+
+  if (Prefs.UseDefaultDevice) then
+  begin
+    ComboBoxdevice.ItemIndex := ComboBoxdevice.Items.IndexOf(Prefs.DefaultDevice);
+    IF ComboBoxdevice.ItemIndex < 0 then
+      ComboBoxdevice.ItemIndex := 0;
+  end
+  else
+  begin
+    DefaultDevID := -1;
+    DefaultHold := -1;
+    try
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.add('SELECT * from PublicationTemplates (NOLOCK)');
+      DataM1.Query1.SQL.add('WHERE PressID = '+inttostr(plateframespressid));
+      DataM1.Query1.SQL.add('AND PublicationID = '+inttostr(plateframespublicationid));
+      IF Prefs.debug then DataM1.Query1.sql.SaveToFile(IncludeTrailingBackSlash(TUtils.GetCommonAppDirectory()) + 'sqllogs\'+'GetPublicationDevice.sql');
+      DataM1.Query1.open;
+      if (not DataM1.Query1.eof) and (DataM1.Query1.fields.Count > 13) then
+      begin
+        IF DataM1.Query1.fields[13].asstring <> '' then          // DeviceID
+        begin
+          DefaultDevID := DataM1.Query1.fields[13].asinteger;  // OK
+        End;
+
+        IF DataM1.Query1.fields[9].asstring <> '' then         // RipSetup
+        begin
+            RipSetup :=  DataM1.Query1.fields[9].asstring;      // OK
+        end;
+
+        IF DataM1.Query1.Fields.Count >= 13 then
+        begin
+          IF DataM1.Query1.fields[14].asstring <> '' then                      // Hold
+            DefaultHold := DataM1.Query1.fields[14].asinteger;   // OK
+         end;
+
+      end;
+      DataM1.Query1.close;
+
+      IF DefaultHold <> -1 then
+        RadioGrouphold.ItemIndex := DefaultHold;
+
+      IF DefaultDevID > 0 then
+      begin
+        For i := 0 to ComboBoxdevice.items.Count-1 do
+        begin
+          IF ((DefaultDevID<100) AND (tnames1.devicenametoid(ComboBoxdevice.items[i]) = DefaultDevID))
+            OR (DefaultDevID>100) AND (inittypes.DeviceGroupnametoID(ComboBoxdevice.items[i]) = DefaultDevID - 100) then
+          begin
+            ComboBoxdevice.itemindex := i;
+            break;
+          end;
+        end;
+      end;
+      IF ComboBoxdevice.ItemIndex < 0 then
+        ComboBoxdevice.ItemIndex := 0;
+    Except
+    end;
+
+  end;
+
+  PageControlapply.ActivePageIndex := 0;
+  if not activated then
+  begin
+    CheckBoxAllowunplannedcolors.Checked := Prefs.PlanningAllowUnplannedColors;
+    CheckBoxractivateonlyblack.Checked := Prefs.ActivateOnlyBlack;
+  end;
+
+  if (Prefs.PlannedPageNameDataFile <> '') then
+    ComboBoxplannedname.Items.LoadFromFile(Prefs.PlannedPageNameDataFile);
+
+  DateTimePickerProductiondate.Date := dateof(plateframesPubdate);
+  DateTimePickerProductiontime.time := encodetime(12,0,0,0);
+
+
+  if (Prefs.PlanningHotTimeFromDeadline) then
+  begin
+    deadl := 0;
+    deadl := DateOf(DateTimePickerdeadlinedate.date) + timeof(DateTimePickerdeadlinetime.time);
+    deadl := IncHour(deadl,Prefs.PlanningHotTimeFromDeadlineAddHours);
+    DateTimePickerhotdatestart.date := DateOf(deadl);
+    DateTimePickerhotTimestart.time := TimeOf(deadl);
+    deadl := IncHour(deadl, Prefs.HotHourPriorityLength);
+    DateTimePickerhotdateend.date := DateOf(deadl);
+    DateTimePickerhotTimeEnd.time := TimeOf(deadl);
+    UpDownhotbefore.position := Prefs.HotHourPriorityBefore;
+    UpDownunder.position := Prefs.HotHourPriorityDuring;
+    UpDownafter.position := Prefs.HotHourPriorityAfter;
+  end;
+
+  // NAN 201560804 - overrules publication defaults - always..
+   if (Prefs.DefaultPlanHold) then
+      RadioGrouphold.ItemIndex := 1;
+
+   if (Prefs.DefaultToApprovalRequired) then
+      RadioGroupapprovalnew.ItemIndex := 1;
+
+    ComboBoxRipSetupname.items.Clear;
+    DataM1.Query1.close;
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.Add('Select DISTINCT Name,RipSetupID from RipSetupNames Order BY RipSetupID' );
+    DataM1.Query1.open;
+    While not DataM1.Query1.Eof do
+    begin
+      ComboBoxRipSetupname.items.add(DataM1.Query1.fields[0].asstring);
+      DataM1.Query1.next;
+    end;
+    DataM1.Query1.close;
+    if (ComboBoxRipSetupname.Items.Count > 0) then
+      ComboBoxRipSetupname.Itemindex := 0;
+
+
+    if (UTypes.PreflightSetupNamesPossible = true) then
+    begin
+      ComboBoxPreflightSetup.Items.clear;
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.Add('Select DISTINCT Name,PreflightSetupID from PreflightSetupNames Order by PreflightSetupID');
+      DataM1.Query1.Open;
+      While not DataM1.Query1.eof do
+      begin
+        ComboBoxPreflightSetup.Items.add(DataM1.Query1.fields[0].asstring);
+       DataM1.Query1.Next;
+      end;
+      DataM1.Query1.Close;
+      if (ComboBoxPreflightSetup.Items.Count > 0) then
+        ComboBoxPreflightSetup.Itemindex := 0;
+    end
+    else
+      ComboBoxPreflightSetup.Enabled := false;
+
+    ComboBoxInksaveSetup.Items.clear;
+    if (UTypes.InkSaveSetupNamesPossible = true) then
+    begin
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.Add('Select DISTINCT Name,InksaveSetupID from InksaveSetupNames Order by InksaveSetupID');
+      DataM1.Query1.Open;
+      While not DataM1.Query1.Eof do
+      begin
+        ComboBoxInksaveSetup.Items.add(DataM1.Query1.fields[0].asstring);
+        DataM1.Query1.Next;
+      end;
+      DataM1.Query1.Close;
+      if (ComboBoxInksaveSetup.Items.Count > 0) then
+        ComboBoxInksaveSetup.Itemindex := 0;
+    end
+    else
+      ComboBoxInksaveSetup.Enabled := false;
+
+    // ## NAN
+    // Split default RipSetup in the RIP,Preflight,Inksave components
+    t := RipSetup;
+    t1 := RipSetup;
+    t2 := '';
+    t3 := '';
+
+    n := Pos(';', t);
+    if (n > 0) then
+    begin
+      t1 := Copy(t, 1, n-1);
+      t := Copy(t, n+1, Length(t)-n);
+      n := Pos(';', t);
+      if (n > 0) then
+      begin
+        t2 := Copy(t, 1, n-1);
+        t3 := Copy(t, n+1, Length(t)-n);
+      end;
+    end;
+
+    if (ComboBoxRipSetupname.Items.IndexOf(t1) >= 0) then
+       ComboBoxRipSetupname.ItemIndex :=  ComboBoxRipSetupname.Items.IndexOf(t1)
+    else
+       ComboBoxRipSetupname.ItemIndex := -1;
+
+    if (ComboBoxPreflightSetup.Items.IndexOf(t2) >= 0) then
+       ComboBoxPreflightSetup.ItemIndex :=  ComboBoxPreflightSetup.Items.IndexOf(t2)
+    else
+        ComboBoxPreflightSetup.ItemIndex := -1;
+
+    if (ComboBoxInksaveSetup.Items.IndexOf(t3) >= 0) then
+       ComboBoxInksaveSetup.ItemIndex :=  ComboBoxInksaveSetup.Items.IndexOf(t3)
+    else
+       ComboBoxInksaveSetup.ItemIndex := -1;
+
+    LabelPreflightSetup.Font.Color := clWindowText;
+    LabelInksaveSetup.Font.Color := clWindowText;
+    LabelRipSetup.Font.Color := clWindowText;
+
+    if (Prefs.PlanningRipSetup) then
+    begin
+       if (ComboBoxRipSetupname.ItemIndex = -1) then
+          LabelRipSetup.Font.Color := clRed;
+       if (ComboBoxPreflightSetup.ItemIndex = -1) then
+          LabelPreflightSetup.Font.Color := clRed;
+       if (ComboBoxInksaveSetup.ItemIndex = -1) then
+          LabelInksaveSetup.Font.Color := clRed;
+    end;
+
+
+    if (DefaultSortingPosition <> '') then
+      ComboBoxPlatesorting.Text :=  DefaultSortingPosition;
+
+    i := 0;
+    j := 0;
+    ComboBoxPageFormat.Items.Clear;
+    ComboBoxPageFormat.Items.Add('Default');
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.Add('Select DISTINCT PageFormatName,PageFormatID from PageFormatNames Order by PageFormatID');
+    DataM1.Query1.Open;
+    while not DataM1.Query1.Eof do
+    begin
+      Inc(i);
+      ComboBoxPageFormat.Items.Add(DataM1.Query1.fields[0].AsString);
+      if (DefaultPageFormatID = DataM1.Query1.fields[1].AsInteger) then
+        j := i;
+      DataM1.Query1.Next;
+    end;
+    DataM1.Query1.Close;
+    ComboBoxPageFormat.Itemindex := j;
+
+end;
+
+procedure TFormApplyproduction.ComboBoxPreflightSetupChange(
+  Sender: TObject);
+begin
+  if (Prefs.PlanningRipSetup) then
+  begin
+    if (ComboBoxPreflightSetup.ItemIndex = -1) then
+      LabelPreflightSetup.Font.Color := clRed
+    else
+      LabelPreflightSetup.Font.Color := clWindowText;
+  end;
+end;
+
+procedure TFormApplyproduction.ComboBoxInksaveSetupChange(Sender: TObject);
+begin
+  if (Prefs.PlanningRipSetup)  then
+  begin
+    if (ComboBoxInksaveSetup.ItemIndex = -1) then
+      LabelInksaveSetup.Font.Color := clRed
+    else
+      LabelInksaveSetup.Font.Color := clWindowText;
+  end;
+end;
+
+procedure TFormApplyproduction.ComboBoxRipSetupnameChange(Sender: TObject);
+begin
+  if (Prefs.PlanningRipSetup)  then
+  begin
+    if (ComboBoxRipSetupname.ItemIndex = -1) then
+      LabelRipSetup.Font.Color := clRed
+    else
+      LabelRipSetup.Font.Color := clWindowText;
+  end;
+end;
+
+end.
+
+

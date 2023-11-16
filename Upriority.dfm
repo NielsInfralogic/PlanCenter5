@@ -1,0 +1,60 @@
+object Formpriority: TFormpriority
+  Left = 654
+  Top = 341
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Set priority'
+  ClientHeight = 113
+  ClientWidth = 203
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poMainFormCenter
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 31
+    Top = 35
+    Width = 44
+    Height = 13
+    AutoSize = False
+    Caption = 'Priority'
+  end
+  object BitBtn1: TBitBtn
+    Left = 20
+    Top = 68
+    Width = 75
+    Height = 25
+    Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 0
+  end
+  object BitBtn2: TBitBtn
+    Left = 104
+    Top = 68
+    Width = 75
+    Height = 25
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 1
+  end
+  object Edit1: TEdit
+    Left = 81
+    Top = 32
+    Width = 48
+    Height = 21
+    TabOrder = 2
+    Text = '50'
+  end
+  object UpDown1: TUpDown
+    Left = 129
+    Top = 32
+    Width = 16
+    Height = 21
+    Associate = Edit1
+    Position = 50
+    TabOrder = 3
+  end
+end

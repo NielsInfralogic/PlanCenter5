@@ -1,0 +1,600 @@
+program PlanCenter;
+
+uses
+  Vcl.Forms,
+  Names in 'Names.pas',
+  FixedDateTimePicker in 'FixedDateTimePicker.pas',
+  InfraLanguage in 'InfraLanguage.pas',
+  LanguageList1 in 'LanguageList1.pas',
+  UMain in 'UMain.pas' {FormMain},
+  Udefinitionpagerange in 'Udefinitionpagerange.pas' {FormdefPages},
+  USelectdefinition in 'USelectdefinition.pas' {Formselectdefinition},
+  Ueditpagedef in 'Ueditpagedef.pas' {Formeditpagedef},
+  Ueditatext in 'Ueditatext.pas' {FrameEditatext: TFrame},
+  Udata in 'Udata.pas' {DataM1: TDataModule},
+  UPrev2 in 'UPrev2.pas' {Formprev2},
+  USelcolors in 'USelcolors.pas' {FormSelcolors},
+  Upageinfoframe in 'Upageinfoframe.pas' {Framepageinformation: TFrame},
+  UImposcalc in 'UImposcalc.pas',
+  UTypes in 'UTypes.pas',
+  UEdittemplatedata in 'UEdittemplatedata.pas' {Formedittemplatedata},
+  Ulistselect in 'Ulistselect.pas' {Formlistselect},
+  Uinitdata in 'Uinitdata.pas' {FormInit},
+  USelectnewpresssection in 'USelectnewpresssection.pas' {FormSelectnewpresssection},
+  Usavename in 'Usavename.pas' {Formsavename},
+  Uloadpressplan in 'Uloadpressplan.pas' {Formloadpressplan},
+  Uinfoframe in 'Uinfoframe.pas' {FrameInfo: TFrame},
+  Uaddpressrun in 'Uaddpressrun.pas' {FormAddpressrun},
+  Uaddplan in 'Uaddplan.pas' {Formaddplan},
+  Usettings in 'Usettings.pas' {FormSettings},
+  USellwin in 'USellwin.pas' {FormSellwin},
+  Uchlayout in 'Uchlayout.pas' {FormChlayout},
+  Uselfromlist in 'Uselfromlist.pas' {Formselectfromlist},
+  Umarkgroups in 'Umarkgroups.pas' {FormMarkgroups},
+  Upriority in 'Upriority.pas' {Formpriority},
+  Uplatereimage in 'Uplatereimage.pas' {Formplatereimage},
+  Ulanglist in 'Ulanglist.pas' {Formlanguage},
+  UUser in 'UUser.pas' {Formusers},
+  Ulogin in 'Ulogin.pas' {Formlogin},
+  Uantipano in 'Uantipano.pas' {FormPanorama},
+  Uabout in 'Uabout.pas' {FormAbout},
+  Udeleteplans in 'Udeleteplans.pas' {Formdeletepressplan},
+  UChangepress in 'UChangepress.pas' {FormChangepress},
+  Uproof in 'Uproof.pas' {Formproof},
+  UHSOrder in 'UHSOrder.pas' {FormColorder},
+  UEditionpageplan in 'UEditionpageplan.pas' {Formeditionpageplan},
+  Unewlocalpress in 'Unewlocalpress.pas' {Formnewlocalpress},
+  UChangeplatelayout in 'UChangeplatelayout.pas' {Formchangeplatelayout},
+  Ueditatextcombo in 'Ueditatextcombo.pas' {Formeditatext},
+  Userverconfig in 'Userverconfig.pas' {Formserverconfig},
+  Uendiscolor in 'Uendiscolor.pas' {FormEndiscolors},
+  Udeletesubedition in 'Udeletesubedition.pas' {Formdeletesubedition},
+  USelecttemplate in 'USelecttemplate.pas' {Formselecttemplate},
+  Ureimageproduction in 'Ureimageproduction.pas' {Formreimageproduction},
+  Usingprev in 'Usingprev.pas' {Frame2: TFrame},
+  UDeleteold in 'UDeleteold.pas' {FormDeleteold},
+  UColor2mono in 'UColor2mono.pas' {FormColor2mono},
+  Uadminlogin in 'Uadminlogin.pas' {FormAdminlogin},
+  Uprodplan in 'Uprodplan.pas' {Formprodplan},
+  UPlanframe in 'UPlanframe.pas' {Plateframe: TFrame},
+  UChangeexternalstatus in 'UChangeexternalstatus.pas' {FormChangeextstatus},
+  USelectnewpress in 'USelectnewpress.pas' {FormSelectnewpress},
+  Uprefixposfix in 'Uprefixposfix.pas' {FormPrepostfix},
+  UEditcolors in 'UEditcolors.pas' {Formeditcolors},
+  UApplyplan in 'UApplyplan.pas' {FormApplyproduction},
+  Ueditedition in 'Ueditedition.pas' {Formeditedition},
+  UTabs in 'UTabs.pas' {Formtabs},
+  Usaveusers in 'Usaveusers.pas' {Formsaveusersettings},
+  Uconfigemail in 'Uconfigemail.pas' {Formeditemail},
+  USendaemail in 'USendaemail.pas' {Formsendemail},
+  UEmailsender in 'UEmailsender.pas' {Formemail},
+  Uplancenterspread in 'Uplancenterspread.pas' {Formplancenterspread},
+  Ueditionorder in 'Ueditionorder.pas' {Formeditionorder},
+  Udeletepressplans in 'Udeletepressplans.pas' {Formdelplan},
+  ULoadcombined in 'ULoadcombined.pas' {Formloadcombi},
+  Usetdeadline in 'Usetdeadline.pas' {Formsetdeadline},
+  UFTP in 'UFTP.pas' {FormFTP},
+  Udevmanager in 'Udevmanager.pas' {Framedevicemanager: TFrame},
+  Uadmintools in 'Uadmintools.pas' {Formadmintool},
+  Uappendruns in 'Uappendruns.pas' {Formappendruns},
+  Udelpubl in 'Udelpubl.pas' {Formdelpublication},
+  Uarchive in 'Uarchive.pas' {Formarchive},
+  Ufileinfo in 'Ufileinfo.pas' {FormFileinfo},
+  UCopyingfile in 'UCopyingfile.pas' {FormCopyingfile},
+  Ucustomtools in 'Ucustomtools.pas' {Formcustomtools},
+  Ucopypastepage in 'Ucopypastepage.pas' {Formcopypastepage},
+  UCurentstate in 'UCurentstate.pas' {Formcurrentstate},
+  Uloadpressconf in 'Uloadpressconf.pas' {Formloadpressconf},
+  Ureloadingerrorfiles in 'Ureloadingerrorfiles.pas' {Formreloadingerrorfiles},
+  UCopyfiles in 'UCopyfiles.pas' {FormCopyfileclip},
+  UHoldrelease in 'UHoldrelease.pas' {FormHoldrelesepubl},
+  Unewlocation in 'Unewlocation.pas' {Formnewlocation},
+  Ualfalist in 'Ualfalist.pas' {Formalfasort},
+  Uaddeditions in 'Uaddeditions.pas' {FormAddeditionview},
+  UDeadlinesettings in 'UDeadlinesettings.pas' {Formdeadlines},
+  Utowername in 'Utowername.pas' {Formtower},
+  Ueditplan in 'Ueditplan.pas' {Formeditplan},
+  Udeletebar in 'Udeletebar.pas' {Formfuskdeletebar},
+  Upressruninfo in 'Upressruninfo.pas' {Formpressruninfo},
+  UCustomTowers in 'UCustomTowers.pas' {FormCustomTower},
+  USwappagepos in 'USwappagepos.pas' {FormSwappos},
+  Uflatproof in 'Uflatproof.pas' {Formflatproof},
+  Uplaneditpage in 'Uplaneditpage.pas' {Formplaneditpagename},
+  USecbyload in 'USecbyload.pas' {FormChangesectionnamebyload},
+  Uhangeednamebyload in 'Uhangeednamebyload.pas' {Formchednameload},
+  Uaddsubplannedname in 'Uaddsubplannedname.pas' {Formapplyedplanname},
+  Urenameunown in 'Urenameunown.pas' {Formrenamenknown},
+  UExport in 'UExport.pas' {DataModuleExport: TDataModule},
+  Uretryfiles in 'Uretryfiles.pas' {Formretryfiles},
+  USelplatecopies in 'USelplatecopies.pas' {FormSelplatecopies},
+  UInkBackupretry in 'UInkBackupretry.pas' {FormInkbackupFile},
+  UFanout in 'UFanout.pas' {FormFanoutsetting},
+  UUknowfileerrorlog in 'UUknowfileerrorlog.pas' {Formunknowfilelog},
+  UEditweek in 'UEditweek.pas' {Formeditweek},
+  UFileserversetup in 'UFileserversetup.pas' {FormFileseversetup},
+  UaddExtrapressrun in 'UaddExtrapressrun.pas' {FormAddExtrapressrun},
+  Ueditdates in 'Ueditdates.pas' {Formeditdates},
+  Uplanerrors in 'Uplanerrors.pas' {Formplanerrors},
+  Uplanisbusy in 'Uplanisbusy.pas' {Formplanisbusy},
+  UWorkerThreadTreeUpdate in 'UWorkerThreadTreeUpdate.pas',
+  Ueditcreep in 'Ueditcreep.pas' {FormCreep},
+  Udatetimeform in 'Udatetimeform.pas' {Formdatetimetool},
+  USetschedules in 'USetschedules.pas' {FormSetschedules},
+  UListselection in 'UListselection.pas' {FormListselection},
+  Uunknownfiles in 'Uunknownfiles.pas' {FormUknownfiles},
+  UFilepreview in 'UFilepreview.pas' {Formfilepreview},
+  Ucolordetect in 'Ucolordetect.pas' {FormColordetectionsetup},
+  UHardproofselect in 'UHardproofselect.pas' {Formhardproofselect},
+  UXMLExport in 'UXMLExport.pas' {DataModuleXML: TDataModule},
+  UEditplatecopies in 'UEditplatecopies.pas' {FormEditplatecopies},
+  UActionconfig in 'UActionconfig.pas' {FormActionconfig},
+  USaveuseract in 'USaveuseract.pas' {Formsaveandloaduseract},
+  Uusercolssaveload in 'Uusercolssaveload.pas' {FormSaveloadcols},
+  uplateviewframe in 'uplateviewframe.pas' {FPV: TFrame},
+  UChangecomment in 'UChangecomment.pas' {FormChangecomment},
+  UUnkFolders in 'UUnkFolders.pas' {Formerrorfolderselect},
+  Usepsearch in 'Usepsearch.pas' {Formsepsearch},
+  Ueditplannames in 'Ueditplannames.pas' {FormEditplannames},
+  Upressorderandtime in 'Upressorderandtime.pas' {Formpressorderandtime},
+  UExportcustomplan in 'UExportcustomplan.pas' {FormExportcustomplan},
+  UAddNplatecopies in 'UAddNplatecopies.pas' {FormAddNplatecopies},
+  Ushowprepoll in 'Ushowprepoll.pas' {Formprepollmessages},
+  UAutotower in 'UAutotower.pas' {FormAutotower},
+  UGenExcelrep in 'UGenExcelrep.pas' {FormGenCCrep},
+  Ugenexelsinglerep in 'Ugenexelsinglerep.pas' {Formsingleexcelrep},
+  UGetUserEmail in 'UGetUserEmail.pas' {FormGetuserEmail},
+  UAttachtomail in 'UAttachtomail.pas' {Formattachtomail},
+  USelnexttimedEd in 'USelnexttimedEd.pas' {FormSelnexttimedEd},
+  UCalcReacur in 'UCalcReacur.pas' {FormGentagne},
+  UPlateprint in 'UPlateprint.pas' {FormPlateprint},
+  UAddtimedEds in 'UAddtimedEds.pas' {FormAddtimedEds},
+  JPGGetComment in 'JPGGetComment.pas',
+  UChangetotimed in 'UChangetotimed.pas' {FormChangetotimed},
+  UWebnaming in 'UWebnaming.pas' {FormWebnaming},
+  USetpressCylinder in 'USetpressCylinder.pas' {Formpresscylinder},
+  USeprationlist in 'USeprationlist.pas',
+  UNewChpress in 'UNewChpress.pas' {FormNewChangepress},
+  UFormReportgenrutines in 'UFormReportgenrutines.pas' {FormReportgenrutines},
+  UEditlocserv in 'UEditlocserv.pas' {Formlocserv},
+  UAutoupdateTHR in 'UAutoupdateTHR.pas',
+  UChanginglocserv in 'UChanginglocserv.pas' {FormChaningloc},
+  UCopyPlanTopress in 'UCopyPlanTopress.pas' {FormCopytopress},
+  UHottime in 'UHottime.pas' {FormHottime},
+  UDeviceControlframe in 'UDeviceControlframe.pas' {FrameDevicecontrol: TFrame},
+  Udevicecontrolplacer in 'Udevicecontrolplacer.pas' {FrameDeviceplacer: TFrame},
+  Udevicereport in 'Udevicereport.pas' {Formdevicereport},
+  Utoolchkdb in 'Utoolchkdb.pas' {Formtoolchkdb},
+  UTiffpreview in 'UTiffpreview.pas' {Formtiffpreview},
+  UCroptiff in 'UCroptiff.pas' {Formcroptif},
+  UAutopartialapplyCalc in 'UAutopartialapplyCalc.pas' {FormCalcAutopart},
+  Udelpubl2 in 'Udelpubl2.pas' {Formdelpublication2},
+  UProofmask in 'UProofmask.pas' {Formproofmask},
+  Upageformat in 'Upageformat.pas' {Formpageformats},
+  Uretransto in 'Uretransto.pas' {Formretransto},
+  Urelto in 'Urelto.pas' {FormreleaseTo},
+  USelectlocationandproductions in 'USelectlocationandproductions.pas' {Formselectlocalprod},
+  UChangeplatenumbers in 'UChangeplatenumbers.pas' {FormChplatenum},
+  UPdfFileInfo in 'UPdfFileInfo.pas' {FormPDFfileInfo},
+  UFiletaginfo in 'UFiletaginfo.pas' {Formfiletaginfo},
+  Umultipressrelease in 'Umultipressrelease.pas' {Formmultipressrelease},
+  UPecomImp in 'UPecomImp.pas' {FormPecomrequest},
+  UPressinforeq in 'UPressinforeq.pas' {Formpressinforequest},
+  UChkCCfiles in 'UChkCCfiles.pas' {Formchkccfiles},
+  UFalsespread in 'UFalsespread.pas' {Formfalsespread},
+  UCenterandmarks in 'UCenterandmarks.pas' {FormSetCenterspread},
+  Uprodwarn in 'Uprodwarn.pas' {Formprodwarn},
+  UDongAInkComment in 'UDongAInkComment.pas' {FormdongAink},
+  UTowerfilter in 'UTowerfilter.pas' {Formtowerfilter},
+  UReProcess in 'UReProcess.pas' {FormReprocesspages},
+  UDeviceframe in 'UDeviceframe.pas' {FrameDevice: TFrame},
+  ULoadstbplan in 'ULoadstbplan.pas' {FormLoadstbplan},
+  NativeXml in 'NativeXml.pas',
+  RegExpr in 'RegExpr.pas',
+  UReimageReason in 'UReimageReason.pas' {FormReimageReason},
+  UReversePageNumbers in 'UReversePageNumbers.pas' {FormReversePageNumbers},
+  UReProcessSimple in 'UReProcessSimple.pas' {FormReprocessSimple},
+  UCopyStackerSetup in 'UCopyStackerSetup.pas' {FormCopyStackerSetup},
+  SaveStackerSetup in 'SaveStackerSetup.pas' {FormSaveStackerSetup},
+  ManageStackerSetups in 'ManageStackerSetups.pas',
+  UImages in 'UImages.pas' {FormImage},
+  ULoadPlanSelectSecEdit in 'ULoadPlanSelectSecEdit.pas' {FormSelectSecEd},
+  UPleaseWait in 'UPleaseWait.pas' {FormPleaseWait},
+  UReNumberPlate in 'UReNumberPlate.pas' {FormReNumberPlate},
+  UnitInkPreeSet in 'UnitInkPreeSet.pas' {FormInkPreeSet},
+  URemoteControl in 'URemoteControl.pas' {FormRemoteControl},
+  Windows,
+  Dialogs,
+  Uprefs in 'Uprefs.pas',
+  UArrayExt in 'UArrayExt.pas',
+  Uapplytounplanned in 'Uapplytounplanned.pas' {Formapplytounplanned},
+  UWorkerThreadUnknownPages in 'UWorkerThreadUnknownPages.pas',
+  UWorkerThreadUnknownFiles in 'UWorkerThreadUnknownFiles.pas',
+  UNiceManualStackerSet in 'UNiceManualStackerSet.pas' {FormNiceManualStackerSet},
+  UADlogin in 'UADlogin.pas',
+  UUtils in 'UUtils.pas',
+  ULoadDLLs in 'ULoadDLLs.pas',
+  UPlanEdit4up in 'UPlanEdit4up.pas' {FormEdit4upPlate},
+  UPlanEdit2up in 'UPlanEdit2up.pas' {FormEdit2upPlate},
+  UPlanEdit8up in 'UPlanEdit8up.pas' {FormEdit8upPlate},
+  USelectHalfwebPage in 'USelectHalfwebPage.pas' {FormSelectHalfwebPage},
+  UPdfRotation in 'UPdfRotation.pas' {PDFRotation},
+  USelectPaginationStyle in 'USelectPaginationStyle.pas' {FormSelectPaginationStyle},
+  UEditableListView in 'UEditableListView.pas',
+  ULinkToMaster in 'ULinkToMaster.pas' {FormLinkToMaster},
+  UQuickApply in 'UQuickApply.pas' {SelectDevice},
+  UFormPlanRearrangePages in 'UFormPlanRearrangePages.pas' {PlanRearrangePages},
+  UCheckPlan in 'UCheckPlan.pas' {FormCheckPlan},
+  UApplyLoadedPressTemplate in 'UApplyLoadedPressTemplate.pas' {FormApplyLoadedPressTemplate},
+  NetDirectoryExists in 'NetDirectoryExists.pas',
+  UPrevPlate2 in 'UPrevPlate2.pas' {FormprevPlate2};
+  
+{FormManageStackerSetups}
+
+{$R *.res}
+
+var
+  Semafor     : THandle;
+begin
+  // Don't start twice
+  Semafor := CreateSemaphore(nil, 0, 1, 'Global\PlanCenter.exe');
+  if ((Semafor <> 0) and (GetLastError = ERROR_ALREADY_EXISTS)) then
+  begin
+    ShowMessage('PlanCenter is already running on this machine.' + sLineBreak + 'Shooting this session down now.');
+    CloseHandle(Semafor);
+    Halt;
+  end;
+
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+
+  Application.CreateForm(TFormMain, FormMain);
+  Application.CreateForm(TFormChangetotimed, FormChangetotimed);
+  Application.CreateForm(TFormWebnaming, FormWebnaming);
+  Application.CreateForm(TFormpresscylinder, Formpresscylinder);
+  Application.CreateForm(TFormNewChangepress, FormNewChangepress);
+  Application.CreateForm(TFormReportgenrutines, FormReportgenrutines);
+  Application.CreateForm(TFormlocserv, Formlocserv);
+  Application.CreateForm(TFormChaningloc, FormChaningloc);
+  Application.CreateForm(TFormCopytopress, FormCopytopress);
+  Application.CreateForm(TFormHottime, FormHottime);
+  Application.CreateForm(TFormdevicereport, Formdevicereport);
+  Application.CreateForm(TFormtoolchkdb, Formtoolchkdb);
+  Application.CreateForm(TFormtiffpreview, Formtiffpreview);
+  Application.CreateForm(TFormcroptif, Formcroptif);
+  Application.CreateForm(TFormCalcAutopart, FormCalcAutopart);
+  Application.CreateForm(TFormdelpublication2, Formdelpublication2);
+  Application.CreateForm(TFormproofmask, Formproofmask);
+  Application.CreateForm(TFormpageformats, Formpageformats);
+  Application.CreateForm(TFormretransto, Formretransto);
+  Application.CreateForm(TFormreleaseTo, FormreleaseTo);
+  Application.CreateForm(TFormselectlocalprod, Formselectlocalprod);
+  Application.CreateForm(TFormChplatenum, FormChplatenum);
+  Application.CreateForm(TFormPDFfileInfo, FormPDFfileInfo);
+  Application.CreateForm(TFormfiletaginfo, Formfiletaginfo);
+  Application.CreateForm(TFormmultipressrelease, Formmultipressrelease);
+  Application.CreateForm(TFormPecomrequest, FormPecomrequest);
+  Application.CreateForm(TFormpressinforequest, Formpressinforequest);
+  Application.CreateForm(TFormchkccfiles, Formchkccfiles);
+  Application.CreateForm(TFormfalsespread, Formfalsespread);
+  Application.CreateForm(TFormSetCenterspread, FormSetCenterspread);
+  Application.CreateForm(TFormprodwarn, Formprodwarn);
+  Application.CreateForm(TFormdongAink, FormdongAink);
+  Application.CreateForm(TFormtowerfilter, Formtowerfilter);
+  Application.CreateForm(TFormNiceManualStackerSet, FormNiceManualStackerSet);
+  Application.CreateForm(TFormEdit4upPlate, FormEdit4upPlate);
+  Application.CreateForm(TFormEdit2upPlate, FormEdit2upPlate);
+  Application.CreateForm(TFormEdit8upPlate, FormEdit8upPlate);
+  Application.CreateForm(TFormSelectHalfwebPage, FormSelectHalfwebPage);
+  Application.CreateForm(TPDFRotation, PDFRotation);
+  Application.CreateForm(TFormSelectPaginationStyle, FormSelectPaginationStyle);
+  Application.CreateForm(TFormLinkToMaster, FormLinkToMaster);
+  Application.CreateForm(TSelectDevice, SelectDevice);
+  Application.CreateForm(TPlanRearrangePages, PlanRearrangePages);
+  Application.CreateForm(TFormReprocesspages, FormReprocesspages);
+  Application.CreateForm(TFormLoadstbplan, FormLoadstbplan);
+  Application.CreateForm(TFormReimageReason, FormReimageReason);
+  Application.CreateForm(TFormReversePageNumbers, FormReversePageNumbers);
+  Application.CreateForm(TFormReprocessSimple, FormReprocessSimple);
+  Application.CreateForm(TFormCopyStackerSetup, FormCopyStackerSetup);
+  Application.CreateForm(TFormSaveStackerSetup, FormSaveStackerSetup);
+  Application.CreateForm(TFormImage, FormImage);
+  Application.CreateForm(TFormFileinfo, FormFileinfo);
+  Application.CreateForm(TFormeditdates, Formeditdates);
+  Application.CreateForm(TFormSelectSecEd, FormSelectSecEd);
+  Application.CreateForm(TFormPleaseWait, FormPleaseWait);
+  Application.CreateForm(TFormReNumberPlate, FormReNumberPlate);
+  Application.CreateForm(TFormInkPreeSet, FormInkPreeSet);
+  Application.CreateForm(TFormRemoteControl, FormRemoteControl);
+  Application.CreateForm(TFormapplytounplanned, Formapplytounplanned);
+  Application.CreateForm(TFormCheckPlan, FormCheckPlan);
+  Application.CreateForm(TFormApplyLoadedPressTemplate, FormApplyLoadedPressTemplate);
+  Application.CreateForm(TFormprevPlate2, FormprevPlate2);
+  // 42 forms so far..
+
+  Formmain.writeinitlog('FormCreate 1');
+  Application.CreateForm(TFormdefPages, FormdefPages);
+  Formmain.writeinitlog('FormCreate 2');
+  Application.CreateForm(TFormselectdefinition, Formselectdefinition);
+  Formmain.writeinitlog('FormCreate 3');
+  Application.CreateForm(TFormeditpagedef, Formeditpagedef);
+  Formmain.writeinitlog('FormCreate 4');
+  Application.CreateForm(TDataM1, DataM1);
+  Formmain.writeinitlog('FormCreate 5');
+  Application.CreateForm(TFormSelcolors, FormSelcolors);
+  Formmain.writeinitlog('FormCreate 6');
+  Application.CreateForm(TFormedittemplatedata, Formedittemplatedata);
+  Formmain.writeinitlog('FormCreate 7');
+  Application.CreateForm(TFormlistselect, Formlistselect);
+  Formmain.writeinitlog('FormCreate 8');
+  Application.CreateForm(TFormInit, FormInit);
+  Formmain.writeinitlog('FormCreate 9');
+//  Application.CreateForm(TFormselecttheme, Formselecttheme);
+  Formmain.writeinitlog('FormCreate 10');
+  Application.CreateForm(TFormSelectnewpresssection, FormSelectnewpresssection);
+  Formmain.writeinitlog('FormCreate 11');
+  Application.CreateForm(TFormsavename, Formsavename);
+  Formmain.writeinitlog('FormCreate 12');
+  Application.CreateForm(TFormloadpressplan, Formloadpressplan);
+  Formmain.writeinitlog('FormCreate 13');
+  Application.CreateForm(TFormAddpressrun, FormAddpressrun);
+  Formmain.writeinitlog('FormCreate 14');
+  Application.CreateForm(TFormaddplan, Formaddplan);
+  Formmain.writeinitlog('FormCreate 15');
+  Application.CreateForm(TFormColorder, FormColorder);
+  Formmain.writeinitlog('FormCreate 16');
+ // Application.CreateForm(TFormSettings, FormSettings);
+  Formmain.writeinitlog('FormCreate 17');
+  Application.CreateForm(TFormSellwin, FormSellwin);
+  Formmain.writeinitlog('FormCreate 18');
+  Application.CreateForm(TFormChlayout, FormChlayout);
+  Formmain.writeinitlog('FormCreate 19');
+  Application.CreateForm(TFormselectfromlist, Formselectfromlist);
+  Formmain.writeinitlog('FormCreate 20');
+  Application.CreateForm(TFormMarkgroups, FormMarkgroups);
+  Formmain.writeinitlog('FormCreate 21');
+  Application.CreateForm(TFormpriority, Formpriority);
+  Formmain.writeinitlog('FormCreate 22');
+  Application.CreateForm(TFormplatereimage, Formplatereimage);
+  Formmain.writeinitlog('FormCreate 23');
+  Application.CreateForm(TFormlanguage, Formlanguage);
+  Formmain.writeinitlog('FormCreate 24');
+  Application.CreateForm(TFormusers, Formusers);
+  Formmain.writeinitlog('FormCreate 25');
+  //Application.CreateForm(TFormlogin, Formlogin);
+  Formmain.writeinitlog('FormCreate 26');
+  Application.CreateForm(TFormPanorama, FormPanorama);
+  Formmain.writeinitlog('FormCreate 27');
+  Application.CreateForm(TFormAbout, FormAbout);
+  Formmain.writeinitlog('FormCreate 28');
+  Application.CreateForm(TFormdeletepressplan, Formdeletepressplan);
+  Formmain.writeinitlog('FormCreate 29');
+  Application.CreateForm(TFormChangepress, FormChangepress);
+  Formmain.writeinitlog('FormCreate 30');
+  Application.CreateForm(TFormproof, Formproof);
+  Formmain.writeinitlog('FormCreate 31');
+  Application.CreateForm(TFormeditionpageplan, Formeditionpageplan);
+  Formmain.writeinitlog('FormCreate 32');
+  Application.CreateForm(TFormnewlocalpress, Formnewlocalpress);
+  Formmain.writeinitlog('FormCreate 33');
+  Application.CreateForm(TFormchangeplatelayout, Formchangeplatelayout);
+  Formmain.writeinitlog('FormCreate 34');
+  Application.CreateForm(TFormeditatext, Formeditatext);
+  Formmain.writeinitlog('FormCreate 35');
+  Application.CreateForm(TFormserverconfig, Formserverconfig);
+  Formmain.writeinitlog('FormCreate 36');
+  Application.CreateForm(TFormEndiscolors, FormEndiscolors);
+  Formmain.writeinitlog('FormCreate 37');
+  Application.CreateForm(TFormdeletesubedition, Formdeletesubedition);
+  Formmain.writeinitlog('FormCreate 38');
+   Application.CreateForm(TFormselecttemplate, Formselecttemplate);
+  Formmain.writeinitlog('FormCreate 39');
+//  Application.CreateForm(TDataModuleClientsocket, DataModuleClientsocket);
+  Formmain.writeinitlog('FormCreate 40');
+  Application.CreateForm(TFormreimageproduction, Formreimageproduction);
+  Formmain.writeinitlog('FormCreate 41');
+  Application.CreateForm(TFormDeleteold, FormDeleteold);
+  Formmain.writeinitlog('FormCreate 42');
+  Application.CreateForm(TFormColor2mono, FormColor2mono);
+  Formmain.writeinitlog('FormCreate 43');
+  Application.CreateForm(TFormAdminlogin, FormAdminlogin);
+  Formmain.writeinitlog('FormCreate 44');
+//  Application.CreateForm(TFormPopupsetup, FormPopupsetup);
+  Formmain.writeinitlog('FormCreate 45');
+  Application.CreateForm(TFormprodplan, Formprodplan);
+  Formmain.writeinitlog('FormCreate 46');
+  Application.CreateForm(TFormChangeextstatus, FormChangeextstatus);
+  Formmain.writeinitlog('FormCreate 47');
+  Application.CreateForm(TFormSelectnewpress, FormSelectnewpress);
+  Formmain.writeinitlog('FormCreate 48');
+  Application.CreateForm(TFormPrepostfix, FormPrepostfix);
+  Formmain.writeinitlog('FormCreate 49');
+  Application.CreateForm(TFormeditcolors, Formeditcolors);
+  Formmain.writeinitlog('FormCreate 50');
+  Application.CreateForm(TFormApplyproduction, FormApplyproduction);
+  Formmain.writeinitlog('FormCreate 51');
+  Application.CreateForm(TFormeditedition, Formeditedition);
+  Formmain.writeinitlog('FormCreate 52');
+  Application.CreateForm(TFormtabs, Formtabs);
+  Formmain.writeinitlog('FormCreate 53');
+  Application.CreateForm(TFormsaveusersettings, Formsaveusersettings);
+  Formmain.writeinitlog('FormCreate 54');
+  Application.CreateForm(TFormeditemail, Formeditemail);
+  Formmain.writeinitlog('FormCreate 55');
+  Application.CreateForm(TFormsendemail, Formsendemail);
+  Formmain.writeinitlog('FormCreate 56');
+  Application.CreateForm(TFormemail, Formemail);
+  Formmain.writeinitlog('FormCreate 57');
+  Application.CreateForm(TFormplancenterspread, Formplancenterspread);
+  Formmain.writeinitlog('FormCreate 58');
+  Application.CreateForm(TFormeditionorder, Formeditionorder);
+  Formmain.writeinitlog('FormCreate 60');
+  Application.CreateForm(TFormdelplan, Formdelplan);
+  Formmain.writeinitlog('FormCreate 61');
+  Application.CreateForm(TFormloadcombi, Formloadcombi);
+  Formmain.writeinitlog('FormCreate 62');
+  Application.CreateForm(TFormsetdeadline, Formsetdeadline);
+  Formmain.writeinitlog('FormCreate 63');
+  Application.CreateForm(TFormFTP, FormFTP);
+  Formmain.writeinitlog('FormCreate 64');
+  Application.CreateForm(TFormadmintool, Formadmintool);
+  Formmain.writeinitlog('FormCreate 65');
+  Application.CreateForm(TFormappendruns, Formappendruns);
+  Formmain.writeinitlog('FormCreate 66');
+  Application.CreateForm(TFormdelpublication, Formdelpublication);
+  Formmain.writeinitlog('FormCreate 67');
+  Application.CreateForm(TFormarchive, Formarchive);
+  Formmain.writeinitlog('FormCreate 68');
+  Application.CreateForm(TFormFileinfo, FormFileinfo);
+  Formmain.writeinitlog('FormCreate 69 ');
+  Application.CreateForm(TFormCopyingfile, FormCopyingfile);
+  Formmain.writeinitlog('FormCreate 70');
+  Application.CreateForm(TFormcustomtools, Formcustomtools);
+  Formmain.writeinitlog('FormCreate 71');
+  Application.CreateForm(TFormcopypastepage, Formcopypastepage);
+  Formmain.writeinitlog('FormCreate 72');
+  Application.CreateForm(TFormcurrentstate, Formcurrentstate);
+  Formmain.writeinitlog('FormCreate 73');
+  Application.CreateForm(TFormloadpressconf, Formloadpressconf);
+  Formmain.writeinitlog('FormCreate 74');
+//  Application.CreateForm(TFormnewpublA, FormnewpublA);
+  Formmain.writeinitlog('FormCreate 75');
+  Application.CreateForm(TFormreloadingerrorfiles, Formreloadingerrorfiles);
+  Formmain.writeinitlog('FormCreate 76');
+//  Application.CreateForm(TFormdebugtools, Formdebugtools);
+//  Formmain.writeinitlog('FormCreate 77');
+  Application.CreateForm(TFormprev2, Formprev2);
+  Formmain.writeinitlog('FormCreate 77');
+  Application.CreateForm(TFormprevPlate2, FormprevPlate2);
+  Formmain.writeinitlog('FormCreate 78');
+  Application.CreateForm(TFormCopyfileclip, FormCopyfileclip);
+  Formmain.writeinitlog('FormCreate 79');
+  Application.CreateForm(TFormHoldrelesepubl, FormHoldrelesepubl);
+  Formmain.writeinitlog('FormCreate 80');
+  //Application.CreateForm(TFormSelectfolder, FormSelectfolder);
+  //Formmain.writeinitlog('FormCreate 81');
+  Application.CreateForm(TFormnewlocation, Formnewlocation);
+  Formmain.writeinitlog('FormCreate 82');
+  Application.CreateForm(TFormalfasort, Formalfasort);
+  Formmain.writeinitlog('FormCreate 83');
+  Application.CreateForm(TFormAddeditionview, FormAddeditionview);
+  Formmain.writeinitlog('FormCreate 84');
+  Application.CreateForm(TFormdeadlines, Formdeadlines);
+  Formmain.writeinitlog('FormCreate 85');
+  Application.CreateForm(TFormtower, Formtower);
+  Formmain.writeinitlog('FormCreate 86');
+  Application.CreateForm(TFormeditplan, Formeditplan);
+  Formmain.writeinitlog('FormCreate 87');
+  Application.CreateForm(TFormfuskdeletebar, Formfuskdeletebar);
+  Formmain.writeinitlog('FormCreate 88');
+  Application.CreateForm(TFormpressruninfo, Formpressruninfo);
+  Formmain.writeinitlog('FormCreate 89');
+  Application.CreateForm(TFormCustomTower, FormCustomTower);
+  Formmain.writeinitlog('FormCreate 90');
+  Application.CreateForm(TFormSwappos, FormSwappos);
+  Formmain.writeinitlog('FormCreate 91');
+  Application.CreateForm(TFormflatproof, Formflatproof);
+  Formmain.writeinitlog('FormCreate 92');
+  Application.CreateForm(TFormplaneditpagename, Formplaneditpagename);
+  Formmain.writeinitlog('FormCreate 93');
+  Application.CreateForm(TFormChangesectionnamebyload, FormChangesectionnamebyload);
+  Formmain.writeinitlog('FormCreate 94');
+  Application.CreateForm(TFormchednameload, Formchednameload);
+  Formmain.writeinitlog('FormCreate 95');
+  Application.CreateForm(TFormapplyedplanname, Formapplyedplanname);
+  Formmain.writeinitlog('FormCreate 97');
+  Application.CreateForm(TFormrenamenknown, Formrenamenknown);
+  Formmain.writeinitlog('FormCreate 98');
+  Application.CreateForm(TDataModuleExport, DataModuleExport);
+  Formmain.writeinitlog('FormCreate 99');
+  Application.CreateForm(TFormretryfiles, Formretryfiles);
+  Formmain.writeinitlog('FormCreate 100');
+  Application.CreateForm(TFormSelplatecopies, FormSelplatecopies);
+  Formmain.writeinitlog('FormCreate 101');
+  Application.CreateForm(TFormInkbackupFile, FormInkbackupFile);
+  Formmain.writeinitlog('FormCreate 102');
+  Application.CreateForm(TFormFanoutsetting, FormFanoutsetting);
+  Formmain.writeinitlog('FormCreate 103');
+  Application.CreateForm(TFormunknowfilelog, Formunknowfilelog);
+  Formmain.writeinitlog('FormCreate 104');
+  Application.CreateForm(TFormeditweek, Formeditweek);
+  Formmain.writeinitlog('FormCreate 106');
+  Application.CreateForm(TFormFileseversetup, FormFileseversetup);
+  Formmain.writeinitlog('FormCreate 107');
+ // Application.CreateForm(TFormAddconsrun, FormAddconsrun);
+  Formmain.writeinitlog('FormCreate 108');
+  Application.CreateForm(TFormAddExtrapressrun, FormAddExtrapressrun);
+  Formmain.writeinitlog('FormCreate 109');
+  Application.CreateForm(TFormeditdates, Formeditdates);
+  Formmain.writeinitlog('FormCreate 110');
+  Application.CreateForm(TFormplanerrors, Formplanerrors);
+  Formmain.writeinitlog('FormCreate 111');
+  Application.CreateForm(TFormplanisbusy, Formplanisbusy);
+  Formmain.writeinitlog('FormCreate 112');
+  Application.CreateForm(TFormCreep, FormCreep);
+  Formmain.writeinitlog('FormCreate 113');
+  Application.CreateForm(TFormdatetimetool, Formdatetimetool);
+  Formmain.writeinitlog('FormCreate 114');
+  Application.CreateForm(TFormSetschedules, FormSetschedules);
+  Formmain.writeinitlog('FormCreate 115');
+  Application.CreateForm(TFormListselection, FormListselection);
+  Formmain.writeinitlog('FormCreate 116');
+  Application.CreateForm(TFormUknownfiles, FormUknownfiles);
+  Formmain.writeinitlog('FormCreate 117');
+  Application.CreateForm(TFormfilepreview, Formfilepreview);
+  Formmain.writeinitlog('FormCreate 118');
+  Application.CreateForm(TFormColordetectionsetup, FormColordetectionsetup);
+  Formmain.writeinitlog('FormCreate 119');
+  Application.CreateForm(TFormhardproofselect, Formhardproofselect);
+  Formmain.writeinitlog('FormCreate 120');
+  //Application.CreateForm(TFormresampleprogress, Formresampleprogress);
+  Formmain.writeinitlog('FormCreate 121');
+  //Application.CreateForm(TFormOldver, FormOldver);
+  Formmain.writeinitlog('FormCreate 122');
+  Application.CreateForm(TDataModuleXML, DataModuleXML);
+  Formmain.writeinitlog('FormCreate 123');
+  Application.CreateForm(TFormEditplatecopies, FormEditplatecopies);
+  Formmain.writeinitlog('FormCreate 124');
+  Application.CreateForm(TFormActionconfig, FormActionconfig);
+  Formmain.writeinitlog('FormCreate 125');
+  Application.CreateForm(TFormsaveandloaduseract, Formsaveandloaduseract);
+  Formmain.writeinitlog('FormCreate 126');
+  Application.CreateForm(TFormSaveloadcols, FormSaveloadcols);
+  Formmain.writeinitlog('FormCreate 127');
+  Application.CreateForm(TFormChangecomment, FormChangecomment);
+  Formmain.writeinitlog('FormCreate 128');
+  Application.CreateForm(TFormerrorfolderselect, Formerrorfolderselect);
+  Formmain.writeinitlog('FormCreate 129');
+  Application.CreateForm(TFormsepsearch, Formsepsearch);
+  Formmain.writeinitlog('FormCreate 130');
+  Application.CreateForm(TFormEditplannames, FormEditplannames);
+  Formmain.writeinitlog('FormCreate 131');
+  Application.CreateForm(TFormpressorderandtime, Formpressorderandtime);
+  Formmain.writeinitlog('FormCreate 132');
+  Application.CreateForm(TFormExportcustomplan, FormExportcustomplan);
+  Formmain.writeinitlog('FormCreate 133');
+  Application.CreateForm(TFormAddNplatecopies, FormAddNplatecopies);
+  Formmain.writeinitlog('FormCreate 134');
+  Application.CreateForm(TFormprepollmessages, Formprepollmessages);
+  Formmain.writeinitlog('FormCreate 135');
+  Application.CreateForm(TFormAutotower, FormAutotower);
+  Formmain.writeinitlog('FormCreate 137');
+  Application.CreateForm(TFormGenCCrep, FormGenCCrep);
+  Formmain.writeinitlog('FormCreate 138');
+  Application.CreateForm(TFormsingleexcelrep, Formsingleexcelrep);
+  Formmain.writeinitlog('FormCreate 139');
+  Application.CreateForm(TFormGetuserEmail, FormGetuserEmail);
+  Formmain.writeinitlog('FormCreate 140');
+  Application.CreateForm(TFormattachtomail, Formattachtomail);
+  Formmain.writeinitlog('FormCreate 141');
+  Application.CreateForm(TFormSelnexttimedEd, FormSelnexttimedEd);
+  Formmain.writeinitlog('FormCreate 142');
+  Application.CreateForm(TFormGentagne, FormGentagne);
+  Formmain.writeinitlog('FormCreate 143');
+  Application.CreateForm(TFormPlateprint, FormPlateprint);
+  Formmain.writeinitlog('FormCreate 145');
+  Application.CreateForm(TFormAddtimedEds, FormAddtimedEds);
+
+  Application.Title := 'PlanCenter Enterprise';
+
+  Application.Run;
+end.

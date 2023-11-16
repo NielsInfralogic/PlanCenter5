@@ -1,0 +1,146 @@
+object Formfalsespread: TFormfalsespread
+  Left = 736
+  Top = 428
+  BorderStyle = bsDialog
+  Caption = 'Page spread'
+  ClientHeight = 317
+  ClientWidth = 330
+  Color = clBtnFace
+  ParentFont = True
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnActivate = FormActivate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel3: TPanel
+    Left = 0
+    Top = 0
+    Width = 330
+    Height = 53
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alTop
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 0
+    object Label7: TLabel
+      Left = 12
+      Top = 8
+      Width = 154
+      Height = 24
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = 'Set page spread'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -18
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 20
+      Top = 35
+      Width = 331
+      Height = 13
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      AutoSize = False
+      Caption = 'Set page to false or normal spread'
+    end
+  end
+  object RadioGrouponoff: TRadioGroup
+    Left = 0
+    Top = 53
+    Width = 330
+    Height = 50
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alTop
+    Columns = 2
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ItemIndex = 0
+    Items.Strings = (
+      'False spread'
+      'Nornal spread')
+    ParentFont = False
+    TabOrder = 1
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 103
+    Width = 330
+    Height = 173
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alClient
+    Caption = 'Marks ON / OFF'
+    TabOrder = 2
+    object CheckListBoxmarkgroups: TCheckListBox
+      Left = 2
+      Top = 15
+      Width = 326
+      Height = 156
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Align = alClient
+      ItemHeight = 13
+      TabOrder = 0
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 276
+    Width = 330
+    Height = 41
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alBottom
+    TabOrder = 3
+    object BitBtn1: TBitBtn
+      Left = 90
+      Top = 7
+      Width = 75
+      Height = 24
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+      OnClick = BitBtn1Click
+    end
+    object BitBtn2: TBitBtn
+      Left = 174
+      Top = 7
+      Width = 73
+      Height = 24
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 1
+    end
+  end
+end

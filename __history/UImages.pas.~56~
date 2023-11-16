@@ -1,0 +1,261 @@
+unit UImages;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, Winapi.CommCtrl, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, hyieutils, iexBitmaps, hyiedefs,
+  iesettings, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Samples.Spin, System.Contnrs,
+  imageenview, ieview, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, iexRulers,
+  iexLayers, Vcl.BaseImageCollection, Vcl.ImageCollection, Vcl.VirtualImageList,
+  iexToolbars, iexUserInteractions, imageenio, imageenproc ;
+
+type
+  TFormImage = class(TForm)
+    Panelplatedrawing: TPanel;
+    Imageplatebrg: TImage;
+    Labelplatetext: TLabel;
+    Imagecolorbrg1616: TImage;
+    Imagecolorbrg: TImage;
+    ImageKcolor: TImage;
+    Imagepageapproved: TImage;
+    Imagepagedisapproved: TImage;
+    Imageinactivecolor1616: TImage;
+    Imageinactivecolor1818: TImage;
+    Imagestatusbox: TImage;
+    Imageplanhorzpano: TImage;
+    Imagedealericon: TImage;
+    Imagedelareil: TImage;
+    Imagecolorbrg88: TImage;
+    ImageKcolor88: TImage;
+    Imageinactivecolor88: TImage;
+    Imagemakecommon: TImage;
+    Imagemakeunique: TImage;
+    Imageblinkoff: TImage;
+    Imageblinkgreen: TImage;
+    Imageblinkred: TImage;
+    Imageblinkyellow: TImage;
+    ImageKcolor1: TImage;
+    ImageKcolor2: TImage;
+    Imagecolorbrg1: TImage;
+    Imagecolorbrg2: TImage;
+    ImageDontprodplate: TImage;
+    ImagepageCommon: TImage;
+    ImageprodCopies: TImage;
+    Image1616W: TImage;
+    Image1616K: TImage;
+    Imagenotactive: TImage;
+    Image1616WDB: TImage;
+    Image1616KDB: TImage;
+    ImagepageCommonsel: TImage;
+    Labelplatever: TLabel;
+    Labelplatecounttext: TLabel;
+    Labeleventtext: TLabel;
+    Imagepagebrg1: TImage;
+    Imagepagebrgsel: TImage;
+    Imagepagebrg: TImage;
+    ImageEnViewplatethumb: TImageEnView;
+    Panelpressrundata: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    SpinPressrunpriority: TSpinEdit;
+    DateTimePickerakt: TDateTimePicker;
+    ProgressBar1: TProgressBar;
+    Panel26: TPanel;
+    Imagenothumbcenter: TImage;
+    Imagenothumbcentermissing: TImage;
+    Imagenothumbsinglemissing: TImage;
+    Imagenothumbsingle: TImage;
+    ImagenothumbcenterSamle1: TImage;
+    ImagenothumbcenterSamle2: TImage;
+    ImagenothumbcenterSamle1missing: TImage;
+    ImagenothumbcenterSamle2missing: TImage;
+    Imagenothumbsinglemissingnofile: TImage;
+    Imagenothumbcentermissingnofile: TImage;
+    ImagenothumbcenterSamle1missingnofile: TImage;
+    ImagenothumbcenterSamle2missingnofile: TImage;
+    Imagepagepending: TImage;
+    ImageList1: TImageList;
+    ImageListUmknownstate: TImageList;
+    ImageListunact: TImageList;
+    ImageListdonk: TImageList;
+    ImageListStatus: TImageList;
+    ImageListthumbnails: TImageList;
+    ImageListPressrun: TImageList;
+    ImageListtreestate: TImageList;
+    ImageListtabs: TImageList;
+    ImageListeditionlist: TImageList;
+    ImageListprepoll: TImageList;
+    ImageListtreestateNEW: TImageList;
+    ImageListcheckbox: TImageList;
+    ImageDummy: TImage;
+    FontDialogplateprint: TFontDialog;
+    ImageListDonkeyears: TImageList;
+    Imagenothumbsinglerot: TImage;
+    ImagenothumbcenterSamle2rot: TImage;
+    ImagenothumbcenterSamle1rot: TImage;
+    Imagenothumbcenterrot: TImage;
+    highDPIImageListContainer: TImageList;
+    ImageListtreestate32: TImageList;
+    ImageCollection1: TImageCollection;
+    VirtualImageList1: TVirtualImageList;
+    ImageList2: TImageList;
+    procedure FormprodplanActionPlanningRearrangePagesExecute(Sender: TObject);
+    procedure DumpBmpFiles();
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure ResizeImageListImagesforHighDPI(const imgList: TImageList);
+    procedure AfterConstruction; override;
+  end;
+
+var
+  FormImage: TFormImage;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFormImage.AfterConstruction;
+var
+  i : Integer;
+begin
+  inherited;
+  DumpBmpFiles();
+ {
+  if Screen.PixelsPerInch <> 96 then //as I’m designing at 96 DPI
+  begin
+    for i := 0 to -1 + ComponentCount do
+      if Components[i] is TImageList then
+        ResizeImageListImagesforHighDPI(TImageList(Components[i]));
+  end;   }
+end;
+
+procedure TFormImage.FormprodplanActionPlanningRearrangePagesExecute(
+  Sender: TObject);
+begin
+  Action
+end;
+
+procedure TFormImage.DumpBmpFiles();
+var
+  i,ii,jj,PixelColor : Integer;
+  bmp,maskIcon : TBitmap;
+
+  Grayshade, Red, Green, Blue: Byte;
+
+begin
+
+  try
+    for i := 0 to ImageList1.Count-1 do
+    begin
+
+       bmp := TBitmap.Create;
+       bmp.Width := 16;
+       bmp.Height := 16;
+
+       bmp.PixelFormat := pf32bit;
+     bmp.AlphaFormat :=   afIgnored;
+       bmp.Canvas.brush.Color := clNone; //?
+       bmp.Transparent := true;
+       bmp.TransparentMode := tmFixed; // tmAuto;
+       bmp.TransparentColor := bmp.Canvas.Pixels[0,15];;
+
+      // bmp.TransParentColor := bmp.Canvas.Pixels[0,15];    // Farve i hjørne..
+
+       ImageList1.GetBitmap(i, bmp);
+
+        bmp.SaveToFile('c:\\test\\bmp\\' + IntToStr(i) + '.bmp');
+    // bmp.TransParentColor := bmp.Canvas.Pixels[0,0];
+       bmp.TransparentColor := clFuchsia;
+        bmp.TransparentMode := tmFixed;
+       bmp.Transparent := true;
+         bmp.PixelFormat := pf32bit;
+       bmp.SaveToFile('c:\\test\\bmp\\' + IntToStr(i) + '-mono.bmp');
+        bmp.Free;
+
+    end;
+  finally
+    //bmp.Free;
+  end;
+
+
+end;
+
+
+
+procedure TFormImage.ResizeImageListImagesforHighDPI(const imgList: TImageList);
+const
+  DevImgSIZE = 16;
+var
+  ii : integer;
+  mb, ib, sib, smb : TBitmap;
+begin
+
+  if Screen.PixelsPerInch = 96 then Exit;
+
+  //clear images
+  highDPIImageListContainer.Clear;
+
+
+
+  //add from source image list
+  for ii := 0 to -1 + imgList.Count do
+    highDPIImageListContainer.AddImage(imgList, ii);
+
+  //set size to match DPI size (like 250% of 16px = 40px)
+  imgList.SetSize(MulDiv(DevImgSIZE, Screen.PixelsPerInch, 96), MulDiv(DevImgSIZE, Screen.PixelsPerInch, 96));
+
+  //add images back to original ImageList stretched (if DPI scaling > 150%) or centered (if DPI scaling <= 150%)
+  for ii := 0 to -1 + highDPIImageListContainer.Count do
+  begin
+    sib := TBitmap.Create; //stretched (or centered) image
+    smb := TBitmap.Create; //stretched (or centered) mask
+    try
+      sib.Width := imgList.Width;
+      sib.Height := imgList.Height;
+      sib.Canvas.FillRect(sib.Canvas.ClipRect);
+      smb.Width := imgList.Width;
+      smb.Height := imgList.Height;
+      smb.Canvas.FillRect(smb.Canvas.ClipRect);
+
+      ib := TBitmap.Create;
+      mb := TBitmap.Create;
+      try
+        ib.Width := DevImgSIZE;
+        ib.Height := DevImgSIZE;
+        ib.Canvas.FillRect(ib.Canvas.ClipRect);
+
+        mb.Width := DevImgSIZE;
+        mb.Height := DevImgSIZE;
+        mb.Canvas.FillRect(mb.Canvas.ClipRect);
+
+        ImageList_DrawEx(highDPIImageListContainer.Handle, ii, ib.Canvas.Handle, 0, 0, ib.Width, ib.Height, CLR_NONE, CLR_NONE, ILD_NORMAL);
+        ImageList_DrawEx(highDPIImageListContainer.Handle, ii, mb.Canvas.Handle, 0, 0, mb.Width, mb.Height, CLR_NONE, CLR_NONE, ILD_MASK);
+
+        if Screen.PixelsPerInch * 100 / 96 <= 150 then //center if <= 150%
+        begin
+          sib.Canvas.Draw((sib.Width - ib.Width) DIV 2, (sib.Height - ib.Height) DIV 2, ib);
+          smb.Canvas.Draw((smb.Width - mb.Width) DIV 2, (smb.Height - mb.Height) DIV 2, mb);
+        end
+        else //stretch if > 150%
+        begin
+          sib.Canvas.StretchDraw(Rect(0, 0, sib.Width, sib.Width), ib);
+          smb.Canvas.StretchDraw(Rect(0, 0, smb.Width, smb.Width), mb);
+        end;
+      finally
+        ib.Free;
+        mb.Free;
+      end;
+
+      imgList.Add(sib, smb);
+    finally
+      sib.Free;
+      smb.Free;
+    end;
+  end;
+end;
+
+
+end.

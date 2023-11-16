@@ -1,0 +1,7 @@
+
+int UrlRequest(char *szUrl, char *szErrorMessage)
+
+szErrorMessage skal være omk. 256
+
+return 1: ok
+return o: error

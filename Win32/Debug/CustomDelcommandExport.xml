@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kbakns xmlns="http://www.kba-print.de/printing/kns/prepare" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.kba-print.de/printing/kns/prepare kba_knsPrepare.xsd">
+	<head version="1.00">
+		<source supplier="InfraLogic" application="Plancenter" localid="Fredericia"/>
+		<time>%J(dd-mm-yy"T"hh:nn:ss)</time>
+		<pressaddress>
+			<pressname>Cortina</pressname>
+			<presssectionno>%B</presssectionno>
+		</pressaddress>
+	</head>
+	<body>
+		<printingjob version="1.00">
+			<source supplier="InfraLogic" application="Plancenter" localid="Fredericia"/>
+			<attributelist>
+				<issuename>%E</issuename>
+				<productname>%P</productname>
+				<jobname>%R</jobname>
+				<templateid>%I</templateid>
+				<productionstart>%K5(dd-mm-yy"T"hh:nn:ss)</productionstart>
+				<printingstart>%K1(dd-mm-yy"T"hh:nn:ss)</printingstart>
+				<printingend>%K2(dd-mm-yy"T"hh:nn:ss)</printingend>
+				<productionend>%K6(dd-mm-yy"T"hh:nn:ss)</productionend>
+			</attributelist>
+			<deliverylist>
+				<folderdelivery>
+					<presselementid>%B</presselementid>
+					<copies>%M</copies>
+					<additionalcopies>%N</additionalcopies>
+				</folderdelivery>
+			</deliverylist>
+		</printingjob>
+	</body>
+</kbakns>
+

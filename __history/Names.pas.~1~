@@ -1,0 +1,1942 @@
+unit Names;
+
+
+(*
+Nametype 1 edition
+         3 pressrun
+         4 publication
+         5 section
+         7 location
+         8 proofs  / også hardproof
+        11 device
+        12 flatproof
+        13 custommer
+        14 Ripsetup
+        98 Events
+        99 FileServers
+        100 color
+        110 pressname
+        120 pageformat
+        130 prod_pagetable ??
+        140
+
+*)
+interface
+
+uses
+  Vcl.Dialogs, Data.DB, System.SysUtils, System.Classes, Data.SqlExpr, system.UITypes;
+
+//Const
+//  namedataSize = 1000;
+
+
+type
+
+
+ TFileServerType = Array of record    // NAN 201601212
+      Servertype  : Integer;
+      Name        : string;
+      Share       : string;
+      Username    : string;
+      Password    : string;
+      IP          : string;
+      FullPath    : string;
+      AlternativeIP : string;
+  end;
+
+  Tnamedatatype = Array of record
+                             ID : Integer;
+                             Name : String;
+                           end;
+
+  tNames = class(TComponent)
+  public
+    FileServerNames : TFileServerType;   // NAN 201601212
+    NFileServerNames : Integer;          // NAN 201601212
+
+    PNpressnames : Integer;
+    PDFCOLORID : Integer;
+  private
+    Customertableok : Integer; //-1 notinit, 0 no table 1 table ok
+    RIPsetuptableok : Integer; //-1 notinit, 0 no table 1 table ok
+    PNcolornames : Integer;
+    Pcolornames : Tnamedatatype;
+    Ppressnames : Tnamedatatype;
+    PNeditions : Integer;
+    Peditions : Tnamedatatype;
+    //PNpressruns : Integer;
+   // Ppressruns : Tnamedatatype;
+  //  PNproductionruns : Integer;
+  //  Pproductionruns : Tnamedatatype;
+    PNpageformats : Integer;
+    Ppageformats : Tnamedatatype;
+    PNproofs : Integer;
+    Pproofs : Tnamedatatype;
+    PNlocations : Integer;
+    Plocations : Tnamedatatype;
+    PNpagetemplates : Integer;
+    Ppagetemplates : Tnamedatatype;
+    PNissues : Integer;
+    Pissues : Tnamedatatype;
+    PNsections : Integer;
+    Psections : Tnamedatatype;
+    PNPublications : Integer;
+    PPublications : Tnamedatatype;
+
+    PNdevices : Integer;
+    Pdevices : Tnamedatatype;
+    PNFlatProofConfigurations : Integer;
+    PFlatProofConfigurations : Tnamedatatype;
+
+    PNCustomers : Integer;
+    PCustomers : Tnamedatatype;
+
+//    PRipSetupsInDB : Boolean;
+    PNripsetups : Longint;
+    PRipSetups : Tnamedatatype;
+
+    PNEvents : Integer;
+    PEvents :  Tnamedatatype;
+
+    PGetnames : TSQLQuery;
+
+    DeviceInkAlias : Tstringlist;  //dev,press,alias
+    PRipSetupNameList : Tstringlist;
+    Peditionlist : Tstringlist;
+    PColornamelist : Tstringlist;
+    PPressnamelist : Tstringlist;
+    Ppressrunlist : Tstringlist;
+    Pproductionrunlist : Tstringlist;
+    Ppageformatlist : Tstringlist;
+    Pprooflist : Tstringlist;
+    Plocationlist : Tstringlist;
+    Ppagetemplatelist : Tstringlist;
+    Pissuelist : Tstringlist;
+    Psectionlist : Tstringlist;
+    Pdevicelist : Tstringlist;
+
+    Ppublicationlist : Tstringlist;
+    PFlatProofConfigurationlist : Tstringlist;
+    PCustomerlist : Tstringlist;
+    PEventList : TStringList;
+
+
+    Function Getpublicationnames : TStringList;
+    procedure setpublicationnames (const Astrings : TStringList);
+    Function GetFlatProofConfigurationnames : TStringList;
+    procedure setFlatProofConfigurationnames (const Astrings : TStringList);
+    Function GetCustomernames : TStringList;
+    procedure setCustomernames (const Astrings : TStringList);
+
+    (*
+    Function Getdevicenames : TStringList;
+    procedure setdevicenames (const Astrings : TStringList);
+    *)
+
+    Function Geteditionnames : TStringList;
+    procedure seteditionnames (const Astrings : TStringList);
+
+    Function GetColornames : TStringList;
+    procedure setColornames (const Astrings : TStringList);
+
+    Function Getpressnames : TStringList;
+    procedure setpressnames (const Astrings : TStringList);
+
+
+(*    Function Getpressrunnames : TStringList;
+    procedure setpressrunnames (const Astrings : TStringList);
+
+    Function Getproductionrunnames : TStringList;
+   procedure setproductionrunnames (const Astrings : TStringList);
+*)
+
+    Function Getpageformatnames : TStringList;
+    procedure setpageformatnames (const Astrings : TStringList);
+    Function Getproofnames : TStringList;
+    procedure setproofnames (const Astrings : TStringList);
+    Function Getlocationnames : TStringList;
+    procedure setlocationnames (const Astrings : TStringList);
+    Function Getpagetemplatenames : TStringList;
+    procedure setpagetemplatenames (const Astrings : TStringList);
+    Function Getissuenames : TStringList;
+    procedure setissuenames (const Astrings : TStringList);
+    Function Getsectionnames : TStringList;
+    procedure setsectionnames (const Astrings : TStringList);
+
+
+    Function Getripsetupnames : TStringList;
+    procedure setripsetupnames (const Astrings : TStringList);
+
+    Function GetEventNames : TStringList;
+    procedure SetEventNames (const Astrings : TStringList);
+
+  protected
+    { Protected declarations }
+  public
+    constructor Create(AOwner: TComponent); override;
+  published
+
+    Function loadalist(listnumber : Integer):Boolean;
+    Procedure initializedb(Var ASQLQueryname : TSQLQuery);
+
+    property Editionnames : TStringList read Geteditionnames Write seteditionnames;
+    Function editionIDtoname(ID : Integer):String;
+    Function editionnametoid(name : string):integer;
+
+    property Colornames : TStringList read GetColornames Write setColornames;
+    Function ColornameIDtoname(ID : Integer):String;
+    Function Colornametoid(name : string):integer;
+
+    property pressnames : TStringList read Getpressnames Write setpressnames;
+    Function pressnameIDtoname(ID : Integer):String;
+    Function pressnametoid(name : string):integer;
+
+//    property pressrunnames : TStringList read Getpressrunnames Write setpressrunnames;
+//    Function pressrunIDtoname(ID : Integer):String;
+//    Function pressrunnametoid(name : string):integer;
+
+//    property productionrunnames : TStringList read Getproductionrunnames Write setproductionrunnames;
+    Function productionrunIDtoname(ID : Integer):String;
+    Function productionrunnametoid(name : string):integer;
+
+
+    property pageformatnames : TStringList read Getpageformatnames Write setpageformatnames;
+    Function pageformatIDtoname(ID : Integer):String;
+    Function pageformatnametoid(name : string):integer;
+    property proofnames : TStringList read Getproofnames Write setproofnames;
+    Function proofIDtoname(ID : Integer):String;
+    Function proofnametoid(name : string):integer;
+    property locationnames : TStringList read Getlocationnames Write setlocationnames;
+    Function locationIDtoname(ID : Integer):String;
+    Function locationnametoid(name : string):integer;
+    property pagetemplatenames : TStringList read Getpagetemplatenames Write setpagetemplatenames;
+    Function pagetemplateIDtoname(ID : Integer):String;
+    Function pagetemplatenametoid(name : string):integer;
+
+
+    property issuenames : TStringList read Getissuenames Write setissuenames;
+
+    property sectionnames : TStringList read Getsectionnames Write setsectionnames;
+
+    property RipSetupnames : TStringList read GetRipSetupnames Write setRipSetupnames;
+    Function ripsetupIDtoname(ID : Integer):String;
+    Function ripsetupnametoid(name : string):integer;
+
+
+    Function issueIDtoname(ID : Integer):String;
+
+    Function sectionIDtoname(ID : Integer):String;
+
+    Function issuenametoid(name : string):integer;
+    Function sectionnametoid(name : string):integer;
+
+    property publicationnames : TStringList read Getpublicationnames Write setpublicationnames;
+    Function publicationIDtoname(ID : Integer):String;
+    Function PublicationIDtoNameReload(ID : Integer):String;
+    Function publicationnametoid(name : string):integer;
+
+    property devicenames : TStringList read Getpublicationnames Write setpublicationnames;
+    Function deviceIDtoname(ID : Integer):String;
+    Function devicenametoid(name : string):integer;
+
+    property FlatProofConfigurationnames : TStringList read GetFlatProofConfigurationnames Write setFlatProofConfigurationnames;
+    Function FlatProofConfigurationIDtoname(ID : Integer):String;
+    Function FlatProofConfigurationnametoid(name : string):integer;
+
+    property Customernames : TStringList read GetCustomernames Write setCustomernames;
+    Function CustomerIDtoname(ID : Integer):String;
+    Function Customernametoid(name : string):integer;
+
+
+//    Function ISANewname(Nametype : Integer;
+//                        NewName : String):boolean;
+    Function Addname(Nametype : Integer;
+                     NewName : String):boolean;
+    Function Loadnames:boolean;
+    Function LoadnamesSmall:Boolean;
+
+    Function GetorderOftype(nametype : Longint;
+                            NameID   : Longint):Longint;
+
+    function GetFirstPressName : string;
+    function GetFirstPressID : Integer;
+
+    function GetMainFileServer : string;
+    function GetMainFileServerShare : string;
+
+    function GetPlanCenterFileServer : string;
+    function GetPlanCenterFileServerShare : string;
+
+    property Eventnames : TStringList read GetEventNames Write SetEventNames;
+
+    function eventnumberfromname(name : string):Integer;
+    function eventnamefromnumber(id : Integer):string;
+
+
+  end;
+
+procedure Register;
+
+implementation
+
+constructor tNames.Create(AOwner: TComponent);
+Begin
+  inherited Create(AOwner);
+  //PGetnames  := TSQLQuery.create(self);
+  DeviceInkAlias     := TStringList.Create;
+  Peditionlist       := TStringList.Create;
+  PColornamelist     := TStringList.Create;
+  PPressnamelist     := TStringList.Create;
+  Ppressrunlist      := TStringList.Create;
+  Pproductionrunlist := TStringList.Create;
+  Ppageformatlist    := TStringList.Create;
+  Pprooflist         := TStringList.Create;
+  Plocationlist      := TStringList.Create;
+  Ppagetemplatelist  := TStringList.Create;
+  Psectionlist       := TStringList.Create;
+  Ppublicationlist   := TStringList.Create;
+  Pdevicelist        := TStringList.Create;
+  PFlatProofConfigurationlist := TStringList.Create;
+  PCustomerlist      := TStringList.Create;
+
+  PRipSetupnameList  := TStringList.Create;
+  Pissuelist         := TStringList.Create;
+  PEventList         := TStringList.Create;
+
+
+
+  NFileServerNames := 0;    // NAN 20161212
+
+  Customertableok    := -1;
+  RIPsetuptableok    := -1;
+  PDFCOLORID := 5;
+end;
+
+
+
+
+
+Function tNames.LoadAList(listnumber : Integer):Boolean;
+Begin
+  result := false;
+//  IF not PRipSetupsInDB then
+//  begin
+//  end;
+  try
+    Case listnumber of
+      1 : Begin  //edition
+  //          Setlength(Peditions, 1);
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT EditionID,[Name] FROM EditionNames (NOLOCK) ORDER BY [Name] ');
+            PGetnames.open;
+            PNeditions := 0;
+            Peditionlist.Clear;
+            While not PGetnames.eof do
+            begin
+              Inc(PNeditions);
+              SetLength(Peditions, PNeditions+1);
+              Peditions[PNeditions].ID := PGetnames.Fields[0].AsInteger;
+              Peditions[PNeditions].name := PGetnames.Fields[1].AsString;
+              Peditionlist.Add(Peditions[PNeditions].name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+          End;
+
+
+      2 : Begin  //issue      //Issue table
+//            Setlength(Pissues,1);
+            PGetnames.sql.Clear;
+            PGetnames.sql.Add('SELECT IssueID,[Name] FROM IssueNames (NOLOCK) ORDER BY [Name] ');
+            PGetnames.Open;
+            PNissues := 0;
+            Pissuelist.Clear;
+            While not PGetnames.eof do
+            begin
+              Inc(PNissues);
+              SetLength(Pissues, PNissues+1);
+              Pissues[PNissues].ID := PGetnames.Fields[0].AsInteger;
+              Pissues[PNissues].name := PGetnames.Fields[1].AsString;
+              Pissuelist.Add(Pissues[PNissues].name);
+              break;
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+
+          end;
+      3 : Begin  //pressrun
+            //Setlength(Ppressruns,0);
+(*            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT PressRunID,[Name] FROM PressRunNames (NOLOCK) ORDER BY [Name] ');
+            PGetnames.Open;
+            PNpressruns := 0;
+            Ppressrunlist.Clear;
+            While not PGetnames.Eof do
+            begin
+              Inc(PNpressruns);
+              SetLength(Ppressruns, PNpressruns+1);
+              Ppressruns[PNpressruns].ID := PGetnames.Fields[0].AsInteger;
+              Ppressruns[PNpressruns].name := PGetnames.Fields[1].AsString;
+
+              Ppressrunlist.Add(Ppressruns[PNpressruns].name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;   *)
+
+          End;
+      4 : Begin //publication
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT PublicationID,[Name] FROM PublicationNames (NOLOCK) ORDER BY [Name] ');
+            PGetnames.Open;
+            PNpublications := 0;
+            Ppublicationlist.Clear;
+
+            While not PGetnames.eof do
+            begin
+              Inc(PNpublications);
+              SetLength(Ppublications, PNpublications+1);
+
+              Ppublications[PNpublications].ID := PGetnames.Fields[0].AsInteger;
+              Ppublications[PNpublications].name := PGetnames.Fields[1].AsString;
+              Ppublicationlist.Add(Ppublications[PNpublications].name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+
+          End;
+      5 : Begin //section
+            Psectionlist.Clear;
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT SectionID,[Name] FROM SectionNames (NOLOCK) ORDER BY [Name]');
+            PGetnames.Open;
+            PNsections := 0;
+            While not PGetnames.Eof do
+            begin
+              Inc(PNsections);
+              SetLength(Psections, PNsections+1);
+              Psections[PNsections].ID :=  PGetnames.Fields[0].AsInteger;
+              Psections[PNsections].name := PGetnames.Fields[1].AsString;
+              Psectionlist.Add(Psections[PNsections].name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+
+          End;
+      6 : Begin  //pagetemplate
+          End;
+      7 : Begin  //location
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT LocationID,[Name] FROM LocationNames (NOLOCK) ORDER BY [Name]');
+
+            PGetnames.open;
+            PNlocations := 0;
+            Plocationlist.Clear;
+            While not PGetnames.Eof do
+            begin
+              Inc(PNlocations);
+              SetLength(Plocations, PNlocations+1);
+              Plocations[PNlocations].ID := PGetnames.Fields[0].AsInteger;
+              Plocations[PNlocations].name := PGetnames.Fields[1].AsString;
+              Plocationlist.add(Plocations[PNlocations].Name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+
+          End;
+      8 : Begin  //proof
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT ProofID, ProofName FROM ProofConfigurations (NOLOCK) ORDER BY ProofName ');
+            PGetnames.Open;
+            PNproofs := 0;
+            Pprooflist.Clear;
+            While not PGetnames.Eof do
+            begin
+              Inc(PNproofs);
+              SetLength(Pproofs, PNproofs+1);
+              Pproofs[PNproofs].ID := PGetnames.Fields[0].AsInteger;
+              Pproofs[PNproofs].name := PGetnames.Fields[1].AsString;
+              Pprooflist.add(Pproofs[PNproofs].name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+
+          End;
+
+
+      9 : Begin  //productionrun
+
+            (*PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT ProductionID,[Name] FROM ProductionNames (NOLOCK) ORDER BY [Name] ');
+            PGetnames.Open;
+            PNproductionruns := 0;
+            Pproductionrunlist.Clear;
+            While not PGetnames.Eof do
+            begin
+              Inc(PNproductionruns);
+              SetLength(Pproductionruns, PNproductionruns+1);
+              Pproductionruns[PNproductionruns].ID := PGetnames.Fields[0].AsInteger;
+              Pproductionruns[PNproductionruns].Name := PGetnames.Fields[1].AsString;
+
+              Pproductionrunlist.Add(Pproductionruns[PNproductionruns].name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+              *)
+          End;
+      11 : Begin //device
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT DeviceID,DeviceName FROM DeviceConfigurations (NOLOCK) ORDER BY DeviceName ');
+            PGetnames.Open;
+            PNdevices := 0;
+            Pdevicelist.Clear;
+            While not PGetnames.Eof do
+            begin
+              Inc(PNdevices);
+              SetLength(Pdevices, PNdevices+1);
+
+              Pdevices[PNdevices].ID := PGetnames.Fields[0].AsInteger;
+              Pdevices[PNdevices].name := PGetnames.Fields[1].AsString;
+
+              Pdevicelist.Add(Pdevices[PNdevices].Name);
+
+              // Moved from FormMain.LoadIDs
+              // now not used..
+              //devicenames[Pdevices[PNdevices].ID] := Pdevices[PNdevices].name;
+
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+          End;
+      12 : Begin //FlatProofConfiguration
+            PGetnames.Sql.Clear;
+            PGetnames.Sql.Add('SELECT ProofID,ProofName FROM FlatProofConfigurations (NOLOCK) ORDER BY ProofName ');
+            PGetnames.Open;
+            PNFlatProofConfigurations := 0;
+            PFlatProofConfigurationlist.clear;
+
+            While not PGetnames.Eof do
+            begin
+              Inc(PNFlatProofConfigurations);
+              SetLength(PFlatProofConfigurations, PNFlatProofConfigurations+1);
+              PFlatProofConfigurations[PNFlatProofConfigurations].ID := PGetnames.Fields[0].AsInteger;
+              PFlatProofConfigurations[PNFlatProofConfigurations].name := PGetnames.Fields[1].AsString;
+              PFlatProofConfigurationlist.add(PFlatProofConfigurations[PNFlatProofConfigurations].Name);
+              PGetnames.Next;
+            end;
+            PGetnames.Close;
+          End;
+     13 : Begin //Customer
+            PNCustomers := 0;
+            Setlength(PCustomers, 0);
+
+            PNCustomers := 0;
+            PCustomerlist.clear;
+
+            if Customertableok = -1 then
+            begin
+              PGetnames.SQL.Clear;
+              PGetnames.SQL.add('SELECT * FROM dbo.sysobjects');
+              PGetnames.SQL.add('WHERE name = ' + ''''+'Customernames'+'''');
+              PGetnames.open;
+              if PGetnames.eof then
+                Customertableok := 0
+              else
+                Customertableok := 1;
+              PGetnames.close;
+            End;
+
+            if Customertableok = 1 then
+            begin
+
+              PGetnames.sql.Clear;
+              PGetnames.sql.Add('SELECT CustomerID,CustomerName from Customernames (NOLOCK) ORDER BY CustomerName');
+              PGetnames.Open;
+              While not PGetnames.Eof do
+              begin
+                Inc(PNCustomers);
+                SetLength(PCustomers, PNCustomers+1);
+                PCustomers[PNCustomers].ID := PGetnames.Fields[0].AsInteger;
+                PCustomers[PNCustomers].Name := PGetnames.Fields[1].AsString;
+                PCustomerlist.add(PCustomers[PNCustomers].name);
+                PGetnames.Next;
+              end;
+              PGetnames.Close;
+            End;
+
+          End;
+      14  : Begin
+              SetLength(PRipSetups, 0);
+              PNRipSetups := 0;
+              PRipSetupNameList.clear;
+              if RipSetuptableok = -1 then
+              begin
+                PGetnames.SQL.Clear;
+                PGetnames.SQL.add('SELECT * FROM dbo.sysobjects');
+                PGetnames.SQL.add('WHERE Name = ' + ''''+'RipSetupNames'+'''');
+                PGetnames.open;
+                if PGetnames.eof then
+                  RipSetuptableok := 0
+                else
+                  RipSetuptableok := 1;
+                PGetnames.close;
+              End;
+
+              IF RipSetuptableok = 1 then
+              begin
+                PGetnames.Sql.Clear;
+                PGetnames.Sql.Add('SELECT RipSetupID,[Name] FROM RipSetupNames (NOLOCK) ORDER BY [Name]');
+                PGetnames.open;
+                While not PGetnames.Eof do
+                begin
+                  Inc(PNRipSetups);
+                  SetLength(PRipSetups, PNRipSetups+1);
+                  PRipSetups[PNRipSetups].ID := PGetnames.Fields[0].AsInteger;
+                  PRipSetups[PNRipSetups].Name := PGetnames.Fields[1].AsString;
+                  PRipSetupNameList.Add(PRipSetups[PNRipSetups].name);
+                  PGetnames.Next;
+                end;
+                PGetnames.Close;
+              end;
+            end;
+
+
+      100 : begin //color
+              PGetnames.Sql.Clear;
+              PGetnames.Sql.Add('SELECT ColorID,ColorName,ColorOrder FROM ColorNames (NOLOCK) ORDER BY ColorOrder');
+              PGetnames.Open;
+              PNColornames := 0;
+              Pcolornamelist.Clear;
+              While not PGetnames.Eof do
+              begin
+                Inc(PNColornames);
+                SetLength(PColornames, PNColornames+1);
+                PColornames[PNColornames].ID := PGetnames.Fields[0].AsInteger;
+                PColornames[PNColornames].Name := PGetnames.Fields[1].AsString;
+                Pcolornamelist.Add(PColornames[PNColornames].Name);
+                if (PColornames[PNColornames].name = 'PDF') then
+                     PDFCOLORID :=PColornames[PNColornames].ID;
+
+                PGetnames.Next;
+              end;
+              PGetnames.Close;
+            end;
+
+       110 : begin // pressnames
+                PGetnames.Sql.Clear;
+                PGetnames.Sql.Add('SELECT PressID,PressName FROM PressNames (NOLOCK) ORDER BY PressName');
+                PGetnames.Open;
+                PNpressnames := 0;
+                Ppressnamelist.Clear;
+                While not PGetnames.Eof do
+                begin
+                  Inc(PNpressnames);
+                  SetLength(Ppressnames, PNpressnames+1);
+                  Ppressnames[PNpressnames].ID := PGetnames.Fields[0].AsInteger;
+                  Ppressnames[PNpressnames].Name := PGetnames.Fields[1].AsString;
+                  Ppressnamelist.Add(Ppressnames[PNpressnames].name);
+                  PGetnames.Next;
+                end;
+                PGetnames.Close;
+             end;
+
+        120 : begin
+                PGetnames.Sql.Clear;
+                PGetnames.Sql.Add('SELECT PageFormatID,PageFormatName FROM pageformatnames (NOLOCK) ORDER BY PageFormatName');
+                PGetnames.Open;
+                PNpageformats := 0;
+                Ppageformatlist.Clear;
+                While not PGetnames.Eof do
+                begin
+                  Inc(PNpageformats);
+                  SetLength(Ppageformats, PNpageformats+1);
+                  Ppageformats[PNpageformats].ID := PGetnames.Fields[0].AsInteger;
+                  Ppageformats[PNpageformats].Name := PGetnames.Fields[1].AsString;
+                  Ppageformatlist.Add(Ppageformats[PNpageformats].Name);
+                  PGetnames.Next;
+                end;
+                PGetnames.Close;
+              End;
+
+        130 : begin
+              end;
+
+        98 : begin
+                // NAN 20161212
+                // NOTE:  PEvents starts at index 1 (as the rest of tNames elements)
+
+                PGetnames.Sql.Clear;
+                PGetnames.Sql.Add('SELECT EventNumber,EventName FROM EventCodes (NOLOCK) ORDER BY EventNumber');
+                PGetnames.Open;
+                PNEvents := 0;
+                PEventList.Clear;
+                while not PGetnames.Eof do
+                begin
+                  Inc(PNEvents);
+                  Setlength(PEvents, PNEvents+1);
+                  PEvents[PNEvents].ID := PGetnames.Fields[0].AsInteger;
+                  PEvents[PNEvents].Name := PGetnames.Fields[1].AsString;
+                  PGetnames.Next;
+                  PEventList.Add(PEvents[PNEvents].Name);
+                end;
+                PGetnames.Close;
+        end;
+        99 : begin
+
+                // NAN 20161212
+                // NOTE:  FileServerNames starts at index 1 (as the rest of tNames elements)
+
+//                PGetnames.sql.Clear;
+//                PGetnames.sql.add('SELECT COUNT(*) FROM FileServers WITH (NOLOCK)');
+//                PGetnames.open;
+//                Setlength(FileServerNames,PGetnames.Fields[0].AsInteger+1(* * SizeOf(TFileServerType)*));
+//                PGetnames.Close;
+
+                PGetnames.sql.Clear;
+                PGetnames.sql.add('SELECT Name,Servertype,CCDataShare,UserName,Password,IP FROM FileServers WITH (NOLOCK) ORDER BY ServerType');
+                PGetnames.open;
+                NFileServerNames := 0;
+                while not PGetnames.Eof do
+                begin
+                  Inc(NFileServerNames);
+                  Setlength(FileServerNames, NFileServerNames+1);
+                  FileServerNames[NFileServerNames].Name := Trim(PGetnames.Fields[0].AsString);
+                  FileServerNames[NFileServerNames].Servertype := PGetnames.Fields[1].AsInteger;
+                  FileServerNames[NFileServerNames].Share := Trim(PGetnames.Fields[2].AsString);
+                  FileServerNames[NFileServerNames].Username := Trim(PGetnames.Fields[3].AsString);
+                  FileServerNames[NFileServerNames].Password := Trim(PGetnames.Fields[4].AsString);
+                  FileServerNames[NFileServerNames].IP := Trim(PGetnames.Fields[5].AsString);
+
+                  if (FileServerNames[NFileServerNames].IP <> '') then
+                    FileServerNames[NFileServerNames].FullPath :=
+                       '\\'+IncludeTrailingBackSlash(FileServerNames[NFileServerNames].IP)+FileServerNames[NFileServerNames].Share+'\'
+                  else
+                     FileServerNames[NFileServerNames].FullPath :=
+                       '\\'+IncludeTrailingBackSlash(FileServerNames[NFileServerNames].Name)+FileServerNames[NFileServerNames].Share+'\';
+                  FileServerNames[NFileServerNames].AlternativeIP := ''; // Will be set in ActivateData when ini-file is read..
+                  PGetnames.Next;
+                end;
+                PGetnames.Close;
+
+             end;
+    end;
+
+    result := true;
+  Except
+  end;
+end;
+
+Function tNames.LoadnamesSmall:Boolean;
+begin
+   Result := false;
+  Try
+
+    loadalist(1); //editionnames
+
+    loadalist(4); //publicationnames
+
+    loadalist(5); //section
+    result := true;
+  Except
+    result := false;
+  end;
+end;
+
+Function tNames.Loadnames:Boolean;
+Begin
+  Result := false;
+  Try
+
+    loadalist(1); //editionnames
+
+    loadalist(2); //issuenames
+
+    //loadalist(3); //pressrunnames
+
+    loadalist(4); //publicationnames
+
+    loadalist(5); //section
+
+    loadalist(7); //locationnames
+
+    loadalist(8); //proofnames
+
+   // loadalist(9); //production
+
+    loadalist(11); //devicenames
+
+    loadalist(12); //FlatProofConfigurationnames
+
+    loadalist(13); //Customernames
+
+    loadalist(14);  // Ripsetupnames;
+    loadalist(100); // color
+
+    loadalist(110); //pressnames
+
+    loadalist(120); //pageformatnames
+
+    //loadalist(130); //prod_pagetemplatenames
+
+    LoadAList(99);  // FileServers
+
+    LoadAList(98);   // Events
+
+    result := true;
+  Except
+    result := false;
+  end;
+end;
+
+
+procedure Register;
+begin
+  RegisterComponents('INFRA', [tNames]);
+end;
+
+
+Function tNames.ColornameIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pncolornames do
+  begin
+    IF pcolornames[i].ID = id then
+    begin
+      result := pcolornames[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.colornametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pncolornames do
+  begin
+    IF pcolornames[i].name = name then
+    begin
+      result := pcolornames[i].ID;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.pressnameIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnpressnames do
+  begin
+    IF ppressnames[i].ID = id then
+    begin
+      result := ppressnames[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+function TNames.GetFirstPressID : Integer;
+begin
+  result := ppressnames[1].ID;
+end;
+
+
+function TNames.GetFirstPressName : string;
+begin
+  result := ppressnames[1].name;
+end;
+
+
+Function tNames.pressnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnpressnames do
+  begin
+    IF ppressnames[i].name = name then
+    begin
+      result := ppressnames[i].ID;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.editionIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pneditions do
+  begin
+    IF peditions[i].ID = id then
+    begin
+      result := peditions[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.editionnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  name := uppercase(name);
+  For I := 1 to Pneditions do
+  begin
+    IF uppercase(peditions[i].name) = name then
+    begin
+      result := peditions[i].ID;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.ripsetupIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnripsetups do
+  begin
+    IF pripsetups[i].ID = id then
+    begin
+      result := pripsetups[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.ripsetupnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnripsetups do
+  begin
+    IF pripsetups[i].name = name then
+    begin
+      result := pripsetups[i].ID;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.Getcolornames : TStringList;
+Begin
+  result := Pcolornamelist;
+End;
+
+
+Function tNames.Getpressnames : TStringList;
+Begin
+  result := Ppressnamelist;
+End;
+
+
+Function tNames.Geteditionnames : TStringList;
+Begin
+  result := Peditionlist;
+End;
+
+procedure tNames.seteditionnames (const Astrings : TStringList);
+Begin
+  //Peditionlist := Astrings;
+End;
+
+
+Function tNames.Getripsetupnames : TStringList;
+Begin
+  result := Pripsetupnamelist;
+End;
+
+procedure tNames.setripsetupnames (const Astrings : TStringList);
+Begin
+  //Pripsetuplist := Astrings;
+End;
+
+
+procedure tNames.setcolornames (const Astrings : TStringList);
+Begin
+  //Peditionlist := Astrings;
+End;
+procedure tNames.setpressnames (const Astrings : TStringList);
+Begin
+  //Peditionlist := Astrings;
+End;
+
+
+//aaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+
+Function tNames.productionrunIDtoname(id : Integer):String;
+begin
+  result := '';
+  if (id <= 0) then
+    exit;
+  PGetnames.Sql.Clear;
+  PGetnames.Sql.add('SELECT Name FROM ProductionNames WITH (NOLOCK) WHERE ProductionID='+IntToStr(id));
+  PGetnames.Open;
+  if not PGetnames.Eof then
+  begin
+    result := Trim(PGetnames.Fields[0].AsString);
+  end;
+  PGetnames.Close;
+End;
+
+
+Function tNames.productionrunnametoid(name : string):integer;
+Begin
+  result := -1;
+  if (Trim(name) = '') then
+    exit;
+
+  PGetnames.Sql.Clear;
+  PGetnames.Sql.add('SELECT ProductionID FROM ProductionNames WITH (NOLOCK) WHERE Name='''+Trim(name)+'''');
+  PGetnames.Open;
+  if not PGetnames.Eof then
+  begin
+    result := PGetnames.Fields[0].AsInteger;
+  end;
+  PGetnames.Close;
+End;
+
+(*Function tNames.Getproductionrunnames : TStringList;
+Begin
+  result := Pproductionrunlist;
+End;
+procedure tNames.setproductionrunnames (const Astrings : TStringList);
+Begin
+  //Pproductionrunlist := Astrings;
+End;
+ *)
+
+Function tNames.pageformatIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnpageformats do
+  begin
+    IF ppageformats[i].ID = id then
+    begin
+      result := ppageformats[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.pageformatnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnpageformats do
+  begin
+    IF ppageformats[i].name = name then
+    begin
+      result := ppageformats[i].ID;
+      break;
+    end;
+  end;
+End;
+Function tNames.Getpageformatnames : TStringList;
+Begin
+  result := Ppageformatlist;
+End;
+
+procedure tNames.setpageformatnames (const Astrings : TStringList);
+Begin
+  //Ppageformatlist := Astrings;
+End;
+
+Function tNames.proofIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnproofs do
+  begin
+    IF pproofs[i].ID = id then
+    begin
+      result := pproofs[i].name;
+      break;
+    end;
+  end;
+End;
+Function tNames.proofnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnproofs do
+  begin
+    IF pproofs[i].name = name then
+    begin
+      result := pproofs[i].ID;
+      break;
+    end;
+  end;
+End;
+Function tNames.Getproofnames : TStringList;
+Begin
+  result := Pprooflist;
+End;
+
+procedure tNames.setproofnames (const Astrings : TStringList);
+Begin
+  //Pprooflist := Astrings;
+End;
+
+Function tNames.locationIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnlocations do
+  begin
+    IF plocations[i].ID = id then
+    begin
+      result := plocations[i].name;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.locationnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnlocations do
+  begin
+    IF plocations[i].name = name then
+    begin
+      result := plocations[i].ID;
+      break;
+    end;
+  end;
+End;
+Function tNames.Getlocationnames : TStringList;
+Begin
+  result := Plocationlist;
+End;
+
+procedure tNames.setlocationnames (const Astrings : TStringList);
+Begin
+  //Plocationlist := Astrings;
+End;
+
+Function tNames.issueIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnissues do
+  begin
+    IF pissues[i].ID = id then
+    begin
+      result := pissues[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.sectionIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnsections do
+  begin
+    IF psections[i].ID = id then
+    begin
+      result := psections[i].name;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.PublicationIDtoNameReload(ID : Integer):String;
+Begin
+  result := publicationIDtoname(ID);
+  if (result = '') then
+  begin
+    LoadAList(4);
+    result := publicationIDtoname(ID);
+
+  end;
+
+End;
+
+
+Function tNames.PublicationIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnpublications do
+  begin
+    IF ppublications[i].ID = id then
+    begin
+      result := ppublications[i].name;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.CustomerIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to PnCustomers do
+  begin
+    IF pCustomers[i].ID = id then
+    begin
+      result := pCustomers[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.FlatProofConfigurationIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to PnFlatProofConfigurations do
+  begin
+    IF pFlatProofConfigurations[i].ID = id then
+    begin
+      result := pFlatProofConfigurations[i].name;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.deviceIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pndevices do
+  begin
+    IF pdevices[i].ID = id then
+    begin
+      result := pdevices[i].name;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.issuenametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnissues do
+  begin
+    IF pissues[i].name = name then
+    begin
+      result := pissues[i].ID;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.sectionnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  name := uppercase(name);
+  For I := 1 to Pnsections do
+  begin
+    IF uppercase(psections[i].name) = name then
+    begin
+      result := psections[i].ID;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.publicationnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  name := uppercase(name);
+  For I := 1 to Pnpublications do
+  begin
+    IF uppercase(ppublications[i].name) = name then
+    begin
+      result := ppublications[i].ID;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.Customernametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to PnCustomers do
+  begin
+    IF pCustomers[i].name = name then
+    begin
+      result := pCustomers[i].ID;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.FlatProofConfigurationnametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to PnFlatProofConfigurations do
+  begin
+    IF pFlatProofConfigurations[i].name = name then
+    begin
+      result := pFlatProofConfigurations[i].ID;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.devicenametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pndevices do
+  begin
+    IF pdevices[i].name = name then
+    begin
+      result := pdevices[i].ID;
+      break;
+    end;
+  end;
+End;
+
+
+Function tNames.Getissuenames : TStringList;
+Begin
+  result := Pissuelist;
+End;
+
+procedure tNames.setissuenames (const Astrings : TStringList);
+Begin
+  //Pissuelist := Astrings;
+End;
+
+
+Function tNames.Getsectionnames : TStringList;
+Begin
+  result := Psectionlist;
+End;
+
+procedure tNames.setsectionnames (const Astrings : TStringList);
+Begin
+  //Psectionlist := Astrings;
+End;
+
+Function tNames.Getpublicationnames : TStringList;
+Begin
+  result := Ppublicationlist;
+End;
+
+Function tNames.GetCustomernames : TStringList;
+Begin
+  result := PCustomerlist;
+End;
+
+
+Function tNames.GetFlatProofConfigurationnames : TStringList;
+Begin
+  result := PFlatProofConfigurationlist;
+End;
+
+(*
+Function tNames.Getdevicenames : TStringList;
+Begin
+  result := Pdevicelist;
+End;
+*)
+
+procedure tNames.setpublicationnames (const Astrings : TStringList);
+Begin
+  //Ppublicationlist := Astrings;
+End;
+
+procedure tNames.setCustomernames (const Astrings : TStringList);
+Begin
+  //PCustomerlist := Astrings;
+End;
+
+
+procedure tNames.setFlatProofConfigurationnames (const Astrings : TStringList);
+Begin
+  //PFlatProofConfigurationlist := Astrings;
+End;
+
+(*
+procedure tNames.setdevicenames (const Astrings : TStringList);
+Begin
+  //Pdevicelist := Astrings;
+End;
+*)
+
+Function tNames.Addname(Nametype : Integer;
+                        NewName : String):boolean;
+
+procedure addit;
+Begin
+  result := false;
+  try
+    PGetnames.execsql;
+    result := true;
+  except
+
+  end;
+End;
+
+
+Var
+  NextIDnum : Integer;
+
+Begin
+  IF NewName = '' then
+  begin
+    result := false;
+    exit;
+  end;
+  Case Nametype of
+    1 : Begin  //edition
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 editionID From editionnames');
+          PGetnames.sql.add('order by editionID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('editionid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+
+
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Insert editionnames');
+          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+',-1,-1)');
+
+
+          addit;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select Name From editionnames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+        End;
+
+
+    2 : Begin  //issue      //Issue table
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 issueID From issuenames');
+          PGetnames.sql.add('order by issueID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('issueid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+
+          PGetnames.close;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Insert issuenames');
+          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+')');
+          addit;
+
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select Name From issuenames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+
+        end;
+    3 : Begin  //pressrun
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 pressrunID From pressrunnames');
+          PGetnames.sql.add('order by pressrunID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('pressrunid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+
+          PGetnames.close;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Insert pressrunnames');
+          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+')');
+          addit;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select name From pressrunnames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+
+        End;
+    4 : Begin //publication
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 publicationID From publicationnames');
+          PGetnames.sql.add('order by publicationID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('publicationid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+
+          PGetnames.close;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Insert publicationnames (PublicationID,Name)');
+          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+')');
+          addit;
+
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select Name From publicationnames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+
+        End;
+    5 : Begin //section
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 sectionID From sectionnames');
+          PGetnames.sql.add('order by sectionID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('sectionid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+
+          PGetnames.close;
+
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Insert sectionnames');
+          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+')');
+          addit;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select Name From sectionnames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+
+
+        End;
+    6 : Begin  //pagetemplate
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 pagetemplateID From pagetemplatenames');
+          PGetnames.sql.add('order by pagetemplateID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('pagetemplateid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+
+          PGetnames.close;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Insert pagetemplatenames');
+          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+')');
+          addit;
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select Name From pagetemplatenames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+        End;
+    7 : Begin  //location
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select top 1 locationID From locationnames');
+          PGetnames.sql.add('order by locationID DESC');
+          PGetnames.open;
+          IF PGetnames.recordcount > 0 then
+          Begin
+            NextIDnum := PGetnames.fieldbyname('locationid').asinteger+1 ;
+          End
+          else
+            NextIDnum := 1;
+          PGetnames.Close;
+
+          PGetnames.sql.Clear;
+          PGetnames.sql.Add('Insert locationnames');
+          PGetnames.sql.Add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+')');
+          addit;
+
+          PGetnames.sql.Clear;
+          PGetnames.sql.Add('Select Name From locationnames');
+          PGetnames.sql.Add('where name = ' + ''''+NewName +'''');
+          PGetnames.Open;
+          result := PGetnames.RecordCount > 0;
+          PGetnames.Close;
+
+        End;
+    8 : Begin  //proof
+          MessageDlg('proof configurations cannot be entered in production planner', mtInformation,[mbOk], 0);
+
+        End;
+
+
+    9 : Begin  //productionrun
+
+          PGetnames.Sql.Clear;
+          PGetnames.Sql.Add('Select top 1 productionID From productionnames');
+          PGetnames.Sql.Add('order by productionID DESC');
+          PGetnames.Open;
+          IF PGetnames.RecordCount > 0 then
+            NextIDnum := PGetnames.Fields[0].AsInteger+1
+          else
+            NextIDnum := 1;
+          PGetnames.Close;
+
+          PGetnames.sql.Clear;
+//          PGetnames.sql.add('Insert productionnames (productionID,name,plantype)');
+//          PGetnames.sql.add('values ('+inttostr(NextIDnum)+ ','+''''+NewName+''''+',1)');
+
+          PGetnames.sql.add('DECLARE @ProductionID int');
+          PGetnames.sql.add('IF NOT EXISTS (SELECT ProductionID FROM ProductionNames WHERE ProductionID = 1)');
+	        PGetnames.sql.add('  SET @ProductionID = 1');
+          PGetnames.sql.add('ELSE');
+          PGetnames.sql.add('BEGIN');
+          PGetnames.sql.add('	SET @ProductionID = (SELECT MIN(P1.ProductionID+1) FROM ProductionNames AS P1 WHERE NOT EXISTS (SELECT ProductionID FROM ProductionNames AS P2 WHERE P1.ProductionID+1=P2.ProductionID))');
+          PGetnames.sql.add('		IF  @ProductionID IS  NULL');
+          PGetnames.sql.add('			SET @ProductionID=1');
+          PGetnames.sql.add('END');
+          PGetnames.sql.add('INSERT INTO ProductionNames (productionID,name,plantype)');
+          PGetnames.sql.add('values (@ProductionID,'+''''+NewName+''''+',1)');
+
+          addit;
+
+
+          PGetnames.sql.clear;
+          PGetnames.sql.add('Select Name From productionnames');
+          PGetnames.sql.add('where name = ' + ''''+NewName +'''');
+          PGetnames.open;
+
+          result := PGetnames.RecordCount > 0;
+
+          PGetnames.close;
+
+
+        End;
+
+
+  end;
+  loadalist(Nametype);
+End;
+
+
+
+
+Function tNames.pagetemplateIDtoname(ID : Integer):String;
+Var
+  I : Integer;
+Begin
+  result := '';
+  For I := 1 to Pnpagetemplates do
+  begin
+    IF ppagetemplates[i].ID = id then
+    begin
+      result := ppagetemplates[i].name;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.pagetemplatenametoid(name : string):integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to Pnpagetemplates do
+  begin
+    IF ppagetemplates[i].name = name then
+    begin
+      result := ppagetemplates[i].ID;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.Getpagetemplatenames : TStringList;
+Begin
+  result := Ppagetemplatelist;
+End;
+
+procedure tNames.setpagetemplatenames (const Astrings : TStringList);
+Begin
+  //Ppagetemplatelist := Astrings;
+End;
+
+
+Procedure tNames.initializedb(Var ASQLQueryname : TSQLQuery);
+Begin
+  IF PGetnames = nil then
+    PGetnames := ASQLQueryname;
+  PGetnames.Active := false;
+
+
+End;
+
+
+Function tnames.GetorderOftype(nametype : Longint;
+                               NameID   : Longint):Longint;
+
+Function SearchInNameType(Var Anametype : Tnamedatatype;
+                          Anamelength : Integer;
+                          AnameID : Longint):Longint;
+Var
+  I : longint;
+Begin
+  result := 0;
+  For i := 1 to Anamelength do //namedataSize do
+  begin
+    IF Anametype[i].ID = AnameID then
+    begin
+      result := i;
+      break;
+    end;
+  end;
+end;
+
+Begin
+  result := 0;
+  Case nametype OF
+    1 : begin
+          result := SearchInNameType(Peditions,PNeditions, NameID);
+        end;
+    2 : begin
+          result := SearchInNameType(Pissues, PNissues, NameID);
+        end;
+    4 : begin
+          result := SearchInNameType(Ppublications, PNpublications, NameID);
+        end;
+    5 : begin
+          result := SearchInNameType(Psections, PNsections, NameID);
+        end;
+    7 : begin
+          result := SearchInNameType(Plocations, PNlocations, NameID);
+        end;
+    8 : begin
+          result := SearchInNameType(Pproofs, PNproofs, NameID);
+        end;
+   11 : begin
+          result := SearchInNameType(Pdevices, PNdevices, NameID);
+        end;
+   12 : begin
+          result := SearchInNameType(PflatProofConfigurations, PNflatProofConfigurations, NameID);
+        end;
+   13 : begin
+          result := SearchInNameType(Pcustomers, PNcustomers, NameID);
+        end;
+   98 : begin
+          result := SearchInNameType(PEvents, PNEvents, NameID);
+        end;
+  // 99 : begin
+    //      result := SearchInNameType(FileServerNames,NameID);
+      //  end;
+  100 : begin
+          result := SearchInNameType(Pcolornames, PNcolornames, NameID);
+        end;
+  110 : begin
+          result := SearchInNameType(Ppressnames, PNpressnames, NameID);
+        end;
+  120 : begin
+          result := SearchInNameType(Ppageformats, PNpageformats, NameID);
+        end;
+
+
+  end;
+end;
+
+
+Function tNames.eventnumberfromname(name : string):Integer;
+Var
+  I : Integer;
+Begin
+  result := -1;
+  For I := 1 to PNEvents do
+  begin
+    IF PEvents[i].name = name then
+    begin
+      result := PEvents[i].ID;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.eventnamefromnumber(id : Integer):string;
+Var
+  i : Integer;
+Begin
+  result := '';
+  For i := 1 to PNEvents do
+  begin
+    IF PEvents[i].ID = id then
+    begin
+      result := PEvents[i].name;
+      break;
+    end;
+  end;
+End;
+
+Function tNames.GetEventNames : TStringList;
+Begin
+  result := PEventList;
+End;
+
+procedure tNames.SetEventNames (const Astrings : TStringList);
+Begin
+  //PEventList := Astrings;
+End;
+
+
+// NOTE: Will return PlanCenter server if exists
+function tnames.GetMainFileServer : string;
+var
+  i: Integer;
+begin
+  result := GetPlanCenterFileServer;
+  if (result = '') then
+  begin
+    for i := 1 to  NFileServerNames do
+    begin
+         if (FileServerNames[i].Servertype = 1) then
+         begin
+            result :=  FileServerNames[i].Name;
+            break;
+         end;
+
+    end;
+  end;
+end;
+
+function tnames.GetPlanCenterFileServer : string;
+var
+  i: Integer;
+begin
+  result := '';
+  for i := 1 to  NFileServerNames do
+  begin
+       if (FileServerNames[i].Servertype = 11) then
+       begin
+          result :=  FileServerNames[i].Name;
+          break;
+       end;
+
+  end;
+end;
+
+ // NOTE: Will return PlanCenter server if exists
+function tnames.GetMainFileServerShare : string;
+var
+  i: Integer;
+begin
+
+  result := GetPlanCenterFileServerShare;
+  if (result = '') then
+  begin
+    for i := 1 to  NFileServerNames do
+    begin
+         if (FileServerNames[i].Servertype = 1) then
+         begin
+            result :=  FileServerNames[i].FullPath;
+            break;
+         end;
+    end;
+  end;
+end;
+
+function tnames.GetPlanCenterFileServerShare : string;
+var
+  i: Integer;
+begin
+  result := '';
+  for i := 1 to  NFileServerNames do
+  begin
+       if (FileServerNames[i].Servertype = 11) then
+       begin
+          result :=  FileServerNames[i].FullPath;
+          break;
+       end;
+
+  end;
+end;
+
+end.
+

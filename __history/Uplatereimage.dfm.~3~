@@ -1,0 +1,264 @@
+object Formplatereimage: TFormplatereimage
+  Left = 447
+  Top = 267
+  Caption = 'Reimage'
+  ClientHeight = 241
+  ClientWidth = 402
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poMainFormCenter
+  OnActivate = FormActivate
+  TextHeight = 13
+  object Panel3: TPanel
+    Left = 0
+    Top = 0
+    Width = 402
+    Height = 241
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitWidth = 398
+    ExplicitHeight = 240
+    object GroupBox2: TGroupBox
+      Left = 9
+      Top = 9
+      Width = 136
+      Height = 166
+      Caption = 'Plate colors'
+      TabOrder = 1
+      object CheckBox2: TCheckBox
+        Left = 2
+        Top = 126
+        Width = 132
+        Height = 17
+        Align = alTop
+        Caption = 'Select all colors'
+        TabOrder = 0
+        OnClick = CheckBox2Click
+      end
+      object PBExListviewreimage: TPBExListview
+        Left = 2
+        Top = 15
+        Width = 132
+        Height = 111
+        Align = alTop
+        Checkboxes = True
+        Columns = <
+          item
+            AutoSize = True
+            Caption = 'Color'
+          end>
+        ReadOnly = True
+        RowSelect = True
+        SmallImages = FormMain.ImageListdatasmall
+        TabOrder = 1
+        ViewStyle = vsReport
+        OnClick = PBExListviewreimageClick
+        OnMouseDown = PBExListviewreimageMouseDown
+        horzmove = 0
+        horzpos = 0
+        Vertpos = 0
+      end
+    end
+    object Panel1: TPanel
+      Left = 0
+      Top = 192
+      Width = 402
+      Height = 37
+      BevelOuter = bvNone
+      TabOrder = 0
+      object BitBtn1: TBitBtn
+        Left = 23
+        Top = 2
+        Width = 86
+        Height = 25
+        Kind = bkOK
+        NumGlyphs = 2
+        TabOrder = 0
+        OnClick = BitBtn1Click
+      end
+      object BitBtn2: TBitBtn
+        Left = 298
+        Top = 2
+        Width = 76
+        Height = 25
+        Kind = bkCancel
+        NumGlyphs = 2
+        TabOrder = 1
+      end
+      object BitBtn3: TBitBtn
+        Left = 115
+        Top = 2
+        Width = 87
+        Height = 25
+        Caption = '&All copies'
+        Kind = bkAll
+        NumGlyphs = 2
+        TabOrder = 2
+        OnClick = BitBtn3Click
+      end
+      object BitBtn4: TBitBtn
+        Left = 214
+        Top = 2
+        Width = 74
+        Height = 25
+        Cancel = True
+        Caption = 'All errors'
+        Glyph.Data = {
+          36030000424D3603000000000000360000002800000010000000100000000100
+          1800000000000003000000000000000000000000000000000000FFFFFFFFFFFF
+          FFFFFFFCFCFDD0D0E935359A17178C00008000008000007A35359674749EE6E6
+          ECFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFE6868BE00008C00008C00008C00
+          009100008E00008B00008400007F151576DBDBE7FFFFFFFFFFFFFFFFFFFCFCFE
+          6868C70000940404940303990000A30000A30000A300009A03039203038C0000
+          82151581DBDBE5FFFFFFFFFFFF797ACE00009C0505A28D8ED47071D00202AB00
+          00AD0000B00202A87777CC8283CE04049000008B15156CE6E6E8E3E3F61A19B3
+          0000A94949A2EEEEE0FDFDFF6B6CD40101B30101B56F6FC4FCFCF6FCFCF64A4A
+          AB00009700008C747489CACBEC0003AA0000B90303BF696B95F2F2ECFFFFFF63
+          62D67171DCFDFDF4F9F8F37A79AD0303B40000A800009A3535833D3DCB0105B9
+          0004C90003D10303CA70709BF5F6F0FFFFFFFFFFFFFDFDF77F7FB60101C10000
+          C10000B70000A303047E1214C50809CA0808D60507DA0000D60303D1BCBCD8FF
+          FFFFFFFFFFB7B7E80000C90000CA0004CA0002C00001B00307952224D00C0ED5
+          0C0EE9080AE70202DC6968D2FBFBF4FFFFFDFFFFFDFFFFFF6567E10101CF0305
+          D40406CC0104B8060A9A8787EB1418E51B1BF80D0FF96E6FDFFCFCF2FBFAF37F
+          80BE7E80B6F4F3ECFFFFFF6C6EEA0506E2080AD7080AC22124A3D0D1F92022EF
+          2628FF5E5ED3F3F3E7F8F7F07A79B80101E70101E56A699AF1F1E9F7F8F24848
+          DD0C0FE30B0DCB565995FCFDFF5454F63637FF4446F69C9DB47A7AB70607F700
+          01F00001F10506EE6C6D9B8182AE2122F91A1BE9191ACADBDBEAFFFFFFDCDCFF
+          4242FF5557FF6869F86062F94243FF2829FF2325FE3032FF3C3FF73A3BF92F2F
+          FE2021ED8C8DCCFDFDFDFFFFFFFFFFFFDCDCFF4F51FF7071FF8E8DFF9392FF85
+          86FF7877FF6E6EFF5E5FFF4647FF2E30FC8080EBFCFCFEFFFFFFFFFFFFFFFFFF
+          FFFFFFDEDEFF6B6DFF6B6AFF8F8FFF9E9DFF8E8EFF7071FF4F50FF4B4AFAABAC
+          EDFDFDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDFDFFD7D8FF9D9DFF60
+          5EFF5757FF6A6BFFD4D5FFECECFEFFFFFFFFFFFFFFFFFFFFFFFF}
+        ModalResult = 7
+        TabOrder = 3
+        OnClick = BitBtn4Click
+      end
+    end
+    object RadioGroup1: TRadioGroup
+      Left = 245
+      Top = 7
+      Width = 137
+      Height = 114
+      Caption = 'Reason for re-image'
+      TabOrder = 2
+    end
+    object RadioButtonReimageReason1: TRadioButton
+      Left = 250
+      Top = 24
+      Width = 98
+      Height = 15
+      Caption = 'Damaged plate'
+      Checked = True
+      TabOrder = 3
+      TabStop = True
+      OnClick = RadioButtonReimageReason1Clicked
+    end
+    object RadioButtonReimageReason2: TRadioButton
+      Left = 250
+      Top = 43
+      Width = 124
+      Height = 20
+      Caption = 'Page version change'
+      TabOrder = 4
+      OnClick = RadioButtonReimageReason2Clicked
+    end
+    object RadioButtonReimageReason3: TRadioButton
+      Left = 250
+      Top = 65
+      Width = 66
+      Height = 19
+      Caption = 'Other'
+      TabOrder = 5
+      OnClick = RadioButtonReimageReason3Clicked
+    end
+    object CheckBox1: TCheckBox
+      Left = 245
+      Top = 150
+      Width = 139
+      Height = 17
+      Caption = 'Reset device (load bal.)'
+      TabOrder = 6
+      OnClick = CheckBox1Click
+    end
+    object EditReimageReason: TEdit
+      Left = 250
+      Top = 90
+      Width = 118
+      Height = 21
+      TabOrder = 7
+    end
+    object CheckBoxReleaseNow: TCheckBox
+      Left = 245
+      Top = 127
+      Width = 139
+      Height = 17
+      Caption = 'Release now'
+      TabOrder = 8
+      OnClick = CheckBox1Click
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 155
+    Top = 8
+    Width = 84
+    Height = 169
+    Caption = 'Plate copies'
+    TabOrder = 1
+    object Panel2: TPanel
+      Left = 2
+      Top = 125
+      Width = 80
+      Height = 42
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      object Button1: TButton
+        Left = 11
+        Top = 11
+        Width = 58
+        Height = 25
+        Caption = 'Set all'
+        TabOrder = 0
+        Visible = False
+        OnClick = Button1Click
+      end
+      object EditNcopies: TEdit
+        Left = 16
+        Top = 75
+        Width = 33
+        Height = 21
+        TabOrder = 1
+        Text = '1'
+        Visible = False
+        OnChange = EditNcopiesChange
+      end
+      object UpDown1: TUpDown
+        Left = 49
+        Top = 75
+        Width = 16
+        Height = 21
+        Associate = EditNcopies
+        Min = 1
+        Max = 30
+        Position = 1
+        TabOrder = 2
+        Visible = False
+      end
+    end
+    object CheckListBoxCopies: TCheckListBox
+      Left = 3
+      Top = 15
+      Width = 79
+      Height = 107
+      ItemHeight = 17
+      TabOrder = 0
+      OnClickCheck = CheckListBoxCopiesClickCheck
+    end
+  end
+end

@@ -1,0 +1,446 @@
+unit UActionconfig;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, ActnList,
+  ActnMan, Buttons, Menus, UImages;
+
+type
+  TFormActionconfig = class(TForm)
+    Panel3: TPanel;
+    Image3: TImage;
+    Label8: TLabel;
+    Label10: TLabel;
+    TreeViewactions: TTreeView;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    BitBtnsetall: TBitBtn;
+    ListBox1: TListBox;
+    Button1: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtnsetallClick(Sender: TObject);
+    procedure TreeViewactionsClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure TreeViewactionsMouseDown(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    Initing : Boolean;
+    aktsel : ttreenode;
+  public
+    { Public declarations }
+    procedure saveactionconfig;
+    procedure init;
+    procedure LoadUseractions(userFile: string; userFile2: string);
+    procedure applyactionEnable;
+
+  end;
+  Tactdatype = Record
+                 name : String;
+               End;
+var
+  FormActionconfig: TFormActionconfig;
+
+implementation
+
+{$R *.dfm}
+Uses
+  umain, UPrev2, Udata,inifiles, USaveuseract, Ulogin, Usettings, UUtils;
+
+procedure TFormActionconfig.init;
+
+Function catok(name : String):Boolean;
+Begin
+  result := True;
+
+  name := Uppercase(name);
+  IF name = 'DEBUG TOOLS' then
+    result := false;
+
+  IF name = 'ONOFKNAPPER' then
+    result := false;
+
+  IF name = 'PAGES SELECT' then
+    result := false;
+  IF name = 'PLATE FILTER' then
+    result := false;
+  IF name = 'SYSTEM' then
+    result := false;
+
+End;
+
+
+Var
+  catnode,node : ttreenode;
+  I : longint;
+  actcat : String;
+
+  icat,Ncats : Longint;
+  Cats : Array[1..100] of string;
+  Found : boolean;
+
+//  ini : Tinifile;
+  P : ^Tactdatype;
+
+begin
+  actcat := '';
+  Initing := true;
+
+  For i := 0 to formmain.ActionManager1.ActionCount -1 do
+  begin
+    found := false;
+    for icat := 1 to ncats do
+    begin
+      if cats[icat] = formmain.ActionManager1.Actions[i].Category then
+      begin
+        found := true;
+        break;
+      end;
+    end;
+
+    if (not found) AND (catok(formmain.ActionManager1.Actions[i].Category)) then
+    begin
+      Inc(ncats);
+      cats[ncats] := formmain.ActionManager1.Actions[i].Category;
+    end;
+  end;
+
+  actcat := '';
+
+  ListBox1.Items.clear;
+  For i := 1 to ncats do
+    ListBox1.Items.add(cats[i]);
+
+  ListBox1.refresh;
+  For i := 1 to ncats do
+    cats[i] := ListBox1.Items[i-1];
+
+
+
+
+  For icat := 1 to ncats do
+  begin
+    catnode := TreeViewactions.items.addchildobject(nil,cats[icat],nil);
+    catnode.ImageIndex := 205;
+    catnode.SelectedIndex := 205;
+    catnode.StateIndex := -1;
+    For i := 0 to formmain.ActionManager1.ActionCount -1 do
+    begin
+      IF cats[icat] = formmain.ActionManager1.Actions[i].Category then
+      begin
+        IF (TAction(formmain.ActionManager1.Actions[i]).ImageIndex <> 39) then
+        begin
+          new(p);
+          Tactdatype(p^).Name := formmain.ActionManager1.Actions[i].Name;
+
+          node := TreeViewactions.items.addchildobject(catnode,TAction(formmain.ActionManager1.Actions[i]).Caption,p);
+          node.ImageIndex := TAction(formmain.ActionManager1.Actions[i]).ImageIndex;
+          node.SelectedIndex := TAction(formmain.ActionManager1.Actions[i]).ImageIndex;
+          node.StateIndex := 1;
+        End;
+      End;
+    end;
+  End;
+
+  catnode := TreeViewactions.items.addchildobject(nil,'Preview Window',nil);
+  catnode.ImageIndex := 205;
+  catnode.SelectedIndex := 205;
+  catnode.StateIndex := -1;
+
+  For i := 0 to Formprev2.ActionManagerpev.ActionCount -1 do
+  begin
+    IF 'Preview' = Formprev2.ActionManagerpev.Actions[i].Category then
+    begin
+      new(p);
+      Tactdatype(p^).Name := Formprev2.ActionManagerpev.Actions[i].Name;
+      node := TreeViewactions.items.addchildobject(catnode,TAction(Formprev2.ActionManagerpev.Actions[i]).Caption,p);
+      node.ImageIndex := TAction(Formprev2.ActionManagerpev.Actions[i]).ImageIndex;
+      node.SelectedIndex := TAction(Formprev2.ActionManagerpev.Actions[i]).ImageIndex;
+      node.StateIndex := 1;
+    End;
+  End;
+  Initing := false;
+
+End;
+
+
+procedure TFormActionconfig.saveactionconfig;
+Begin
+
+end;
+
+
+procedure TFormActionconfig.FormCreate(Sender: TObject);
+begin
+  Initing := false;
+end;
+
+procedure TFormActionconfig.BitBtn2Click(Sender: TObject);
+begin
+  Formsaveandloaduseract.loading := false;
+  Formsaveandloaduseract.showmodal;
+end;
+
+procedure TFormActionconfig.BitBtn3Click(Sender: TObject);
+Begin
+  Formsaveandloaduseract.loading := true;
+  Formsaveandloaduseract.showmodal;
+end;
+
+procedure TFormActionconfig.BitBtnsetallClick(Sender: TObject);
+Var
+  I : longint;
+begin
+  For i := 0 to TreeViewactions.items.Count-1 do
+  begin
+    IF TreeViewactions.items[i].Level = 1 then
+    begin
+      TreeViewactions.items[i].StateIndex := 1;
+    End;
+
+  End;
+end;
+
+procedure TFormActionconfig.TreeViewactionsClick(Sender: TObject);
+begin
+(*  IF TreeViewactions.Selected <> nil then
+  begin
+    Case TreeViewactions.Selected.Level of
+      1 : begin
+            IF TreeViewactions.Selected.StateIndex = 1 then
+              TreeViewactions.Selected.StateIndex := 2
+            else
+              TreeViewactions.Selected.StateIndex := 1;
+          end;
+    end;
+  end;
+  *)
+end;
+
+procedure TFormActionconfig.FormActivate(Sender: TObject);
+begin
+  aktsel := nil;
+end;
+
+procedure TFormActionconfig.TreeViewactionsMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+Var
+  n : ttreenode;
+//  setem : Longint;
+  I : longint;
+  r : trect;
+  ntodesel : Longint;
+  todesel : Array[1..200] of longint;
+  Setit : Boolean;
+begin
+  IF (not (ssShift IN Shift)) and (not (ssCtrl	 IN Shift))then
+  begin
+    n := TreeViewactions.GetNodeAt(x,y);
+    r := n.DisplayRect(true);
+
+    IF n <> nil then
+    begin
+      if n.level > 0 then
+      begin
+        setit := ((r.Left > x+16) and (x > r.Left-32));
+        if (TreeViewactions.SelectionCount > 1) And (Not setit) then
+        begin
+          ntodesel := 0;
+          for i := 0 to TreeViewactions.SelectionCount -1 do
+          begin
+            Inc(ntodesel);
+            todesel[ntodesel] := TreeViewactions.Selections[i].Index;
+          End;
+          for i := 1 to ntodesel do
+          begin
+            TreeViewactions.Deselect(TreeViewactions.items[i]);
+          end;
+          TreeViewactions.Select(n,Shift);
+        end;
+
+        IF (Button = mbleft) and (setit) then
+        begin
+          For i := 0 to TreeViewactions.items.Count-1 do
+          begin
+            IF (TreeViewactions.items[i].Level = 1) And (TreeViewactions.items[i].Selected) then
+            begin
+              IF TreeViewactions.items[i].StateIndex = 1 then
+                TreeViewactions.items[i].StateIndex := 2
+              else
+                TreeViewactions.items[i].StateIndex := 1;
+
+
+            End;
+          End;
+        End;
+      End;
+    End;
+  End;
+end;
+
+procedure TFormActionconfig.LoadUseractions(userFile: string; userFile2: string);
+Var
+  ini : Tinifile;
+  I : longint;
+//  x : longint;
+  t : String;
+  inipath : string;
+Begin
+
+  For i := 0 to TreeViewactions.items.Count-1 do
+  begin
+    IF TreeViewactions.items[i].Level = 1 then
+    begin
+      TreeViewactions.items[i].StateIndex := 1;
+    End;
+
+  End;
+
+
+  if (Prefs.Proversion = 2) then
+  begin
+
+    ini := Tinifile.create(extractfilepath(application.ExeName)+'PLCPro.Act'); // OK!
+    For i := 0 to FormActionconfig.TreeViewactions.items.Count-1 do
+    begin
+      IF (FormActionconfig.TreeViewactions.items[i].Level = 1) then
+      begin
+        FormActionconfig.TreeViewactions.items[i].StateIndex := Ini.ReadInteger(FormActionconfig.TreeViewactions.items[i].Parent.Text,Tactdatype(FormActionconfig.TreeViewactions.items[i].data^).name,1);
+      end;
+    end;
+    ini.Free;
+
+  end
+  else
+  begin
+    if not formlogin.ISadministrator then
+    begin
+      T := includetrailingbackslash(MainCCConfig) + userFile + '.Act';
+      if FileExists(t, false) = false then
+        T := includetrailingbackslash(MainCCConfig) + userFile2 + '.Act';
+
+      inipath :=  includetrailingbackslash(TUtils.GetCommonAppDirectory())+'tempactions.ini';
+      IF copyfile(pchar(T),pchar(inipath),false) then
+      begin
+        ini := Tinifile.create(inipath);
+        For i := 0 to FormActionconfig.TreeViewactions.items.Count-1 do
+        begin
+          IF (FormActionconfig.TreeViewactions.items[i].Level = 1) then
+          begin
+            FormActionconfig.TreeViewactions.items[i].StateIndex := Ini.ReadInteger(FormActionconfig.TreeViewactions.items[i].Parent.Text,Tactdatype(FormActionconfig.TreeViewactions.items[i].data^).name,1);
+          end;
+        end;
+        ini.Free;
+      End;
+    End;
+  End;
+end;
+
+procedure TFormActionconfig.applyactionEnable;
+Var
+  pract : boolean;
+  I,i2 : longint;
+//  t : string;
+begin
+  pract := false;
+  For i := 0 to FormActionconfig.TreeViewactions.items.Count-1 do
+  begin
+    IF FormActionconfig.TreeViewactions.items[i].Level = 0 then
+    begin
+      if FormActionconfig.TreeViewactions.items[i].Text = 'Preview Window' then
+        pract := true;
+    end
+    Else
+    Begin
+      IF pract then
+      begin
+        For i2 := 0 to Formprev2.ActionManagerpev.ActionCount -1 do
+        Begin
+          IF Tactdatype(FormActionconfig.TreeViewactions.items[i].data^).Name = Formprev2.ActionManagerpev.Actions[i2].Name then
+          begin
+            if (Prefs.proversion = 2) then
+            begin
+              IF FormActionconfig.TreeViewactions.items[i].stateindex = 2 then
+              begin
+                TAction(Formprev2.ActionManagerpev.Actions[i2]).Enabled := false;
+                TAction(Formprev2.ActionManagerpev.Actions[i2]).Visible := false;
+              end;
+            end
+            else
+            begin
+
+              IF FormActionconfig.TreeViewactions.items[i].stateindex = 2 then
+               begin
+                TAction(Formprev2.ActionManagerpev.Actions[i2]).Enabled := false;
+                TAction(Formprev2.ActionManagerpev.Actions[i2]).Visible := false;
+              end;
+            end;
+            break;
+          end;
+        end;
+      end
+      else
+      begin
+        For i2 := 0 to formmain.ActionManager1.ActionCount -1 do
+        Begin
+          IF (Tactdatype(FormActionconfig.TreeViewactions.items[i].data^).Name = formmain.ActionManager1.Actions[i2].Name) and
+             (FormActionconfig.TreeViewactions.items[i].parent.text = formmain.ActionManager1.Actions[i2].Category)  then
+          begin
+            if (Prefs.Proversion = 2) then
+            begin
+              IF FormActionconfig.TreeViewactions.items[i].StateIndex = 2 then
+              begin
+                TAction(formmain.ActionManager1.Actions[i2]).Enabled := false;
+                TAction(formmain.ActionManager1.Actions[i2]).Visible := false;
+              end;
+            end
+            else
+            begin
+              IF FormActionconfig.TreeViewactions.items[i].StateIndex = 2 then
+              Begin
+                TAction(formmain.ActionManager1.Actions[i2]).Enabled := false;
+                TAction(formmain.ActionManager1.Actions[i2]).Visible := false;
+              End;
+            end;
+
+
+
+            break;
+          end;
+        end;
+      end;
+    End;
+  End;
+
+end;
+
+procedure TFormActionconfig.BitBtn1Click(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TFormActionconfig.Button1Click(Sender: TObject);
+Var
+  T : String;
+  I : longint;
+begin
+  For i := 0 to TreeViewactions.items.Count-1 do
+  begin
+    IF TreeViewactions.items[i].Level = 1 then
+    begin
+      T := Uppercase(TreeViewactions.items[i].Text);
+      IF (POS('REFRE',T) < 1) AND (TreeViewactions.items[i].ImageIndex <> 39) then
+        TreeViewactions.items[i].StateIndex := 2;
+    End;
+
+  End;
+end;
+
+end.

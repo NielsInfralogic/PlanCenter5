@@ -1,0 +1,160 @@
+object Formdelplan: TFormdelplan
+  Left = 521
+  Top = 442
+  BorderStyle = bsDialog
+  Caption = 'Delete press plans'
+  ClientHeight = 401
+  ClientWidth = 576
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OnActivate = FormActivate
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 360
+    Width = 576
+    Height = 41
+    Align = alBottom
+    TabOrder = 0
+    ExplicitTop = 359
+    ExplicitWidth = 572
+    object BitBtn1: TBitBtn
+      Left = 204
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = 'Delete'
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000000000000000000000000000000000000FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF000000000000000000FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF000000000000000000FF00FF00848484000000000000000000FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF0000000000FF00FF00C6C6C600FF00FF00C6C6C600C6C6C600848484000000
+        000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF0000000000C6C6C600FF00FF00FF00FF00C6C6C600C6C6C600C6C6C600C6C6
+        C6008484840000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF0000000000FF00FF00C6C6C600FF00FF00C6C6C6000084000000840000C6C6
+        C600C6C6C60000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF0000000000C6C6C600FF00FF00FF00FF00C6C6C60000840000C6C6C6000084
+        0000C6C6C60000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000
+        0000C6C6C600FF00FF00C6C6C600FF00FF00C6C6C60084848400C6C6C6000084
+        0000C6C6C60000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF000000
+        0000FF00FF00C6C6C600FF00FF00FF00FF00C6C6C600C6C6C600008400000084
+        0000C6C6C6008484840000000000FF00FF00FF00FF00FF00FF00FF00FF000000
+        0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00C6C6C600C6C6
+        C600C6C6C600C6C6C60000000000FF00FF00FF00FF00FF00FF00FF00FF000000
+        0000C6C6C600FF00FF0084848400848484008484840084848400FF00FF00FF00
+        FF00C6C6C600C6C6C60000000000FF00FF00FF00FF00FF00FF00FF00FF000000
+        0000C6C6C60084848400FF00FF00FF00FF00FF00FF00FF00FF00848484008484
+        8400FF00FF00C6C6C60000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF000000000084848400FF00FF00FF00FF00FF00FF0084848400FF00FF00FF00
+        FF0084848400FF00FF0000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF0000000000FF00FF00FF00FF0000000000FF00FF00FF00FF00C6C6
+        C600C6C6C6000000000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF000000000000000000FF00FF0000000000000000000000
+        000000000000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+      TabOrder = 0
+      OnClick = BitBtn1Click
+    end
+    object BitBtn2: TBitBtn
+      Left = 489
+      Top = 8
+      Width = 75
+      Height = 25
+      Kind = bkClose
+      NumGlyphs = 2
+      TabOrder = 1
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 49
+    Width = 576
+    Height = 311
+    Align = alClient
+    Caption = 'Plans'
+    TabOrder = 1
+    ExplicitWidth = 572
+    ExplicitHeight = 310
+    object Splitter1: TSplitter
+      Left = 281
+      Top = 15
+      Height = 294
+    end
+    object ListBoxpresstemplatename: TListBox
+      Left = 2
+      Top = 15
+      Width = 279
+      Height = 294
+      Align = alLeft
+      ItemHeight = 13
+      MultiSelect = True
+      TabOrder = 0
+      OnClick = ListBoxpresstemplatenameClick
+      ExplicitHeight = 293
+    end
+    object PBExListview1: TPBExListview
+      Left = 284
+      Top = 15
+      Width = 290
+      Height = 294
+      Align = alClient
+      Columns = <
+        item
+          Caption = 'Publication'
+          Width = 68
+        end
+        item
+          Caption = 'Editions'
+          Width = 68
+        end
+        item
+          Caption = 'Sections'
+          Width = 68
+        end
+        item
+          Caption = 'Pages'
+          Width = 68
+        end>
+      GridLines = True
+      ReadOnly = True
+      RowSelect = True
+      TabOrder = 1
+      ViewStyle = vsReport
+      horzmove = 0
+      horzpos = 0
+      Vertpos = 0
+      ExplicitWidth = 286
+      ExplicitHeight = 293
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 576
+    Height = 49
+    Align = alTop
+    Caption = 'Press'
+    TabOrder = 2
+    ExplicitWidth = 572
+    object ComboBoxpress: TComboBox
+      Left = 8
+      Top = 16
+      Width = 277
+      Height = 21
+      Style = csDropDownList
+      TabOrder = 0
+      OnChange = ComboBoxpressChange
+    end
+  end
+end

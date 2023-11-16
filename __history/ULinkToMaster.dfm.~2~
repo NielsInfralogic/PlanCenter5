@@ -1,0 +1,122 @@
+object FormLinkToMaster: TFormLinkToMaster
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  Caption = 'Link to masterpage (make forced/common)'
+  ClientHeight = 264
+  ClientWidth = 560
+  Color = clBtnFace
+  ParentFont = True
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  DesignSize = (
+    560
+    264)
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 37
+    Width = 168
+    Height = 13
+    Caption = 'Select unique masterpage to link to'
+  end
+  object Label2: TLabel
+    Left = 8
+    Top = 12
+    Width = 68
+    Height = 13
+    Caption = 'Selected page'
+  end
+  object Label3: TLabel
+    Left = 24
+    Top = 238
+    Width = 113
+    Height = 15
+    Caption = '(When same RIP press)'
+  end
+  object BitBtnCancel: TBitBtn
+    Left = 289
+    Top = 226
+    Width = 74
+    Height = 25
+    Anchors = [akLeft, akBottom]
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 0
+  end
+  object BitBtnOK: TBitBtn
+    Left = 208
+    Top = 226
+    Width = 75
+    Height = 25
+    Anchors = [akLeft, akBottom]
+    Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 1
+    OnClick = BitBtnOKClick
+  end
+  object ListView1: TListView
+    Left = 8
+    Top = 56
+    Width = 544
+    Height = 153
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Columns = <
+      item
+        AutoSize = True
+        Caption = 'RipPress'
+      end
+      item
+        AutoSize = True
+        Caption = 'Press'
+      end
+      item
+        AutoSize = True
+        Caption = 'Edition'
+      end
+      item
+        AutoSize = True
+        Caption = 'Section'
+      end
+      item
+        AutoSize = True
+        Caption = 'Page'
+      end
+      item
+        AutoSize = True
+        Caption = 'PDFMaster'
+      end
+      item
+        AutoSize = True
+        Caption = 'MasterCopySeparationSet'
+      end
+      item
+      end>
+    GridLines = True
+    MultiSelect = True
+    ReadOnly = True
+    RowSelect = True
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    ViewStyle = vsReport
+  end
+  object EditSelectedPage: TEdit
+    Left = 82
+    Top = 9
+    Width = 470
+    Height = 21
+    ReadOnly = True
+    TabOrder = 3
+    Text = 'EditSelectedPage'
+  end
+  object CheckBoxSetCommon: TCheckBox
+    Left = 8
+    Top = 215
+    Width = 178
+    Height = 27
+    Caption = 'Set as Common page'
+    TabOrder = 4
+  end
+end

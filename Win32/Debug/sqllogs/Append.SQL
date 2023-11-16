@@ -1,0 +1,5 @@
+DECLARE @resultat int
+exec @resultat = spPlancenterInputeditorialsep3  @pubdate = '2017-11-01' , @IssueID = 1,@PublicationID = 4, @EditionID = 1, @SectionID = 1,@LocationID = 1,@PageName = '18',@ColorID = 4,@DefaultCopies =1,@ApprovalRequired =0,@HoldIncoming =1,@DefaultTemplateID = 2,@DefaultProofID = 1,@DefaultPriority = 50,@FileName = 'filename',@ColorINDX = 4,@CurCopySeparationSep = :CurCopySeparationSep,@Pagination = 18, @ProductionID = 28, @PressrunID = 54, @Presssectionnumber = 1, @Pressid = 1,@Pagetype =0,@stackpos = '', @tower = '', @Cylinder = '', @Zone = '', @Highlow = '',@Sheetnumber = 5,@Sheetside = 1, @Uniquepage = 1, @PageIndex = 18, @Pagepositions = '2'
+, @FlatProofConfigurationID = 9, @HardProofConfigurationID = 1, @GutterImage = 0, @OutputPriority = 0, @CustomerID = 0, @PressTime = :PressTime, @Miscint1 = 0, @Miscint2 = 0, @Miscint3 = 0, @Miscint4 = 0, @Miscstring1 = '10', @Miscstring2 = '', @Miscstring3 = '', @Miscdate = :Miscdate
+, @PageFormatID = 0, @RipSetupID = 197121, @FanoutID = 0, @PageCategoryID = 0
+select 'resultatet' = @resultat

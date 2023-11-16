@@ -1,0 +1,87 @@
+unit USelectfolder;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Menus, ComCtrls, ShellCtrls, StdCtrls, Buttons, ActnList,
+  XPStyleActnCtrls, ActnMan, ExtCtrls, System.Actions;
+
+type
+  TFormSelectfolder = class(TForm)
+    PopupMenu1: TPopupMenu;
+    ActionManager1: TActionManager;
+    ActionNewfolder: TAction;
+    Newfolder1: TMenuItem;
+    Actionrefresh: TAction;
+    Refresh1: TMenuItem;
+    Panel1: TPanel;
+    BitBtn2: TBitBtn;
+    BitBtn1: TBitBtn;
+    procedure ActionNewfolderExecute(Sender: TObject);
+    procedure ActionrefreshExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FormSelectfolder: TFormSelectfolder;
+
+implementation
+{$R *.dfm}
+
+procedure TFormSelectfolder.ActionNewfolderExecute(Sender: TObject);
+Var
+  foldercreated : boolean;
+  newtext,newfoldername : String;
+  newtextI : Integer;
+  n : ttreenode;
+begin
+  {newtextI := 0;
+
+  newtext := '';
+  foldercreated := false;
+  newfoldername := ShellTreeView1.SelectedFolder.PathName+'\New Folder'+newtext;
+  While not foldercreated do
+  begin
+    foldercreated := createdir(newfoldername);
+    IF not foldercreated then
+    begin
+      inc(newtextI);
+      newtext := '('+inttostr(newtextI)+')';
+      newfoldername := ShellTreeView1.SelectedFolder.PathName+'\New Folder'+newtext;
+    end;
+  end;
+
+  ShellTreeView1.Refresh(ShellTreeView1.Selected);
+  n := ShellTreeView1.Selected.getFirstChild;
+  While (n <> nil) and (n.Text <> extractfilename(newfoldername)) do
+    n := n.getNextSibling;
+
+  ShellTreeView1.Selected := n;
+           }
+end;
+
+procedure TFormSelectfolder.ActionrefreshExecute(Sender: TObject);
+begin
+ // IF ShellTreeView1.Selected <> nil then
+ //   ShellTreeView1.Refresh(ShellTreeView1.Selected);
+end;
+
+procedure TFormSelectfolder.FormActivate(Sender: TObject);
+begin
+ { try
+    IF ShellTreeView1.Selected = nil then
+      ShellTreeView1.Selected := ShellTreeView1.Items.GetFirstNode;
+
+
+    ShellTreeView1.Selected.MakeVisible;
+    ShellTreeView1.SetFocus;
+  except
+  end;   }
+end;
+
+end.

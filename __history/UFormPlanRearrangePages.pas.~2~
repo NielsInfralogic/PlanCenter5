@@ -1,0 +1,93 @@
+unit UFormPlanRearrangePages;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons;
+
+type
+  TPlanRearrangePages = class(TForm)
+    ListBoxOriginalPages: TListBox;
+    Label1: TLabel;
+    ListBoxNewPages: TListBox;
+    Label2: TLabel;
+    Label3: TLabel;
+    BitBtnCancel: TBitBtn;
+    BitBtnOK: TBitBtn;
+    procedure BitBtnOKClick(Sender: TObject);
+    procedure ListBoxNewPagesDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure ListBoxNewPagesStartDrag(Sender: TObject; var DragObject: TDragObject);
+  private
+    { Private declarations }
+    IdragOrder : Integer;
+  public
+    { Public declarations }
+    Pages : Array[1..256] of String;
+    NumberOfPages : Integer;
+
+    procedure Initialize();
+  end;
+
+var
+  PlanRearrangePages: TPlanRearrangePages;
+
+implementation
+
+{$R *.dfm}
+
+procedure TPlanRearrangePages.BitBtnOKClick(Sender: TObject);
+var
+  i : Integer;
+begin
+  for i := 0 to  NumberOfPages do
+  begin
+    Pages[i] := ListBoxNewPages.Items[i];
+  end;
+
+end;
+
+procedure TPlanRearrangePages.Initialize();
+var
+  i : Integer;
+begin
+  ListBoxOriginalPages.Items.Clear();
+  ListBoxNewPages.Items.Clear();
+  for i := 0 to NumberOfPages do
+  begin
+       ListBoxOriginalPages.Items.Add(Pages[i]);
+       ListBoxNewPages.Items.Add(Pages[i]);
+  end;
+
+end;
+
+procedure TPlanRearrangePages.ListBoxNewPagesDragDrop(Sender, Source: TObject;
+        X, Y: Integer);
+var
+  Newidx : Integer;
+  Apoint : Tpoint;
+  Movestr : string;
+  movecheck : boolean;
+begin
+  if Source <> ListBoxNewPages then
+    exit;
+
+  Apoint.X := x;
+  Apoint.Y := Y;
+  Newidx := ListBoxNewPages.ItemAtPos(Apoint,true);
+  if newidx <> IdragOrder then
+  begin
+   Movestr := ListBoxNewPages.Items[Idragorder];
+   ListBoxNewPages.Items.Delete(Idragorder);
+   ListBoxNewPages.Items.Insert(newidx, Movestr);
+  end;
+
+end;
+
+procedure TPlanRearrangePages.ListBoxNewPagesStartDrag(Sender: TObject;
+  var DragObject: TDragObject);
+begin
+  IdragOrder := ListBoxNewPages.ItemIndex;
+end;
+
+end.

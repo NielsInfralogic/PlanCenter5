@@ -1,0 +1,86 @@
+object FormReimageReason: TFormReimageReason
+  Left = 670
+  Top = 428
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'Re-image reason'
+  ClientHeight = 226
+  ClientWidth = 261
+  Color = clBtnFace
+  ParentFont = True
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnActivate = FormActivate
+  PixelsPerInch = 120
+  TextHeight = 13
+  object BitBtn1: TBitBtn
+    Left = 17
+    Top = 186
+    Width = 104
+    Height = 31
+    Kind = bkOK
+    NumGlyphs = 2
+    TabOrder = 0
+  end
+  object BitBtn2: TBitBtn
+    Left = 136
+    Top = 186
+    Width = 104
+    Height = 31
+    Kind = bkCancel
+    NumGlyphs = 2
+    TabOrder = 1
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 17
+    Top = 8
+    Width = 224
+    Height = 161
+    Caption = 'Reason for re-image'
+    TabOrder = 2
+  end
+  object RadioButtonReimageReason2: TRadioButton
+    Left = 32
+    Top = 53
+    Width = 153
+    Height = 17
+    Caption = 'Page version change'
+    TabOrder = 3
+    OnClick = RadioButtonReimageReason2Click
+  end
+  object RadioButtonReimageReason1: TRadioButton
+    Left = 32
+    Top = 29
+    Width = 121
+    Height = 17
+    Caption = 'Damaged plate'
+    Checked = True
+    TabOrder = 4
+    TabStop = True
+    OnClick = RadioButtonReimageReason1Click
+  end
+  object RadioButtonReimageReason3: TRadioButton
+    Left = 32
+    Top = 77
+    Width = 81
+    Height = 17
+    Caption = 'Other'
+    TabOrder = 5
+    OnClick = RadioButtonReimageReason3Click
+  end
+  object EditReimageReason: TEdit
+    Left = 32
+    Top = 104
+    Width = 193
+    Height = 21
+    TabOrder = 6
+  end
+  object CheckBoxReleaseNow: TCheckBox
+    Left = 32
+    Top = 136
+    Width = 145
+    Height = 25
+    Caption = 'Release now'
+    TabOrder = 7
+  end
+end

@@ -1,0 +1,1391 @@
+[Infralogic translationfile]
+Language=Default
+Application=PlanCenter
+[Translation]
+PlanCenter=PlanCenter
+Pages=Pages
+Thumbnails=Thumbnails
+Plates=Plates
+Production=Production
+Editions=Editions
+Planning=Planning
+Log=Log
+Report=Report
+Device management=Device management
+Refresh=Refresh
+Select separation=Select separation
+All copies=All copies
+Auto refresh=Auto refresh
+-=-
+Approve=Approve
+Disapprove=Disapprove
+Hold=Hold
+Release=Release
+Device=Device
+Reimage=Reimage
+Priority=Priority
+Advanced=Advanced
+Refresh filter=Refresh filter
+Filter=Filter
+Status=Status
+Approval=Approval
+Inactive colors=Inactive colors
+Location=Location
+Show=Show
+Not approved=Not approved
+Read order=Read order
+Show only unique pages=Show only unique pages
+Next not approved=Next not approved
+Next disapproved=Next disapproved
+Preview=Preview
+Edit colors=Edit colors
+Re proof=Re proof
+Change proofer=Change proofer
+Thumbnailstuf=Thumbnailstuf
+Only plates that are ready=Only plates that are ready
+Pagename=Pagename
+Color=Color
+Layout=Layout
+Active=Active
+Tower=Tower
+Zone=Zone
+Cylinder=Cylinder
+High/low=High/low
+Stackposition=Stackposition
+Press=Press
+Run=Run
+Flatseparation=Flatseparation
+Small images=Small images
+Ink preview=Ink preview
+Hide common=Hide common
+Produce common plate=Produce common plate
+Marks=Marks
+Add copy=Add copy
+Output=Output
+Progress=Progress
+Input=Input
+Number of pages approved=Number of pages approved
+Number of pages ready=Number of pages ready
+Total number of pages=Total number of pages
+Total number of unique pages=Total number of unique pages
+Number of plates ready=Number of plates ready
+Number of plates imaged=Number of plates imaged
+Total number of plates=Total number of plates
+Force common pages=Force common pages
+Delete old=Delete old
+Remove copy=Remove copy
+Productions=Productions
+Apply changes=Apply changes
+Re-order=Re-order
+Add subedition=Add subedition
+Delete subedition=Delete subedition
+Auto force=Auto force
+Pub date=Pub date
+Location production=Location production
+Number of plates=Number of plates
+Load=Load
+Apply=Apply
+Edit=Edit
+Delete=Delete
+Copy=Copy
+Move=Move
+Create=Create
+Delete template=Delete template
+Load press set=Load press set
+Plan=Plan
+Data=Data
+Page=Page
+Edition=Edition
+Sheet=Sheet
+Side=Side
+Template=Template
+Section=Section
+Type=Type
+Pagina=Pagina
+Pagindex=Pagindex
+Common edition=Common edition
+Index=Index
+Ipage=Ipage
+Master=Master
+Time=Time
+From=From
+To=To
+All=All
+Errors only=Errors only
+No errors=No errors
+Events=Events
+Logs=Logs
+Preflight=Preflight
+Rip=Rip
+Proof=Proof
+Transmission=Transmission
+Imaging=Imaging
+Ink estimation=Ink estimation
+Approval / disapproval=Approval / disapproval
+Hold / release=Hold / release
+Combined=Combined
+EventTime=EventTime
+Event=Event
+Process=Process
+Message=Message
+Jobname=Jobname
+Publication=Publication
+Date=Date
+Approved=Approved
+Included in combined log=Included in combined log
+Combine=Combine
+Clear all=Clear all
+Save=Save
+Find=Find
+Excel=Excel
+Print=Print
+Text=Text
+Graphic=Graphic
+Details=Details
+Devices=Devices
+Labelautosize=Labelautosize
+Label4=Label4
+Button1=Button1
+P=P
+CheckBox2=CheckBox2
+Button2=Button2
+Yes=Yes
+Single run=Single run
+Multi runs=Multi runs
+Labelplatetext=Labelplatetext
+Publication date=Publication date
+Applying changes=Applying changes
+File=File
+Login=Login
+Logout=Logout
+Refresh F5=Refresh F5
+Exit=Exit
+set time=set time
+Re approve=Re approve
+Stack position=Stack position
+General settings=General settings
+Re rip=Re rip
+Retransmit=Retransmit
+Close=Close
+Help=Help
+ToolbarsActionmanger=ToolbarsActionmanger
+Configure toolbar=Configure toolbar
+Configure jobnames=Configure jobnames
+Configure colors=Configure colors
+Configure users=Configure users
+Export=Export
+About=About
+Select all=Select all
+Edit pagenames=Edit pagenames
+Rip to mono=Rip to mono
+Rip to Color=Rip to Color
+Imaged=Imaged
+Save desktop settings=Save desktop settings
+Reset toolbars=Reset toolbars
+Change columns=Change columns
+Add=Add
+Reapprove=Reapprove
+Center spread=Center spread
+Single page=Single page
+HighLow=HighLow
+External status=External status
+Configure tabs=Configure tabs
+Configure email=Configure email
+Change font=Change font
+Select page=Select page
+Select plate=Select plate
+Select plate set=Select plate set
+Combined plans=Combined plans
+Deadline=Deadline
+Quick load=Quick load
+Customtools=Customtools
+Archive=Archive
+DB Tools=DB Tools
+Delete publication=Delete publication
+Full flatproof=Full flatproof
+Comment=Comment
+File info=File info
+Missning=Missning
+Paste=Paste
+ActionPageFRelease=ActionPageFRelease
+Relase=Relase
+Save as sep. file=Save as sep. file
+Reload colors=Reload colors
+Reimage all=Reimage all
+Error files=Error files
+Show input=Show input
+Show approval=Show approval
+Show output=Show output
+Change layout=Change layout
+Half web=Half web
+Plate marks=Plate marks
+Plate settings=Plate settings
+Change status=Change status
+add submenu=add submenu
+Rip system=Rip system
+Change run=Change run
+Single spread=Single spread
+Change press=Change press
+Copy production=Copy production
+Delete copy=Delete copy
+Add pages=Add pages
+Delete pages=Delete pages
+Select issue=Select issue
+Issue=Issue
+OK=OK
+Cancel=Cancel
+Select=Select
+Proofer=Proofer
+Page type=Page type
+Save Page template=Save Page template
+Formeditvariant=Formeditvariant
+LabelCombo=LabelCombo
+Label1=Label1
+Select colors=Select colors
+Colors=Colors
+Get pages from pressrun=Get pages from pressrun
+Edit output settings=Edit output settings
+Creep (mm pr. 100 pages)=Creep (mm pr. 100 pages)
+Split into # runs=Split into # runs
+Number of copies=Number of copies
+Proof setup BW=Proof setup BW
+Proof setup color=Proof setup color
+Proof setup PDF=Proof setup PDF
+Split sections=Split sections
+<< Back=<< Back
+Next >>=Next >>
+Edit production=Edit production
+Edit output and proof settings=Edit output and proof settings
+Printing date=Printing date
+No Approval=No Approval
+Need Approval=Need Approval
+Released=Released
+Locked=Locked
+Lock on import=Lock on import
+Editorial production=Editorial production
+Number of pages=Number of pages
+Offset=Offset
+Main edition=Main edition
+Pageformat=Pageformat
+FormInit=FormInit
+Form1=Form1
+Select theme=Select theme
+Program theme=Program theme
+Select press section number=Select press section number
+Connect=Connect
+Edit page definitions=Edit page definitions
+New=New
+Sub edition of=Sub edition of
+Sub edition=Sub edition
+Edition Type=Edition Type
+Color configuration=Color configuration
+Color definition=Color definition
+Name=Name
+C=C
+M=M
+Y=Y
+K=K
+Insert as=Insert as
+Consecutive=Consecutive
+Inserted=Inserted
+Number of splits=Number of splits
+Split Number=Split Number
+<<Back=<<Back
+Save press plan=Save press plan
+Press plan template name=Press plan template name
+Save pressplan=Save pressplan
+Save press runs as press template for later use=Save press runs as press template for later use
+Append=Append
+Auto=Auto
+Load press plan=Load press plan
+Load pressplan=Load pressplan
+load a production based on pressplan from list=load a production based on pressplan from list
+Plan parameters=Plan parameters
+Plan name=Plan name
+Platelayout template=Platelayout template
+Copies=Copies
+Creep=Creep
+Plate output=Plate output
+Allow unplanned colors=Allow unplanned colors
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Show all=Show all
+Plans=Plans
+Sections=Sections
+Info=Info
+Add pressrun=Add pressrun
+N. pages=N. pages
+Prefix=Prefix
+Postfix=Postfix
+Cover pages=Cover pages
+Insert pages=Insert pages
+Covername=Covername
+Named cover=Named cover
+Add production plan=Add production plan
+Add press sections=Add press sections
+Edit production plan=Edit production plan
+Default colors=Default colors
+Collection mode=Collection mode
+Special=Special
+Combine to one run=Combine to one run
+Perfect bound=Perfect bound
+Production Plan=Production Plan
+Primary Issue=Primary Issue
+First edition=First edition
+Enter productname and  approval requirements=Enter productname and  approval requirements
+Fill with pages from=Fill with pages from
+Coloumn order=Coloumn order
+Up=Up
+Down=Down
+Number of coloumns in grid=Number of coloumns in grid
+Application settings=Application settings
+Application paths=Application paths
+Pagelist=Pagelist
+Thumbnail=Thumbnail
+Press naming=Press naming
+Excel export=Excel export
+Server=Server
+Advanced autorelease=Advanced autorelease
+Email=Email
+File edit=File edit
+Language=Language
+Auto refresh time=Auto refresh time
+Auto login=Auto login
+Dynamic Pagepair system=Dynamic Pagepair system
+Keep selection on view change=Keep selection on view change
+Datefilter set to all by default=Datefilter set to all by default
+Job names=Job names
+File paths=File paths
+Lowres path=Lowres path
+Thumbnail path=Thumbnail path
+Highres path=Highres path
+Web proof path=Web proof path
+Use webproof path=Use webproof path
+Hide date filter=Hide date filter
+Upgrade db=Upgrade db
+Nomal=Nomal
+Maximized=Maximized
+Startup size=Startup size
+Use editorial management=Use editorial management
+Rip to mono/color system=Rip to mono/color system
+PS path=PS path
+RIP mono path=RIP mono path
+RIP color path=RIP color path
+Pre title string=Pre title string
+Post title string=Post title string
+CheckBoxenableriptomono=CheckBoxenableriptomono
+Auto scroll speed=Auto scroll speed
+Min. page tree level=Min. page tree level
+Visible coloumns=Visible coloumns
+Sort pagename with pageindex=Sort pagename with pageindex
+Hide filtered columns=Hide filtered columns
+Auto reset device when re imaging=Auto reset device when re imaging
+Double buffered=Double buffered
+Use icons=Use icons
+Sort pagename as number=Sort pagename as number
+Dont show all=Dont show all
+Release all colors=Release all colors
+Show reimage dialog=Show reimage dialog
+Reselect=Reselect
+Time settings=Time settings
+Alternate format=Alternate format
+Use local settings=Use local settings
+Thumbnail caption=Thumbnail caption
+Thumbnail sorting=Thumbnail sorting
+Auto expand to=Auto expand to
+Width=Width
+Height=Height
+Show data on plate thumbnails=Show data on plate thumbnails
+Small=Small
+Medium=Medium
+Big=Big
+Thumbnail size=Thumbnail size
+Page changes apply to all sub-editions=Page changes apply to all sub-editions
+Platetext=Platetext
+Plate preview path=Plate preview path
+Default reset device on reimage=Default reset device on reimage
+Select all colors=Select all colors
+Hide progress bar when show thumbnails=Hide progress bar when show thumbnails
+Filter tree=Filter tree
+Run caption=Run caption
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Plate font Bold=Plate font Bold
+Multiselect filter=Multiselect filter
+Auto refresh tree=Auto refresh tree
+Plate edit offset=Plate edit offset
+Copy multible pages=Copy multible pages
+By pagination=By pagination
+By pagename=By pagename
+Pageindex set by pagename=Pageindex set by pagename
+Never=Never
+Allways=Allways
+Ask=Ask
+Auto apply=Auto apply
+Cylinder as sheetnumber=Cylinder as sheetnumber
+Automatic proof selection=Automatic proof selection
+Default colorproof=Default colorproof
+Default BW proof=Default BW proof
+Default PDFProof=Default PDFProof
+Select proof from colors=Select proof from colors
+No flat proof=No flat proof
+Flat proof plan (automatic)=Flat proof plan (automatic)
+Manual Flat proof=Manual Flat proof 
+Default flatproof=Default flatproof
+Auto force plate production=Auto force plate production
+Press run range=Press run range
+Range must be unique on all application where plans are run=Range must be unique on all application where plans are run
+Default deadline=Default deadline
+Defaults when working on unplanned pages=Defaults when working on unplanned pages
+Planning method=Planning method
+Use the plan wizard=Use the plan wizard
+Load a plan=Load a plan
+Always change the press=Always change the press
+Default advanced apply settings=Default advanced apply settings
+Activate only black separation=Activate only black separation
+Show advanced tab=Show advanced tab
+Defaults for plan creation=Defaults for plan creation
+Select all markgroups by default=Select all markgroups by default
+Default colors mono=Default colors mono
+Default color PDF=Default color PDF
+Default automate planname=Default automate planname
+Select runs when saving=Select runs when saving
+Misc.=Misc.
+Automatic errorfile retry=Automatic errorfile retry
+Planname in filter tree=Planname in filter tree
+No subeditions=No subeditions
+Save statistic for deleted plans=Save statistic for deleted plans 
+Store jps local=Store jps local
+Zoomstep %=Zoomstep %
+Sidebar width=Sidebar width
+Sidebar Height=Sidebar Height
+Ink limit=Ink limit
+Start showing as=Start showing as
+Best fit=Best fit
+1 : 1=1 : 1
+Zoomed by:=Zoomed by:
+Show sidebar with separated previews=Show sidebar with separated previews
+Comment as window caption=Comment as window caption
+Show separations on readview=Show separations on readview
+Tower names=Tower names
+Cylinder names=Cylinder names
+Stack position names=Stack position names
+High / low names=High / low names
+High=High
+Low=Low
+Zone names=Zone names
+Numeric status data=Numeric status data
+Only selected data=Only selected data
+Clear page table=Clear page table
+Edit server=Edit server
+Goto backup=Goto backup
+Button6=Button6
+Button7=Button7
+Email sender=Email sender
+Email address=Email address 
+Email server=Email server
+Sender name=Sender name
+Fixed name=Fixed name
+Use username=Use username
+Email information=Email information
+Titel (N) for pagename (U) for user=Titel (N) for pagename (U) for user
+Automatic=Automatic
+Send email after disapproving=Send email after disapproving
+Attach=Attach
+Include=Include
+Email image format=Email image format
+Tiff files=Tiff files
+External edit program for tif files=External edit program for tif files
+Set status ripped after edit=Set status ripped after edit
+Re approve after edit=Re approve after edit
+PDF files=PDF files
+External edit program for pdf files=External edit program for pdf files
+Ask to save after edit=Ask to save after edit
+Deadlock delay milliseconds=Deadlock delay milliseconds
+Approval options=Approval options
+Automatic remove missing colors on approval=Automatic remove missing colors on approval
+Relase on approval=Relase on approval
+Release on approval=Release on approval
+Use custom script=Use custom script
+Custum release script=Custum release script
+Release single edition if selected=Release single edition if selected
+reload colors automaticly=reload colors automaticly
+Graphic report data=Graphic report data
+Time format=Time format
+Show all times=Show all times
+Log these events in the database=Log these events in the database
+Default settings for combined log=Default settings for combined log
+Main highres archive folder=Main highres archive folder
+Browse=Browse
+Sub folder name=Sub folder name
+Highres filename=Highres filename
+Archive enabled=Archive enabled
+Default highres=Default highres
+Default lowres=Default lowres
+Main lowres archive folder=Main lowres archive folder
+Lowres filename=Lowres filename
+Report details=Report details
+Include columns=Include columns
+Separator=Separator
+Include column names=Include column names
+Default save folder=Default save folder
+Application settings for default behavior and appearance in different PlanCenter views=Application settings for default behavior and appearance in different PlanCenter views 
+FormSellwin=FormSellwin
+Lock all copies to same template=Lock all copies to same template
+Select folder=Select folder
+New folder=New folder
+Formselectfromlist=Formselectfromlist
+Lock all copies to same device i settings=Lock all copies to same device i settings
+Markgroups=Markgroups
+Set priority=Set priority
+Calculate paring=Calculate paring
+As one run=As one run
+Reset device=Reset device
+Formlanguage=Formlanguage
+Auto approval=Auto approval
+Disapproved=Disapproved
+No=No
+Page name=Page name
+Version=Version
+Pub.Date=Pub.Date
+Proof template=Proof template
+Press Run=Press Run
+Pageposition=Pageposition
+Sheet side=Sheet side
+Proof status=Proof status
+Unique=Unique
+Layer=Layer
+Flatproofconfiguration=Flatproofconfiguration
+Planpagename=Planpagename
+Inputtime=Inputtime
+ApproveTime=ApproveTime
+ReadyTime=ReadyTime
+OutputTime=OutputTime
+VerifyTime=VerifyTime
+ApproveUser=ApproveUser
+FileName=FileName
+LastError=LastError
+InputID=InputID
+Not missing=Not missing
+Not transmitted=Not transmitted
+Not Imaged=Not Imaged
+Any error=Any error
+Held=Held
+Hide=Hide
+Plate=Plate
+Imposition missing=Imposition missing
+Apply changes to=Apply changes to 
+Reproof the page=Reproof the page
+No thumbnail selected=No thumbnail selected
+Number of pages do not fit platelayout=Number of pages do not fit platelayout
+Delete all selected pages=Delete all selected pages
+Succes=Succes
+Unable to logon=Unable to logon
+Error in password=Error in password
+Overwrite existing user=Overwrite existing user
+Delete user=Delete user 
+Wrong user or password=Wrong user or password
+Apply the plan now=Apply the plan now
+Change stackposition=Change stackposition
+Error loading global data=Error loading global data
+Unable to connect to=Unable to connect to
+check the network connection=check the network connection
+Restart the program in order to change server=Restart the program in order to change server
+Restart application to apply changes.  Retart now?=Restart application to apply changes.  Retart now?
+Production must be applied before moving=Production must be applied before moving
+Production must be applied before production can be copied=Production must be applied before production can be copied
+Production must be applied before Colors can be changed=Production must be applied before Colors can be changed
+Some pages cannot be common because of color difference=Some pages cannot be common because of color difference
+Colors cannot be changed on dinkey "Halfweb" pages=Colors cannot be changed on dinkey "Halfweb" pages
+There are no press plans=There are no press plans
+Cannot find the file=Cannot find the file
+Unable to copy file=Unable to copy file
+Unable to save changes=Unable to save changes
+Apply changes to control center file=Apply changes to control center file
+Pageindex=Pageindex
+DeviceID=DeviceID
+ExternalStatus=ExternalStatus
+Pubdate=Pubdate
+ProofID=ProofID
+PressRunID=PressRunID
+CopyNumber=CopyNumber
+TemplateID=TemplateID
+SheetNumber=SheetNumber
+Sheetside=Sheetside
+PressTower=PressTower
+PressZone=PressZone
+PressCylinder=PressCylinder
+PressHighLow=PressHighLow
+Proofstatus=Proofstatus
+UniquePage=UniquePage
+FlatproofconfigurationID=FlatproofconfigurationID
+Pagepositions=Pagepositions
+MasterCopyseparationset=MasterCopyseparationset
+Copyseparationset=Copyseparationset
+Separationset=Separationset
+Separation=Separation
+CopyFlatseparationset=CopyFlatseparationset
+FlatSeparationset=FlatSeparationset
+locationid=locationid
+PublicationID=PublicationID
+EditionID=EditionID
+SectionID=SectionID
+IssueID=IssueID
+ProductionID=ProductionID
+ColorID=ColorID
+PressID=PressID
+plan allready exists with the same pages, add as new plan=plan allready exists with the same pages, add as new plan
+Unable to make new plan=Unable to make new plan
+Offset is too low=Offset is too low
+Number of pages missing=Number of pages missing
+Number of pages do not fit template layout=Number of pages do not fit template layout
+Multible inserted sections cannot be split=Multible inserted sections cannot be split
+Section already exists in this plan=Section already exists in this plan
+Multible consecutive sections cannot be split=Multible consecutive sections cannot be split
+Succes check plateview and see if plates are correct=Succes check plateview and see if plates are correct
+The system is unable to fix the problems the production should be deleted and rerun=The system is unable to fix the problems the production should be deleted and rerun
+Error=Error
+There are no other templates that fit this press and this number of pages=There are no other templates that fit this press and this number of pages
+The recipient has already been assigned to this publication=The recipient has already been assigned to this publication
+Error copying file=Error copying file
+There are no custom tools=There are no custom tools
+from pagenumber must be lower than to pagenumber=from pagenumber must be lower than to pagenumber
+The edition is already in the list=The edition is already in the list
+This edition allready exist=This edition allready exist
+Different pages cannot have the same name=Different pages cannot have the same name
+the value=the value
+Error reading tiff file file is corrupt=Error reading tiff file file is corrupt
+is not a valid creep value=is not a valid creep value
+Cannot connect to web ftp server=Cannot connect to web ftp server
+unable to load JobNamesSetup from dll=unable to load JobNamesSetup from dll
+The program cannot run with no server the application will terminate=The program cannot run with no server the application will terminate
+Not proofed=Not proofed
+Reimage ?=Reimage ?
+Change press tower=Change press tower
+Change press cylinder=Change press cylinder
+Change cylinder position=Change cylinder position
+cylinder position=cylinder position
+Unable to connect to main server=Unable to connect to main server
+Unable to connect to backup server=Unable to connect to backup server
+This edition cannot be deleted other editions are using its pages=This edition cannot be deleted other editions are using its pages
+All common pages must have a origional page=All common pages must have a origional page
+Remove copynumber=Remove copynumber
+Cannot remove last copy, there must be at least one copy=Cannot remove last copy, there must be at least one copy
+Wrong username, password, or user type, user must be administrator=Wrong username, password, or user type, user must be administrator
+Reset all toolbars and buttons to default state ?=Reset all toolbars and buttons to default state ?
+Set status Imaged=Set status Imaged
+Delete all entries in the log=Delete all entries in the log
+Error server connection lost check network=Error server connection lost check network
+Delete the selected plan ?=Delete the selected plan ?
+The selected editions cannot be deleted=The selected editions cannot be deleted
+some pages are used in subeditions=some pages are used in subeditions
+The page is still missing=The page is still missing
+Reimage all and reset device ?=Reimage all and reset device ?
+At least one graph must be selected=At least one graph must be selected
+Error preparing plan=Error preparing plan
+Unable to prepair plan=Unable to prepair plan
+There are unplanned pages for this publcation a plan must be applied from main menu=There are unplanned pages for this publcation a plan must be applied from main menu
+All changes will be lost Continue?=All changes will be lost Continue?
+There cannot be two or more different publications in on press template=There cannot be two or more different publications in on press template
+Blank pagenames not allowed=Blank pagenames not allowed
+Page template allready exists=Page template allready exists
+Error saving page template=Error saving page template
+There are no users selected=There are no users selected
+One or more administrators have been selected continue saving or cancel=One or more administrators have been selected continue saving or cancel
+Save the current settings to all the selected users=Save the current settings to all the selected users
+re not allowed=re not allowed
+Warning this will delete all pages Proceed now?=Warning this will delete all pages Proceed now?
+Change to backup server?=Change to backup server?
+The program must be restarted of in order to change server=The program must be restarted of in order to change server
+Common=Common
+Forced=Forced
+Pagination=Pagination
+Publicationname=Publicationname
+Editionname=Editionname
+Sectionname=Sectionname
+Locationname=Locationname
+Pressname=Pressname
+Devicename=Devicename
+Users=Users
+User name=User name
+Password=Password
+Confirm Password=Confirm Password
+User group=User group
+Page per row=Page per row
+Refresh time=Refresh time
+Full name=Full name
+Account enabled=Account enabled
+Username=Username
+Log in=Log in
+Abort=Abort
+Edit jobnames=Edit jobnames
+New pagename=New pagename
+Change production run=Change production run
+Select anti panorama page=Select anti panorama page
+Application=Application
+(C) Copyright 2004  InfraLogic Aps.=(C) Copyright 2004  InfraLogic Aps.
+LabelComment=LabelComment
+Labelsystemtype=Labelsystemtype
+Delete press plan=Delete press plan
+Select proofconfiguration=Select proofconfiguration
+Formcleanupfiles=Formcleanupfiles
+Page dimenions=Page dimenions
+Units=Units
+X resolution=X resolution
+Y resolution=Y resolution
+Compression ratio=Compression ratio
+Split production=Split production
+Edition page planning=Edition page planning
+Edition Pages=Edition Pages
+Assign unique pages to editions=Assign unique pages to editions
+Press sequence=Press sequence
+Select location and press=Select location and press
+New plan name=New plan name
+Move to new press=Move to new press
+Select new location and press=Select new location and press
+No change=No change
+Hold new plates=Hold new plates
+Change plate layout=Change plate layout
+Select plate layout=Select plate layout
+Select a layout and optional marks=Select a layout and optional marks
+On same cheet in all runs=On same cheet in all runs
+Templates=Templates
+Server configuration=Server configuration
+Main server=Main server
+Server name=Server name
+Database name=Database name
+Server instance=Server instance
+Database user=Database user
+Backup server (optional)=Backup server (optional)
+Port=Port
+Test=Test
+Press run optimize=Press run optimize
+Optimize production=Optimize production
+Create new subedition as copy of=Create new subedition as copy of
+New edition=New edition
+Edit pages names=Edit pages names
+Apply to all subeditions=Apply to all subeditions
+Pre fix=Pre fix
+Post fix=Post fix
+Halfweb template=Halfweb template
+Select layout template and section collection mode=Select layout template and section collection mode
+Select the template for the new press=Select the template for the new press
+Backup test=Backup test
+Go to backup TEST=Go to backup TEST
+The program have received a test message from BackupCenter=The program have received a test message from BackupCenter
+Press OK to continue=Press OK to continue
+Reimage production=Reimage production
+Plate preview=Plate preview
+RGB=RGB
+Fit to screen=Fit to screen
+Delete all older than=Delete all older than
+Color 2 Mono=Color 2 Mono
+Admin login=Admin login
+Popup menues=Popup menues
+Plan editor=Plan editor
+Select in all subeditions=Select in all subeditions
+Clear=Clear
+Set unique pages=Set unique pages
+Edit run=Edit run
+Debug=Debug
+Button3=Button3
+Production data=Production data
+Production name=Production name
+Set to unique=Set to unique
+Plate options=Plate options
+Select Loacation and press=Select Loacation and press
+Change external status=Change external status
+Double burn=Double burn
+Imposition=Imposition
+Select new press=Select new press
+Posible presses=Posible presses
+Select Press=Select Press
+Select press on new location=Select press on new location
+Load plan=Load plan
+Select and run a press plan for one or more printsites / presses=Select and run a press plan for one or more printsites / presses
+Plan templates=Plan templates
+Plan settings=Plan settings
+Pagenames=Pagenames
+Form2=Form2
+Apply plan to system=Apply plan to system
+Before=Before
+Apply production=Apply production
+Select approval and hold parameters for production=Select approval and hold parameters for production
+Hottime=Hottime
+No change to existing pages=No change to existing pages
+No change to existing plates=No change to existing plates
+Owerwrite=Owerwrite
+Apply mode=Apply mode
+Pressrun comment=Pressrun comment
+Specific device=Specific device
+Start=Start
+End=End
+During=During
+Edit press run=Edit press run
+Edit edition / press run=Edit edition / press run
+Edit sections and pages in the selected press run=Edit sections and pages in the selected press run
+Tabs=Tabs
+Visible tabs=Visible tabs
+Error log=Error log
+Page list=Page list
+Edition plate=Edition plate
+Edition local production=Edition local production
+Save user settings=Save user settings
+Save current tab, toolbar and popup setting to selected users=Save current tab, toolbar and popup setting to selected users
+Recipient's=Recipient's
+Notify=Notify
+CC=CC
+Attach preview=Attach preview
+Notify on deadline=Notify on deadline
+Deadline to=Deadline to
+Deadline CC=Deadline CC
+Sender=Sender
+Deadline subject=Deadline subject
+Mailserver=Mailserver
+To (E-Mail)=To (E-Mail)
+CC (E-Mail)=CC (E-Mail)
+Mail server=Mail server
+Attach email=Attach email
+Email configuration=Email configuration
+Configure recipients for page disapproval information=Configure recipients for page disapproval information
+Send email=Send email
+Title=Title
+Extra information (optional)=Extra information (optional)
+Send a email=Send a email
+Send a email to these recipients=Send a email to these recipients
+Recipients=Recipients
+Sending emails=Sending emails
+Emails are being send please wait=Emails are being send please wait
+Formincludetolog=Formincludetolog
+Configure combined log=Configure combined log
+Select the events that are included in the combined log=Select the events that are included in the combined log
+Find record=Find record
+Search filter=Search filter
+Save log=Save log
+Set center spread=Set center spread
+Apply a plan to unplanned pages=Apply a plan to unplanned pages
+Apply production plan=Apply production plan
+Select how to apply the plan to the pages=Select how to apply the plan to the pages
+Options=Options
+Change the press=Change the press
+Edition order=Edition order
+Set the order of the subeditions with the primary edition on top=Set the order of the subeditions with the primary edition on top
+Delete press plans=Delete press plans
+Load combined plans=Load combined plans
+Load combined press plans=Load combined press plans
+Set dealline=Set dealline
+Quick load plans=Quick load plans
+Done=Done
+Insert=Insert
+FormFTP=FormFTP
+Production check=Production check
+SQL=SQL
+Manage=Manage
+Fix DB=Fix DB
+Information=Information
+Result=Result
+Open=Open
+Exec=Exec
+Load press plans=Load press plans
+Runs=Runs
+Append to press template=Append to press template
+Append runs to plan=Append runs to plan
+Select the press runs to append to the existing press template=Select the press runs to append to the existing press template
+Press runs allready in plan=Press runs allready in plan
+Press runs to include in plan=Press runs to include in plan
+Automate planname=Automate planname
+Overwrite=Overwrite
+Select an entier publication and press delete=Select an entier publication and press delete
+Archive options=Archive options
+Save highres=Save highres
+Save lowres=Save lowres
+Archive files=Archive files
+Archive page files=Archive page files
+Select what files should be archived and where to place them=Select what files should be archived and where to place them
+Archive highres files=Archive highres files
+Archive lowres files=Archive lowres files
+Copying files=Copying files
+Highres file information=Highres file information
+Inches (in)=Inches (in)
+Millimeters (mm)=Millimeters (mm)
+Picas=Picas
+This shows the size and resolution of the selected file=This shows the size and resolution of the selected file
+Copying page=Copying page
+Custom tools=Custom tools
+Tools=Tools
+Auto stack=Auto stack
+Check filenames=Check filenames
+Check=Check
+Wrong filenames=Wrong filenames
+Check master numbers=Check master numbers
+Wrong Pages=Wrong Pages
+Copy file page=Copy file page
+Copy page yes no=Copy page yes no
+This will overwrite any existing page and set status back=This will overwrite any existing page and set status back
+Transmit page=Transmit page
+No transmission=No transmission
+Current progress=Current progress
+Pages ripped=Pages ripped
+Pages approved=Pages approved
+Plates imaged=Plates imaged
+Form3=Form3
+Load press config settings=Load press config settings
+Load press settings=Load press settings
+Set tower cylinder zone and other press config parameters=Set tower cylinder zone and other press config parameters
+Press configs=Press configs
+New publication name=New publication name
+Publication name=Publication name
+Optional alias=Optional alias
+Input alias (if more than one then separate with comma)=Input alias (if more than one then separate with comma)
+Output alias=Output alias
+File reload=File reload
+Reloading files in error folders=Reloading files in error folders
+Plancenter will reload files that could not be polled because the plan where missing=Plancenter will reload files that could not be polled because the plan where missing
+Stop=Stop
+debug tools=debug tools
+time to set=time to set
+seconds=seconds
+minutes=minutes
+hours=hours
+Spread=Spread
+Page preview=Page preview
+Reject=Reject
+Show 1:1=Show 1:1
+Rotate=Rotate
+That need approval=That need approval
+Ink coverage=Ink coverage
+Total=Total
+Size and resolution=Size and resolution
+grpx1=grpx1
+grpx2=grpx2
+grpx3=grpx3
+grpx4=grpx4
+grpx5=grpx5
+grpx6=grpx6
+grpx7=grpx7
+grpx8=grpx8
+grpx9=grpx9
+grpx10=grpx10
+grpx11=grpx11
+grpx12=grpx12
+grpx13=grpx13
+grpx14=grpx14
+grpx15=grpx15
+grpx16=grpx16
+grpx17=grpx17
+grpx18=grpx18
+grpx19=grpx19
+grpx20=grpx20
+grpx21=grpx21
+grpx22=grpx22
+grpx23=grpx23
+grpx24=grpx24
+grpx25=grpx25
+grpx26=grpx26
+grpx27=grpx27
+grpx28=grpx28
+grpx29=grpx29
+grpx30=grpx30
+grpx31=grpx31
+grpx32=grpx32
+Composite=Composite
+Density=Density
+Loading=Loading
+90 Degrees=90 Degrees
+180 Degrees=180 Degrees
+270 Degrees=270 Degrees
+Send To=Send To
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+TIFF=TIFF
+PDF=PDF
+Document type=Document type
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Default document type PDF=Default document type PDF
+Configuration=Configuration
+Maintenance=Maintenance
+Copy page=Copy page
+Paste page=Paste page
+Get file=Get file
+Copy file(s)=Copy file(s)
+Paste file(s)=Paste file(s)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Copy files=Copy files
+Select identifiers for the filenames=Select identifiers for the filenames
+Identifiers=Identifiers
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Quick press change=Quick press change
+Delete publications=Delete publications
+Hold / Release publications=Hold / Release publications
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Administrator maintenance tools=Administrator maintenance tools
+Procedures=Procedures
+Progress on current procedure=Progress on current procedure
+Release / hold publication=Release / hold publication
+Select an entier publication and press hold or release=Select an entier publication and press hold or release
+Lock=Lock
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Clean up server disk=Clean up server disk
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Are you sure you want to delete the selected publications ?=Are you sure you want to delete the selected publications ?
+Keep colors=Keep colors
+New press=New press
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Filters=Filters
+Locations=Locations
+Only this location=Only this location
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Min. plate tree level=Min. plate tree level
+Formalfasort=Formalfasort
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Selected edition=Selected edition
+Unique pages=Unique pages
+Colo=Colo
+Make unique=Make unique
+Use as master=Use as master
+Undo=Undo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Flatproof template=Flatproof template
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Default adding settings=Default adding settings
+Default page type=Default page type
+Approval needed=Approval needed
+Repapprove=Repapprove
+Common pages=Common pages
+Keep device=Keep device
+Select proof setting=Select proof setting
+Select setting for generation of previews and hardproof=Select setting for generation of previews and hardproof
+Proof format=Proof format
+Hardproof=Hardproof
+Pint sequence=Pint sequence
+Press run data=Press run data
+Proof settings=Proof settings
+Flatproof settings=Flatproof settings
+Extra deadlines=Extra deadlines
+Dealine 1=Dealine 1
+Dealine 2=Dealine 2
+Dealine 3=Dealine 3
+Dealine 4=Dealine 4
+Add edition=Add edition
+Press run Sequence=Press run Sequence
+Set print sequence for the pressruns=Set print sequence for the pressruns
+Print sequence=Print sequence
+Deadlines settings=Deadlines settings
+Priorities=Priorities
+Before hottime=Before hottime
+During hottime=During hottime
+After hottime=After hottime
+Hottime start=Hottime start
+Hottime end=Hottime end
+Press run timming=Press run timming
+Set priority and deadlines for selected pressrun=Set priority and deadlines for selected pressrun
+Main deadline=Main deadline
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Special features=Special features
+Hard proofing=Hard proofing
+Flat proofing=Flat proofing
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Default use tower specific fanout=Default use tower specific fanout
+Press tower=Press tower
+Tower name=Tower name
+Apply to copy of plate=Apply to copy of plate
+Select tower=Select tower
+Select press tower name=Select press tower name
+Use tower specific fanout=Use tower specific fanout
+Edit loaded plan=Edit loaded plan
+Edit plan before loading=Edit plan before loading
+Change one section into multible inserted sections=Change one section into multible inserted sections
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Plan template creation=Plan template creation
+Plan running=Plan running
+Run defaults=Run defaults
+Activate only the black separation=Activate only the black separation
+Use publication defaults=Use publication defaults
+Hold plates=Hold plates
+Edit sections before loading=Edit sections before loading
+Change a plan with one section into multible inserted sections=Change a plan with one section into multible inserted sections
+Deleting files=Deleting files
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Use custom naming=Use custom naming
+Default device=Default device
+Use default device=Use default device
+Specifik device=Specifik device
+Order number=Order number
+Use press tower config=Use press tower config
+Zone name=Zone name
+Select press tower Zone and cylinder name=Select press tower Zone and cylinder name
+Press run info=Press run info
+Press run comment=Press run comment
+Press config name=Press config name
+Select press tower cylinder and stack name=Select press tower cylinder and stack name
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Colo=Colo
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Flatproof=Flatproof
+Proofing=Proofing
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)
+Manual=Manual
+No flatproof=No flatproof
+Flatproof type=Flatproof type
+Wait for approval of pages=Wait for approval of pages
+Ignore approval=Ignore approval
+Page approval=Page approval
+Formflatproof=Formflatproof
+Select flatproof type for the selected plates=Select flatproof type for the selected plates
+Minimum number of pages (0=all)=Minimum number of pages (0=all)
+Expand to level (-1 = all, 0 none)=Expand to level (-1 = all, 0 none)

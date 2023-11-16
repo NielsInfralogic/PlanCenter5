@@ -1,0 +1,65 @@
+[18-03 07:18:44.145] Error try 9 : Invalid column name 'PageAcross'.
+Invalid column name 'PageDown'.
+Statement(s) could not be prepared.
+   (SELECT TOP 1 P.PressID,P.TemplateID,T.PageAcross*T.PageDown FROM PageTable P WITH (NOLOCK) INNER JOIN TemplateConfigurations T ON T.TemplateID=P.TemplateID WHERE ProductionID=36 AND PageType<2 AND Active>0 AND Dirty=0 AND UniquePage<2 ORDER BY EditionID,SectionID,PageIndex)
+[18-03 07:19:22.820] Error try 9 : Invalid column name 'PageAcross'.
+Invalid column name 'PageDown'.
+Statement(s) could not be prepared.
+   (SELECT TOP 1 P.PressID,P.TemplateID,T.PageAcross*T.PageDown FROM PageTable P WITH (NOLOCK) INNER JOIN TemplateConfigurations T ON T.TemplateID=P.TemplateID WHERE ProductionID=36 AND PageType<2 AND Active>0 AND Dirty=0 AND UniquePage<2 ORDER BY EditionID,SectionID,PageIndex)
+[18-03 11:12:04.919] Error try 9 : ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT CopyFlatSeparationSet FROM PageTable WITH (NOLOCK) WHERE Dirty=0 AND ((PageType<2 AND Active=1) or (PageType=2)) AND PressRunID=54 ORDER BY SheetNumber*2+SheetSide)
+[18-03 11:12:05.107] Error try 9 : ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT CopyFlatSeparationSet FROM PageTable WITH (NOLOCK) WHERE Dirty=0 AND ((PageType<2 AND Active=1) or (PageType=2)) AND PressRunID=55 ORDER BY SheetNumber*2+SheetSide)
+[18-03 11:17:00.644] Error try 9 : ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT CopyFlatSeparationSet FROM PageTable WITH (NOLOCK) WHERE Dirty=0 AND ((PageType<2 AND Active=1) or (PageType=2)) AND PressRunID=54 ORDER BY SheetNumber*2+SheetSide)
+[18-03 11:20:02.943] Error try 9 : ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT CopyFlatSeparationSet FROM PageTable WITH (NOLOCK) WHERE Dirty=0 AND ((PageType<2 AND Active=1) or (PageType=2)) AND PressRunID=54 ORDER BY SheetNumber*2+SheetSide)
+[18-03 11:20:03.724] Error try 9 : ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT CopyFlatSeparationSet FROM PageTable WITH (NOLOCK) WHERE Dirty=0 AND ((PageType<2 AND Active=1) or (PageType=2)) AND PressRunID=55 ORDER BY SheetNumber*2+SheetSide)
+[18-03 11:24:32.218] Error try 9 : ORDER BY items must appear in the select list if SELECT DISTINCT is specified.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT CopyFlatSeparationSet FROM PageTable WITH (NOLOCK) WHERE Dirty=0 AND ((PageType<2 AND Active=1) or (PageType=2)) AND PressRunID=54 ORDER BY SheetNumber*2+SheetSide)
+[22-05 09:41:58.909] Error : Violation of PRIMARY KEY constraint 'PK_InputAliases'. Cannot insert duplicate key in object 'dbo.InputAliases'. The duplicate key value is (Edition, x).
+The statement has been terminated.
+   (INSERT INTO InputAliases (Type,LongName,ShortName) VALUES ('Edition','3_2x','x'))
+[07-09 06:44:33.002] Error try 9 : Invalid column name 'SectionNumber'.
+Statement(s) could not be prepared.
+   (SELECT DISTINCT GroupName,PublicationID, SectionNumber FROM PublicationGroupNames ORDER BY GroupName)
+[10-09 12:33:04.945] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:34:13.648] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:35:22.183] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:36:30.750] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:37:39.286] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:38:47.824] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:39:56.369] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:41:04.910] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:42:13.470] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:43:22.007] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)
+[10-09 12:44:30.554] Error : SQL Server does not exist or access denied.
+ConnectionOpen (Connect()).
+   (DSN=DAT;UID=sa;PWD=infra)

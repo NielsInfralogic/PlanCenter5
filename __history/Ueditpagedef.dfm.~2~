@@ -1,0 +1,270 @@
+object Formeditpagedef: TFormeditpagedef
+  Left = 455
+  Top = 392
+  BorderStyle = bsToolWindow
+  Caption = 'Edit'
+  ClientHeight = 243
+  ClientWidth = 551
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -13
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  Scaled = False
+  PixelsPerInch = 96
+  TextHeight = 16
+  object Label1: TLabel
+    Left = 16
+    Top = 20
+    Width = 52
+    Height = 13
+    Caption = 'Publication'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 196
+    Top = 20
+    Width = 36
+    Height = 13
+    Caption = 'Section'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label3: TLabel
+    Left = 16
+    Top = 76
+    Width = 32
+    Height = 13
+    Caption = 'Edition'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 196
+    Top = 76
+    Width = 25
+    Height = 13
+    Caption = 'Issue'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label5: TLabel
+    Left = 376
+    Top = 20
+    Width = 24
+    Height = 13
+    Caption = 'Color'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label11: TLabel
+    Left = 16
+    Top = 132
+    Width = 34
+    Height = 13
+    Caption = 'Proofer'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label7: TLabel
+    Left = 376
+    Top = 128
+    Width = 31
+    Height = 13
+    Caption = 'Priority'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label12: TLabel
+    Left = 196
+    Top = 132
+    Width = 48
+    Height = 13
+    Caption = 'Page type'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
+  object ComboBoxpublication: TComboBox
+    Left = 16
+    Top = 36
+    Width = 165
+    Height = 21
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 0
+  end
+  object ComboBoxsection: TComboBox
+    Left = 196
+    Top = 36
+    Width = 165
+    Height = 21
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 1
+  end
+  object ComboBoxedition: TComboBox
+    Left = 16
+    Top = 92
+    Width = 165
+    Height = 21
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 2
+  end
+  object ComboBoxissue: TComboBox
+    Left = 196
+    Top = 92
+    Width = 165
+    Height = 21
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+  end
+  object CheckListBoxcolor: TCheckListBox
+    Left = 376
+    Top = 36
+    Width = 145
+    Height = 81
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ItemHeight = 13
+    ParentFont = False
+    TabOrder = 4
+  end
+  object BitBtn1: TBitBtn
+    Left = 204
+    Top = 200
+    Width = 75
+    Height = 25
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Kind = bkOK
+    NumGlyphs = 2
+    ParentFont = False
+    TabOrder = 5
+  end
+  object BitBtn2: TBitBtn
+    Left = 292
+    Top = 200
+    Width = 75
+    Height = 25
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    Kind = bkCancel
+    NumGlyphs = 2
+    ParentFont = False
+    TabOrder = 6
+  end
+  object ComboBoxproofer: TComboBox
+    Left = 16
+    Top = 152
+    Width = 165
+    Height = 21
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 7
+  end
+  object SpinEditpriority: TSpinEdit
+    Left = 376
+    Top = 144
+    Width = 57
+    Height = 22
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    MaxValue = 0
+    MinValue = 0
+    ParentFont = False
+    TabOrder = 8
+    Value = 0
+  end
+  object ComboBoxpagetype: TComboBox
+    Left = 196
+    Top = 148
+    Width = 165
+    Height = 21
+    Style = csDropDownList
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 9
+    Items.Strings = (
+      'Tabloid'
+      'Broadsheet')
+  end
+end

@@ -1,0 +1,112 @@
+object Formselectlocalprod: TFormselectlocalprod
+  Left = 540
+  Top = 395
+  BorderStyle = bsDialog
+  Caption = 'Unapply and split'
+  ClientHeight = 209
+  ClientWidth = 406
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnActivate = FormActivate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label2: TLabel
+    Left = 20
+    Top = 72
+    Width = 245
+    Height = 13
+    AutoSize = False
+    Caption = 'Location'
+  end
+  object Label1: TLabel
+    Left = 20
+    Top = 116
+    Width = 245
+    Height = 13
+    AutoSize = False
+    Caption = 'Posible productions'
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 406
+    Height = 54
+    Align = alTop
+    Color = clWhite
+    ParentBackground = False
+    TabOrder = 0
+    object Labelwizardheader1: TLabel
+      Left = 12
+      Top = 4
+      Width = 373
+      Height = 24
+      AutoSize = False
+      Caption = 'Unapply and split into sections'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -19
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Labelwizardheader2: TLabel
+      Left = 24
+      Top = 32
+      Width = 285
+      Height = 13
+      AutoSize = False
+      Caption = 'Select a location and a production to unapply'
+    end
+  end
+  object ComboBoxnewlocation: TComboBox
+    Left = 20
+    Top = 84
+    Width = 361
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 1
+    OnChange = ComboBoxnewlocationChange
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 168
+    Width = 406
+    Height = 41
+    Align = alBottom
+    TabOrder = 2
+    object BitBtn6: TBitBtn
+      Left = 212
+      Top = 8
+      Width = 75
+      Height = 25
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 0
+    end
+    object BitBtn1: TBitBtn
+      Left = 119
+      Top = 8
+      Width = 75
+      Height = 25
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 1
+      OnClick = BitBtn1Click
+    end
+  end
+  object ComboBoxpress: TComboBox
+    Left = 20
+    Top = 128
+    Width = 361
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 3
+  end
+end

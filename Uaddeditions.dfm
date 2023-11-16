@@ -1,0 +1,220 @@
+object FormAddeditionview: TFormAddeditionview
+  Left = 768
+  Top = 327
+  BorderStyle = bsDialog
+  Caption = 'Add edition'
+  ClientHeight = 382
+  ClientWidth = 455
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Position = poMainFormCenter
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 186
+    Width = 455
+    Height = 196
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 0
+    ExplicitTop = 185
+    ExplicitWidth = 451
+    object BitBtn1: TBitBtn
+      Left = 152
+      Top = 166
+      Width = 74
+      Height = 24
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+    end
+    object BitBtn2: TBitBtn
+      Left = 230
+      Top = 166
+      Width = 74
+      Height = 24
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 1
+    end
+    object PageControl1: TPageControl
+      Left = 0
+      Top = 0
+      Width = 455
+      Height = 154
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      ActivePage = TabSheet1
+      Align = alTop
+      TabOrder = 2
+      ExplicitWidth = 451
+      object TabSheet1: TTabSheet
+        Margins.Left = 2
+        Margins.Top = 2
+        Margins.Right = 2
+        Margins.Bottom = 2
+        Caption = 'Pages'
+        object RadioGrouptype: TRadioGroup
+          Left = 8
+          Top = 12
+          Width = 138
+          Height = 60
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Caption = 'Default page type'
+          ItemIndex = 1
+          Items.Strings = (
+            'Unique'
+            'Common')
+          TabOrder = 0
+        end
+        object GroupBox1: TGroupBox
+          Left = 154
+          Top = 12
+          Width = 288
+          Height = 107
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Caption = 'Approval'
+          TabOrder = 1
+          object RadioGroupunique: TRadioGroup
+            Left = 8
+            Top = 16
+            Width = 131
+            Height = 60
+            Margins.Left = 2
+            Margins.Top = 2
+            Margins.Right = 2
+            Margins.Bottom = 2
+            Caption = 'Unique pages'
+            ItemIndex = 0
+            Items.Strings = (
+              'Approval needed'
+              'No approval')
+            TabOrder = 0
+          end
+          object RadioGroupcommon: TRadioGroup
+            Left = 150
+            Top = 16
+            Width = 131
+            Height = 87
+            Margins.Left = 2
+            Margins.Top = 2
+            Margins.Right = 2
+            Margins.Bottom = 2
+            Caption = 'Common pages'
+            ItemIndex = 0
+            Items.Strings = (
+              'No change'
+              'Re-approve'
+              'No approval')
+            TabOrder = 1
+          end
+        end
+        object GroupBoxedtimming: TGroupBox
+          Left = 8
+          Top = 78
+          Width = 138
+          Height = 41
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Caption = 'Edition type'
+          TabOrder = 2
+          object CheckBoxtimmed: TCheckBox
+            Left = 4
+            Top = 16
+            Width = 131
+            Height = 17
+            Margins.Left = 2
+            Margins.Top = 2
+            Margins.Right = 2
+            Margins.Bottom = 2
+            Caption = 'May be timed edition'
+            TabOrder = 0
+          end
+        end
+      end
+      object TabSheet2: TTabSheet
+        Margins.Left = 2
+        Margins.Top = 2
+        Margins.Right = 2
+        Margins.Bottom = 2
+        Caption = 'Output'
+        ImageIndex = 1
+        object RadioGroupdevice: TRadioGroup
+          Left = 8
+          Top = 4
+          Width = 138
+          Height = 60
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Caption = 'Device'
+          ItemIndex = 0
+          Items.Strings = (
+            'Reset device'
+            'Keep device')
+          TabOrder = 0
+        end
+        object RadioGrouphold: TRadioGroup
+          Left = 162
+          Top = 4
+          Width = 138
+          Height = 60
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Caption = 'Plate output'
+          ItemIndex = 0
+          Items.Strings = (
+            'Hold'
+            'Release')
+          TabOrder = 1
+        end
+      end
+    end
+  end
+  object ListBox1: TListBox
+    Left = 0
+    Top = 0
+    Width = 455
+    Height = 186
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
+    Align = alClient
+    ItemHeight = 13
+    TabOrder = 1
+    ExplicitWidth = 451
+    ExplicitHeight = 185
+  end
+end

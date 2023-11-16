@@ -1,0 +1,774 @@
+unit Uunknownfiles;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs,ActnList, XPStyleActnCtrls, ActnMan, ToolWin, ActnCtrls, ComCtrls,
+  StdCtrls, ExtCtrls, Menus, ActnPopup, inifiles,
+  Vcl.PlatformDefaultStyleActnCtrls, System.Actions;
+
+type
+  TFormUknownfiles = class(TForm)
+    ActionToolBarunknow: TActionToolBar;
+    ActionManager1: TActionManager;
+    ActionRefresh: TAction;
+    Actiondelete: TAction;
+    Actionpreview: TAction;
+    ListViewunkowfiles: TListView;
+    Actioncolorsystem: TAction;
+    Actionretry: TAction;
+    Actionrename: TAction;
+    ActionSetcolor: TAction;
+    Actionpageselect: TAction;
+    ActionFilter: TAction;
+    ActionFolder: TAction;
+    PopupActionBarEx1Unknown: TPopupActionBar;
+    Preview1: TMenuItem;
+    Rename1: TMenuItem;
+    Setcolor1: TMenuItem;
+    Seachfilter1: TMenuItem;
+    Folder1: TMenuItem;
+    Colorsystem1: TMenuItem;
+    procedure ActionRefreshExecute(Sender: TObject);
+    procedure ActionpreviewExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure ActioncolorsystemExecute(Sender: TObject);
+    procedure ActionretryExecute(Sender: TObject);
+    procedure ActionrenameExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ListViewunkowfilesAdvancedCustomDrawItem(
+      Sender: TCustomListView; Item: TListItem; State: TCustomDrawState;
+      Stage: TCustomDrawStage; var DefaultDraw: Boolean);
+    procedure ListViewunkowfilesSelectItem(Sender: TObject;
+      Item: TListItem; Selected: Boolean);
+    procedure ActionpageselectExecute(Sender: TObject);
+    procedure ListViewunkowfilesKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure ListViewunkowfilesDragOver(Sender, Source: TObject; X,
+      Y: Integer; State: TDragState; var Accept: Boolean);
+    procedure ActionFilterExecute(Sender: TObject);
+    procedure ActionFolderExecute(Sender: TObject);
+    procedure ActiondeleteExecute(Sender: TObject);
+    procedure ListViewunkowfilesDblClick(Sender: TObject);
+  private
+    activated : Boolean;
+
+//    procedure SetUbluebar;
+  public
+    Uknownfilter : String;
+    Uknownfolder : Longint;
+    procedure GetAdropdownlist(var Acombo : Tcombobox);
+    Function connecttoinputfolders(Var Alistview : Tlistview):Boolean;
+    procedure renameUnknownfile(Var Alistview : Tlistview);
+    procedure refreshunknownfile(Var Alistview : Tlistview);
+    Procedure retryuknownfile(Var Alistview : Tlistview);
+    Function guessacolor(filename : String):string;
+  end;
+
+var
+  FormUknownfiles: TFormUknownfiles;
+
+implementation
+Uses
+  umain, Ureloadingerrorfiles, Ucolordetect, UFilepreview, Uretryfiles,
+  Urenameunown, Ulistselect, Usettings, UListselection, UResampleprogress,
+  UUnkFolders, UUknowfileerrorlog,DateUtils, UUtils;
+{$R *.dfm}
+
+procedure TFormUknownfiles.ActionRefreshExecute(Sender: TObject);
+begin
+  refreshunknownfile(ListViewunkowfiles);
+  ListViewunkowfiles.repaint;
+  
+end;
+
+procedure TFormUknownfiles.ActionpreviewExecute(Sender: TObject);
+Var
+  I : Longint;
+begin
+  try
+    Formfilepreview.Nfiles := 0;
+    For i := 0 to ListViewunkowfiles.Items.count-1 do
+    begin
+      IF (ListViewunkowfiles.Items[i].subitems[7]='1') and (Formfilepreview.Nfiles < 4) then
+      begin
+        Inc(Formfilepreview.Nfiles);
+        Formfilepreview.files[Formfilepreview.Nfiles].name := ListViewunkowfiles.Items[i].subitems[3];
+        Formfilepreview.files[Formfilepreview.Nfiles].color := ListViewunkowfiles.Items[i].subitems[0];
+      End;
+    End;
+    Formresampleprogress.ProgressBar1.Position := 0;
+    Formresampleprogress.show;
+    Formresampleprogress.Repaint;
+    if Formfilepreview.Genprevfiles then
+    begin
+      Formresampleprogress.Close;
+      Formfilepreview.ImageEn1.IO.LoadFromFileJpeg(ExcludeTrailingBackSlash(TUtils.GetTempDirectory()) + 'Prevtemp\aprev.jpg');
+      Formfilepreview.showmodal;
+    End
+    Else
+      Formresampleprogress.Close;
+  Finally
+    if Formresampleprogress.Active then
+      Formresampleprogress.Close;
+    FormUknownfiles.SetFocus;
+  end;
+end;
+
+
+
+procedure TFormUknownfiles.FormCreate(Sender: TObject);
+begin
+  Uknownfilter := '*.*';
+  Uknownfolder := -1;
+
+  activated := false;
+  ListViewunkowfiles.DoubleBuffered := true;
+end;
+
+procedure TFormUknownfiles.FormActivate(Sender: TObject);
+begin
+  IF Not activated then
+  begin
+    Actionpreview.Enabled := FileResampleposible;
+    ActionRefresh.Execute;
+    activated := true;
+  End;
+
+end;
+
+
+
+Function TFormUknownfiles.guessacolor(filename : String):string;
+
+Begin
+  filename := extractfilename(filename);
+  filename := uppercase(filename);
+
+
+
+end;
+
+procedure TFormUknownfiles.refreshunknownfile(Var Alistview : Tlistview);
+
+Var
+  R,Ifolder : Longint;
+  nlname,T : string;
+  F: TSearchRec;
+  l : tlistitem;
+  i : Longint;
+  Empty : boolean;
+  colorid : Longint;
+  restname : string;
+  Errflog : TStrings;
+  TD : Tdatetime;
+  Graycol : Boolean;
+
+  Filterstr : String;
+  Foldernumber : Longint;
+  anysel : Boolean;
+  InputFolder : string;
+  Logfile : Tinifile;
+begin
+
+
+  try
+    Errflog := TStringlist.Create;
+    restname := '';
+    anysel := false;
+    For i := 0 to Formerrorfolderselect.CheckListBox1.Items.Count-1 do
+    begin
+      IF Formerrorfolderselect.CheckListBox1.checked[i] then
+      begin
+        anysel := true;
+        break;
+      end;
+    end;
+
+    IF not anysel then
+    begin
+      Formerrorfolderselect.CheckListBox1.checked[0] := true;
+
+    end;
+
+
+
+    if Uknownfilter = '' then
+      Filterstr := '*.*'
+    else
+      Filterstr := Uknownfilter;
+
+    Foldernumber := Uknownfolder;
+
+    Alistview.Items.BeginUpdate;
+    Empty := true;
+    Alistview.Items.Clear;
+
+    Foldernumber := -1;
+    IF Formerrorfolderselect.CheckListBox1.checked[0]  then
+    begin
+      Foldernumber := 1;
+    end;
+
+    For ifolder := 1 to NErrorfolders do
+    begin
+      IF (Formerrorfolderselect.CheckListBox1.checked[0]) or (Formerrorfolderselect.CheckListBox1.checked[ifolder])  then
+      begin
+        R := FindFirst(IncludeTrailingBackslash( IncludeTrailingBackslash(Mainerrorfolder)+inttostr(Errorfolders[ifolder].InputID))+Filterstr,faAnyFile		,F);
+        While (r = 0) and (not Formreloadingerrorfiles.stopit) do
+        begin
+          application.ProcessMessages;
+          IF (not(f.Attr in [faDirectory])) AND (f.Name <> '.') AND (f.Name <> '..') then
+          begin
+            IF (extractfileext(f.Name) <> '.log')   then
+            begin
+              l := Alistview.Items.Add;
+              l.Caption := f.Name;
+              l.SubItems.Add(FormColordetectionsetup.Getcolornamefromfile(f.Name,colorid,restname)); //Color
+              l.SubItems.Add(Errorfolders[ifolder].InputPath);
+              TD := FileDateToDateTime(F.Time);
+              l.SubItems.Add( FormatDateTime('yyyy-mm-dd hh:nn:ss',TD));
+              l.SubItems.Add(includetrailingbackslash(Mainerrorfolder)+inttostr(Errorfolders[ifolder].InputID)+'\'+f.Name);
+              l.SubItems.Add(restname);
+              l.SubItems.Add(inttostr(colorid));
+              l.SubItems.Add(inttostr(Alistview.Items.count));
+              l.SubItems.Add('0');
+              Empty := false;
+            End
+            Else
+            begin
+              nlname := IncludeTrailingBackslash(Mainerrorfolder)+inttostr(Errorfolders[ifolder].InputID)+ '\'+ changefileext(f.name,'');
+              IF not fileexists( nlname) then
+              begin
+                 deletefile(nlname+'.log');
+              end;
+            end;
+          End;
+          r := findnext(f);
+        End;
+        findclose(f);
+        Graycol := false;
+        IF Alistview.Items.count > 0 then
+        begin
+          restname := Alistview.Items[0].SubItems[4];
+          For i := 0 to Alistview.Items.count-1 do
+          begin
+            IF (restname <> Alistview.Items[I].SubItems[4]) or ('?' = Alistview.Items[I].SubItems[0]) then
+            begin
+              restname := Alistview.Items[I].SubItems[4];
+              Graycol := Not Graycol;
+            end;
+            IF graycol then
+              Alistview.Items[I].SubItems[6] :='1'
+            else
+              Alistview.Items[I].SubItems[6] :='0';
+
+          end;
+
+        end;
+      end;
+    end;
+
+    if (directoryexists(Prefs.UnknownPDFfolder)) and (Prefs.ShowPdfUnknownFiles) then
+    begin
+      r := FindFirst(IncludeTrailingBackslash(Prefs.UnknownPDFfolder)+Filterstr,faAnyFile		,F);
+      While (r = 0) and (not Formreloadingerrorfiles.stopit) do
+      begin
+          application.ProcessMessages;
+          if (not(f.Attr in [faDirectory])) and (f.Name <> '.') and (f.Name <> '..') then
+          begin
+            l := Alistview.Items.Add;
+            l.Caption := f.Name;
+            l.SubItems.Add('PDF');
+              // read log file!!
+
+            logfile := tinifile.Create(Prefs.UnknownPDFfolder+'\logs\'+f.name+'.txt');
+            InputFolder := logfile.ReadString('LogFile','InputFolder','');
+            if InputFolder <> '' then
+            begin
+              l.SubItems.Add(InputFolder);
+              L.SubItems.Add(logfile.ReadString('LogFile','Time',''));
+            end
+            else
+            begin
+              l.SubItems.Add('');
+              l.SubItems.Add( FormatDateTime('yyyy-mm-dd hh:nn:ss',FileDateToDateTime(F.Time)));
+            end;
+            l.SubItems.Add(includetrailingbackslash(Prefs.UnknownPDFfolder)+f.Name);
+            l.SubItems.Add(f.Name);
+            l.SubItems.Add('5');
+            l.SubItems.Add(inttostr(Alistview.Items.count));
+            l.SubItems.Add('0');
+            Empty := false;
+          end;
+          r := findnext(f);
+      End;
+      findclose(f);
+
+    end;
+
+
+
+  Finally
+    Alistview.Items.EndUpdate;
+    Errflog.Free;
+  end;
+  IF not FormUknownfiles.Active then
+  begin
+
+    IF Empty then
+      formmain.TabSheetUnknownpages.ImageIndex := 8
+    else
+      formmain.TabSheetUnknownpages.ImageIndex := 9;
+
+    formmain.TabSheetUnknownpages.refresh;
+  End;
+end;
+
+
+procedure TFormUknownfiles.ActioncolorsystemExecute(Sender: TObject);
+begin
+  FormColordetectionsetup.showmodal;
+end;
+
+Procedure TFormUknownfiles.retryuknownfile(Var Alistview : Tlistview);
+Var
+  I : longint;
+  T,fromfile,tofile,fromlog,tolog : String;
+
+  Nfiles : Longint;
+  totaltime : tdatetime;
+begin
+  try
+    IF connecttoinputfolders(Alistview) then
+    begin
+      Nfiles := 0;
+      For i := 0 to Alistview.Items.Count-1 do
+      begin
+        IF Alistview.Items[i].Selected then
+        begin
+          Inc(Nfiles);
+        End;
+      End;
+
+      IF Nfiles > 0 then
+      begin
+        Formretryfiles.abortretry := false;
+        Formretryfiles.Show;
+        Formretryfiles.Animate1.Active := true;
+        Formretryfiles.ProgressBar1.Position := 0;
+        Formretryfiles.ProgressBar1.Max := nfiles;
+        totaltime := now;
+        For i := 0 to Alistview.Items.Count-1 do
+        begin
+          IF Formretryfiles.abortretry then
+            break;
+
+          IF Alistview.Items[i].Selected then
+          begin
+            Formretryfiles.ProgressBar1.Position := Formretryfiles.ProgressBar1.Position +1;
+            application.ProcessMessages;
+            fromfile := Alistview.Items[i].subitems[3];
+            tofile := Includetrailingbackslash(Alistview.Items[i].subitems[1])+ Alistview.Items[i].Caption;
+
+            IF (Prefs.ErrorFileRetrySendLog) then
+            begin
+              fromlog := Alistview.Items[i].subitems[3]+'.log';
+              tolog   := Includetrailingbackslash(Alistview.Items[i].subitems[1])+ Alistview.Items[i].Caption + '.log';
+              MoveFileEx(pchar(fromlog), pchar(tolog), MOVEFILE_REPLACE_EXISTING + MOVEFILE_COPY_ALLOWED + MOVEFILE_WRITE_THROUGH);
+            end;
+            if MoveFileEx(pchar(fromfile), pchar( tofile), MOVEFILE_REPLACE_EXISTING + MOVEFILE_COPY_ALLOWED + MOVEFILE_WRITE_THROUGH)
+            {Copyfile(pchar(fromfile),pchar(tofile),true)} then
+            begin
+              deletefile(Alistview.Items[i].subitems[3]);
+              T := Alistview.Items[i].subitems[3]+'.log';
+              deletefile(T);
+            end
+            Else
+            begin
+              MessageDlg(formmain.InfraLanguage1.Translate('Cannot copy ') +fromfile + formmain.InfraLanguage1.Translate(' to ')  +tofile, mtError,[mbOk], 0);
+              break;
+            end;
+          end;
+        end;
+
+      End;
+    End;
+  Finally
+    Formretryfiles.Animate1.Active := false;
+    IF Formretryfiles.Showing then
+      Formretryfiles.Close;
+
+    refreshunknownfile(Alistview);
+  end;
+end;
+
+procedure TFormUknownfiles.ActionretryExecute(Sender: TObject);
+begin
+  retryuknownfile(ListViewunkowfiles);
+end;
+
+procedure TFormUknownfiles.renameUnknownfile(Var Alistview : Tlistview);
+Var
+  I : Longint;
+  T : string;
+  fromfile,tofile : string;
+begin
+
+  IF Alistview.Selected = nil then exit;
+
+  Formrenamenknown.EditCurrent.Text := Alistview.Selected.caption;
+  Formrenamenknown.EditNew.Text := Alistview.Selected.caption;
+
+  IF Formrenamenknown.showmodal = mrok then
+  begin
+    IF connecttoinputfolders(Alistview) then
+    begin
+      try
+        if Copyfile(pchar(Alistview.Selected.subitems[3]),pchar(Includetrailingbackslash(Alistview.Items[i].subitems[1])+ Formrenamenknown.EditNew.Text),true) then
+        begin
+          deletefile(Alistview.Selected.subitems[3]);
+          T := Alistview.Selected.subitems[3]+'.log';
+          deletefile(T);
+        end
+        Else
+        begin
+          MessageDlg(formmain.InfraLanguage1.Translate('Invalid filename'), mtInformation,[mbOk], 0);
+        end;
+      Finally
+        refreshunknownfile(Alistview);
+      end;
+    End;
+  end;
+
+end;
+
+
+procedure TFormUknownfiles.ActionrenameExecute(Sender: TObject);
+begin
+  renameUnknownfile(ListViewunkowfiles);
+end;
+
+procedure TFormUknownfiles.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  activated := false;
+  position := poDesigned;
+end;
+
+procedure TFormUknownfiles.ListViewunkowfilesAdvancedCustomDrawItem(
+  Sender: TCustomListView; Item: TListItem; State: TCustomDrawState;
+  Stage: TCustomDrawStage; var DefaultDraw: Boolean);
+begin
+  DefaultDraw := true;
+  if item.subitems[7] <> '1' then
+  begin
+    if item.subitems[6] = '1' then
+      ListViewunkowfiles.canvas.Brush.Color := clCream
+    else
+      ListViewunkowfiles.canvas.Brush.Color := clwhite;
+  End
+  else
+  Begin
+    ListViewunkowfiles.canvas.font.Color := clwhite;
+    ListViewunkowfiles.canvas.Brush.Color := clHighlight;
+  end;
+end;
+
+procedure TFormUknownfiles.ListViewunkowfilesSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
+Var
+  I : Longint;
+begin
+  for i := 0 to ListViewunkowfiles.Items.Count-1 do
+  begin
+    ListViewunkowfiles.Items[i].SubItems[7] := '0';
+  end;
+  item.SubItems[7] := '1';
+  if (selected) and (Actionpageselect.Checked) then
+  begin
+
+    for i := item.Index-1 Downto item.Index-5 do
+    begin
+      if (i > -1) then
+      begin
+        if ListViewunkowfiles.Items[i].SubItems[6] = item.SubItems[6] then
+          ListViewunkowfiles.Items[i].SubItems[7] := '1'
+        Else
+          break;
+      end;
+    end;
+    for i := item.Index+1 to item.Index+4 do
+    begin
+      if (i < ListViewunkowfiles.Items.Count) then
+      begin
+        if ListViewunkowfiles.Items[i].SubItems[6] = item.SubItems[6] then
+          ListViewunkowfiles.Items[i].SubItems[7] := '1'
+        Else
+          break;
+      end;
+    end;
+  end;
+  ListViewunkowfiles.repaint;
+end;
+
+procedure TFormUknownfiles.ActionpageselectExecute(Sender: TObject);
+Var
+  I : Longint;
+begin
+  Actionpageselect.Checked := not Actionpageselect.Checked;
+  for i := 0 to ListViewunkowfiles.Items.Count-1 do
+  begin
+    ListViewunkowfiles.Items[i].SubItems[7] := '0';
+  end;
+  ListViewunkowfiles.repaint;
+end;
+
+procedure TFormUknownfiles.ListViewunkowfilesKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  IF Not ListViewunkowfiles.MultiSelect then
+    ListViewunkowfiles.MultiSelect := ((ssShift	IN Shift) or (ssCtrl IN Shift));
+end;
+
+procedure TFormUknownfiles.ListViewunkowfilesDragOver(Sender,
+  Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept := not ListViewunkowfiles.multiselect;
+end;
+
+
+
+procedure TFormUknownfiles.ActionFolderExecute(Sender: TObject);
+Var
+  ifolder : Longint;
+begin
+  Formerrorfolderselect.caption := 'Select error folders';
+  Formerrorfolderselect.checklistbox1.Items.Clear;
+  Formerrorfolderselect.checklistbox1.Items.add('Show all folders');
+
+  For ifolder := 1 to NErrorfolders do
+  begin
+    Formerrorfolderselect.checklistbox1.Items.add(Errorfolders[ifolder].name);
+  End;
+  For ifolder := 0 to Formerrorfolderselect.checklistbox1.items.Count-1 do
+  Begin
+    Formerrorfolderselect.checklistbox1.checked[ifolder] := false;
+  end;
+
+  Formerrorfolderselect.checklistbox1.checked[0] := true;
+
+  if Formerrorfolderselect.showmodal = mrok then
+  begin
+     if Formerrorfolderselect.checklistbox1.Itemindex > 0 then
+    Begin
+      FormUknownfiles.Uknownfolder := Formerrorfolderselect.checklistbox1.Itemindex;
+      ActionFolder.Caption := 'Folder (Filter On)';
+    End
+    Else
+    Begin
+      FormUknownfiles.Uknownfolder := -1;
+      ActionFolder.Caption := 'Folder (Show all)';
+    End;
+
+    if Not Formerrorfolderselect.checklistbox1.checked[0] then
+      Uknownfolder := 1
+    Else
+      Uknownfolder := -1;
+
+    ActionRefresh.Execute;
+  end;
+end;
+
+procedure TFormUknownfiles.ActionFilterExecute(Sender: TObject);
+Var
+  I : Longint;
+begin
+  Formlistselect.Caption := 'Filename filter';
+
+  if (Length(Prefs.FilterList) > 0) then
+  begin
+    Formlistselect.ComboBox1.Items.Clear;
+    For I := 0 to Length(Prefs.FilterList)-1 do
+      Formlistselect.ComboBox1.Items.add(Prefs.FilterList[i]);
+   end
+   else
+     Formlistselect.ComboBox1.Items.add('*.*');
+
+  Formlistselect.ComboBox1.Itemindex := 0;
+  IF Formlistselect.showmodal = mrok then
+  begin
+    Uknownfilter := Formlistselect.ComboBox1.text;
+    ActionFilter.Caption := 'Filter ('+Formlistselect.ComboBox1.text+')';
+    ActionRefresh.Execute;
+  end;
+end;
+
+procedure TFormUknownfiles.ActiondeleteExecute(Sender: TObject);
+Var
+  I : Longint;
+begin
+  if MessageDlg(formmain.InfraLanguage1.Translate('Delete selected files ?'),mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  begin
+    for i := 0 to ListViewunkowfiles.Items.Count-1 do
+    begin
+      IF (ListViewunkowfiles.Items[i].SubItems[7] = '1') OR (ListViewunkowfiles.Items[i].Selected) then
+      begin
+        Deletefile(ListViewunkowfiles.Items[i].SubItems[3]);
+      end;
+    end;
+    ActionRefresh.Execute;
+  End;
+end;
+
+
+Function TFormUknownfiles.connecttoinputfolders(Var Alistview : Tlistview):Boolean;
+Var
+  I,i2 : Longint;
+  errormessagestr : String;
+Begin
+  result := true;
+  try
+    for I := 1 to NErrorfolders do
+    begin
+      Errorfolders[I].Connected := false
+    End;
+
+    For i := 0 to Alistview.Items.Count-1 do
+    begin
+      IF Alistview.Items[i].Selected then
+      begin
+        For i2 := 1 to nerrorfolders do
+        begin
+          IF Alistview.Items[i].subitems[1] = errorfolders[i2].InputPath then
+          begin
+            IF not errorfolders[i2].Connected then
+            begin
+              IF Errorfolders[I2].username <> '' then
+              begin
+                IF not DirectoryExists(Errorfolders[I2].InputPath) then
+                Begin
+                  IF not formmain.ConnectUserDrive(Errorfolders[I2].username,Errorfolders[I2].password,Errorfolders[I2].InputPath,false) then
+                  begin
+                    MessageDlg(formmain.InfraLanguage1.Translate('Unable to connect to inputfolder')+' ' + #13 + Errorfolders[I2].InputPath, mterror,[mbOk], 0);
+                    result := false;
+                  end
+                  Else
+                    errorfolders[i2].Connected := true;
+                End
+                Else
+                  errorfolders[i2].Connected := true;
+              end
+              Else
+              Begin
+                errorfolders[i2].Connected := DirectoryExists(Errorfolders[I2].InputPath);
+                IF not errorfolders[i2].Connected then
+                begin
+                  MessageDlg(formmain.InfraLanguage1.Translate('Unable to connect to inputfolder')+' ' + #13 + Errorfolders[I2].InputPath, mterror,[mbOk], 0);
+                  result := false;
+                end;
+              End;
+            end;
+            break;
+          end;
+        end;
+      End;
+      IF not result then
+        break;
+    End;
+  Except
+    result := false;
+  end;
+end;
+
+
+procedure TFormUknownfiles.ListViewunkowfilesDblClick(Sender: TObject);
+Var
+  fromfile : string;
+begin
+  IF ListViewunkowfiles.Items.Count  < 1 then exit;
+  IF ListViewunkowfiles.Selected = nil then exit;
+
+  fromfile := ListViewunkowfiles.Selected.subitems[3] + '.log';
+  IF fileexists(fromfile) then
+  begin
+    Formunknowfilelog.Memo1.Lines.LoadFromFile(fromfile);
+    Formunknowfilelog.showmodal;
+  end
+  else
+  begin
+    MessageDlg(formmain.InfraLanguage1.Translate('Unable to show log file'), mtInformation,[mbOk], 0);
+
+  end;
+end;
+
+procedure TFormUknownfiles.GetAdropdownlist(var Acombo : Tcombobox);
+
+Var
+  R,Ifolder : Longint;
+  nlname,T : string;
+  F: TSearchRec;
+  l : tlistitem;
+  i : Longint;
+  Empty : boolean;
+  found : Boolean;
+
+  Filterstr : String;
+  NFname,Foldernumber : Longint;
+
+begin
+
+  try
+    NFname := Prefs.UnknownFilesFileNameLengthMatch + 1;
+    Filterstr := '*.*';
+    Foldernumber := Uknownfolder;
+    Empty := true;
+    Foldernumber := -1;
+    IF Formerrorfolderselect.CheckListBox1.checked[0]  then
+    begin
+      Foldernumber := 1;
+    end;
+
+    Acombo.Items.Clear;
+    Acombo.Items.add('*.*');
+    For ifolder := 1 to NErrorfolders do
+    begin
+      IF (Formerrorfolderselect.CheckListBox1.checked[0]) or (Formerrorfolderselect.CheckListBox1.checked[ifolder])  then
+      begin
+        R := FindFirst(IncludeTrailingBackslash( IncludeTrailingBackslash(Mainerrorfolder)+inttostr(Errorfolders[ifolder].InputID))+Filterstr,faAnyFile		,F);
+        While (r = 0) and (not Formreloadingerrorfiles.stopit) do
+        begin
+          application.ProcessMessages;
+          IF not(f.Attr in [faDirectory]) then
+          begin
+            IF extractfileext(f.Name) <> '.log' then
+            begin
+              T := f.name;
+              Delete(t,NFname,100);
+              found := false;
+              For i := 0 to Acombo.Items.count-1 do
+              begin
+                IF Acombo.Items[i] = T then
+                begin
+                  found := true;
+                  break;
+                end;
+              end;
+              if not found then
+                Acombo.Items.add(T);
+              Empty := false;
+            End;
+          End;
+          r := findnext(f);
+        End;
+        findclose(f);
+      end;
+    end;
+  Finally
+  end;
+end;
+
+
+end.

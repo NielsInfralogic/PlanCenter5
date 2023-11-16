@@ -1,0 +1,781 @@
+unit UAddtimedEds;
+(*
+skab alle regionale editions
+add timed editions til alle editions som senere skal låses
+sæt to og from edition takket være valg i add
+
+Vælg en edition som skal låses
+bær dens egenskaber af unique/common vidre til dens toedition
+sæt status 2 mens der arbejdes
+sæt state  1 når en edition er blevet den nye der skal bruges
+sæt state 10 når der gås vidre f.eks. 1-2-3 når det er ed 3 er 1 og 2 state 10
+
+
+*)
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, CheckLst, ComCtrls, ExtCtrls, ImgList;
+
+type
+  TFormAddtimedEds = class(TForm)
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn3: TBitBtn;
+    Edit1: TEdit;
+    Panel3: TPanel;
+    Image2: TImage;
+    Label7: TLabel;
+    Label8: TLabel;
+    BitBtn2: TBitBtn;
+    GroupBox3: TGroupBox;
+    ProgressBar1: TProgressBar;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Panel2: TPanel;
+    Splitter1: TSplitter;
+    GroupBox1: TGroupBox;
+    TreeVieweds: TTreeView;
+    GroupBox2: TGroupBox;
+    ListBoxeds: TListBox;
+    Memolog: TMemo;
+    procedure ListBoxedsDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure TreeViewedsDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure TreeViewedsDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure TreeViewedsChange(Sender: TObject; Node: TTreeNode);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+  private
+    DragEd : String;
+    seltreenodindex : Longint;
+
+    Function getimidxfromstate(timedfrom : Longint;
+                               Edstate : Longint):Longint;
+    procedure CoundNewtimed(locationid : Longint;
+                                       Pubdate : Tdatetime;
+                                       publicationid : Longint;
+                                       FromEdId : Longint;
+                                       ToEdid : Longint;
+                                       var Addnode : Ttreenode);
+
+    procedure AddNewtimed(locationid : Longint;
+                          Pubdate : Tdatetime;
+                          publicationid : Longint;
+                          Fromedid : Longint;
+                          ToEdid : Longint;
+                          var Addnode : Ttreenode);
+
+  public
+    Toedi : Longint;
+    productionid : Longint;
+    procedure LoadData(ProductionIDtoload : Longint);
+    { Public declarations }
+  end;
+
+var
+  FormAddtimedEds: TFormAddtimedEds;
+
+implementation
+
+uses Udata,umain,utypes;
+
+{$R *.dfm}
+
+
+procedure TFormAddtimedEds.LoadData(ProductionIDtoload : Longint);
+Var
+
+  i,aied,itree : Longint;
+  found : Boolean;
+  Shortnameoffromed,Nameoffromed : String;
+  anode,Tinode,gnode : ttreenode;
+
+  T,wheremains : String;
+  trdat : PTTreeViewpagestype;
+
+begin
+  TreeVieweds.Items.Clear;
+  //gnode := Ltree.Items.addchildobject(curnodes[i-1],datetostr(aktpubdate),trdat);
+  wheremains := '(-99';
+  aied := -1;
+  productionid := ProductionIDtoload;
+
+
+  DataM1.Query1.SQL.Clear;
+  DataM1.Query1.SQL.add('Select distinct p1.editionid,n.name,pr.TimedEditionFrom,pr.TimedEditionState,pr.fromzone from pagetable p1 (NOLOCK), editionnames n (NOLOCK), pressrunid pr (NOLOCK)');
+  DataM1.Query1.SQL.add('where p1.productionid = ' + inttostr(productionid));
+  DataM1.Query1.SQL.add('and p1.editionid = n.editionid ');
+  DataM1.Query1.SQL.add('and p1.pressrunid = pr.pressrunid ');
+  DataM1.Query1.SQL.add('and pr.TimedEditionFrom < 1 ');
+  DataM1.Query1.SQL.add('and not exists(select p2.uniquepage from pagetable p2');
+  DataM1.Query1.SQL.add('where p1.editionid = p2.editionid and p2.uniquepage <> 1)');
+  DataM1.Query1.SQL.add('Order by pr.fromzone,n.name,p1.editionid');
+
+  DataM1.Query1.open;
+  While not DataM1.Query1.eof do
+  begin
+    IF aied <> DataM1.Query1.Fields[0].asinteger then
+    begin
+      aied := DataM1.Query1.Fields[0].asinteger;
+      gnode := TreeVieweds.Items.addchildobject(nil,tnames1.editionIDtoname(aied),nil);
+      gnode.imageindex := getimidxfromstate(0,DataM1.Query1.Fields[3].asinteger);
+      gnode.selectedindex := gnode.imageindex;
+      gnode.Expand(true);
+      wheremains := wheremains + ','+inttostr(aied);
+    end;
+    DataM1.Query1.next;
+  end;
+  DataM1.Query1.close;
+  wheremains := wheremains + ')';
+
+  aied := -1;
+  DataM1.Query1.SQL.Clear;
+  DataM1.Query1.SQL.add('Select distinct p1.editionid,n.name,pr.TimedEditionFrom,pr.TimedEditionState,pr.fromzone from pagetable p1 (NOLOCK), editionnames n (NOLOCK), pressrunid pr (NOLOCK)');
+  DataM1.Query1.SQL.add('where p1.productionid = ' + inttostr(productionid));
+  DataM1.Query1.SQL.add('and p1.editionid = n.editionid ');
+  DataM1.Query1.SQL.add('and p1.pressrunid = pr.pressrunid ');
+  DataM1.Query1.SQL.add('and p1.editionid not in ' + wheremains);
+  DataM1.Query1.SQL.add('and pr.TimedEditionFrom < 1 ');
+  DataM1.Query1.SQL.add('Order by pr.fromzone,n.name,p1.editionid');
+  DataM1.Query1.open;
+  While not DataM1.Query1.eof do
+  begin
+    IF aied <> DataM1.Query1.Fields[0].asinteger then
+    begin
+      aied := DataM1.Query1.Fields[0].asinteger;
+      gnode := TreeVieweds.Items.addchildobject(nil,tnames1.editionIDtoname(aied),nil);
+      gnode.imageindex := getimidxfromstate(0,DataM1.Query1.Fields[3].asinteger);
+      gnode.selectedindex := gnode.imageindex;
+      gnode.Expand(true);
+    End;
+    DataM1.Query1.next;
+  end;
+  DataM1.Query1.close;
+
+  aied := -1;
+  DataM1.Query1.SQL.Clear;
+  DataM1.Query1.SQL.add('Select distinct p1.editionid,n.name,pr.TimedEditionFrom,pr.TimedEditionState,pr.fromzone from pagetable p1 (NOLOCK), editionnames n (NOLOCK), pressrunid pr (NOLOCK)');
+  DataM1.Query1.SQL.add('where p1.productionid = ' + inttostr(productionid));
+  DataM1.Query1.SQL.add('and p1.editionid = n.editionid ');
+  DataM1.Query1.SQL.add('and p1.pressrunid = pr.pressrunid ');
+  DataM1.Query1.SQL.add('and pr.TimedEditionFrom > 0 ');
+  DataM1.Query1.SQL.add('Order by pr.fromzone,n.name,p1.editionid');
+  DataM1.Query1.open;
+  While not DataM1.Query1.eof do
+  begin
+    IF aied <> DataM1.Query1.Fields[0].asinteger then
+    begin
+      aied := DataM1.Query1.Fields[0].asinteger;
+      For itree := 0 to TreeVieweds.Items.Count-1 do
+      begin
+        T := tnames1.editionIDtoname(DataM1.Query1.fields[2].AsInteger);
+        IF TreeVieweds.Items[itree].Text = T then
+        begin
+          if TreeVieweds.Items[itree].Level = 0 then
+          begin
+            New(trdat);
+            gnode := TreeVieweds.Items.addchildobject(TreeVieweds.Items[itree],DataM1.Query1.fields[1].asstring,trdat);
+            gnode.imageindex := getimidxfromstate(1,DataM1.Query1.Fields[3].asinteger);
+            gnode.selectedindex := gnode.imageindex;
+            gnode.StateIndex := 1;
+            gnode.Expand(true);
+          end
+          else
+          begin
+            New(trdat);
+            gnode := TreeVieweds.Items.addchildobject(TreeVieweds.Items[itree].Parent,DataM1.Query1.fields[1].asstring,trdat);
+            gnode.imageindex := getimidxfromstate(1,DataM1.Query1.Fields[3].asinteger);
+            gnode.selectedindex := gnode.imageindex;
+            gnode.StateIndex := 1;
+            gnode.Expand(true);
+          end;
+        End;
+      End;
+    End;
+    DataM1.Query1.next;
+  End;
+  DataM1.Query1.Close;
+
+
+  ListBoxeds.items.clear;
+  for i := 0 to tnames1.Editionnames.Count-1 do
+  begin
+    found := false;
+    For itree := 0 to TreeVieweds.Items.Count-1 do
+    begin
+      IF TreeVieweds.Items[itree].Text = tnames1.Editionnames[i] then
+      begin
+        found := true;
+        break;
+      end;
+
+    end;
+    IF not found then
+      ListBoxeds.items.add(tnames1.Editionnames[i]);
+  end;
+
+
+  (*
+  DataM1.Query1.SQL.Clear;
+  DataM1.Query1.SQL.add('Select distinct p.editionid,n.name from pagetable p, editionnames n');
+  DataM1.Query1.SQL.add('Where p.productionid = ' + inttostr(productionid));
+
+
+  DataM1.Query1.SQL.add('order by n.name');
+  DataM1.Query1.open;
+  While not DataM1.Query1.eof do
+  begin
+    IF aied <> DataM1.Query1.Fields[0].asinteger then
+    begin
+      aied := DataM1.Query1.Fields[0].asinteger;
+      gnode := TreeVieweds.Items.addchildobject(nil,tnames1.editionIDtoname(aied),nil);
+      gnode.imageindex := 11;
+      gnode.selectedindex := 11;
+    end;
+    DataM1.Query1.next;
+  end;
+  DataM1.Query1.close;
+
+  ListBoxeds.items.clear;
+  for i := 0 to tnames1.Editionnames.Count-1 do
+  begin
+    found := false;
+    For itree := 0 to TreeVieweds.Items.Count-1 do
+    begin
+      IF TreeVieweds.Items[itree].Text = tnames1.Editionnames[i] then
+      begin
+        found := true;
+        break;
+      end;
+
+    end;
+    IF not found then
+      ListBoxeds.items.add(tnames1.Editionnames[i]);
+  end;
+  *)
+end;
+
+procedure TFormAddtimedEds.ListBoxedsDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept := sender = ListBoxeds;
+
+end;
+
+procedure TFormAddtimedEds.TreeViewedsDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept := (Source = ListBoxeds) OR (Source = TreeVieweds);
+end;
+
+procedure TFormAddtimedEds.TreeViewedsDragDrop(Sender, Source: TObject; X,
+  Y: Integer);
+Var
+  Anode,Nnode : TTreeNode;
+
+  AnItem: TTreeNode;
+  AttachMode: TNodeAttachMode;
+  HT: THitTests;
+  trdat : PTTreeViewpagestype;
+begin
+  Anode := TreeVieweds.GetNodeAt(X, Y);
+
+  IF Source = ListBoxeds then
+  begin
+    IF anode <> nil then
+    begin
+      IF anode.ImageIndex = 11 then
+      Begin
+        New(trdat);
+        Nnode := TreeVieweds.Items.addchildobject(anode,ListBoxeds.Items[ListBoxeds.Itemindex],trdat);
+        ListBoxeds.Items.Delete(ListBoxeds.Itemindex);
+        Nnode.imageindex := 244;
+        Nnode.selectedindex := 244;
+        Nnode.stateindex := 1;
+        anode.Expand(true);
+
+      end;
+    end;
+  End
+  Else
+  begin
+
+    if TreeVieweds.Selected = nil then Exit;
+    HT := TreeVieweds.GetHitTestInfoAt(X, Y) ;
+    AnItem := TreeVieweds.GetNodeAt(X, Y) ;
+    if (HT -[htOnItem, htOnIcon, htNowhere, htOnIndent] <> HT) then
+    begin
+      (*if (htOnItem in HT) or
+         (htOnIcon in HT) then
+          AttachMode := naAddChild
+      else if htNowhere in HT then
+         AttachMode := naAdd
+      else if htOnIndent in HT then
+        AttachMode := naInsert;
+      *)
+      if AnItem <> nil then
+      Begin
+        IF AnItem.Level = 0 then
+        begin // addes til grund node
+          TreeVieweds.Selected.MoveTo(AnItem, naAddChild);
+        end
+        else
+        begin // flyttes blant subnoder
+          TreeVieweds.Selected.MoveTo(AnItem, naInsert) ;
+        end;
+
+        (*
+
+        IF not AnItem.HasChildren then
+        Begin
+          IF AnItem.Level > 0 then
+            TreeVieweds.Selected.MoveTo(AnItem.Parent, naAddChild)
+          else
+            TreeVieweds.Selected.MoveTo(AnItem, naAddChild)
+        end
+        else
+        Begin
+          IF AnItem.Level = 0 then
+            TreeVieweds.Selected.MoveTo(AnItem, naAddChild)
+          Else
+            TreeVieweds.Selected.MoveTo(AnItem, naInsert) ;
+        end;
+        *)
+      End;
+    end;
+  end;
+
+  (*
+    MessageDlg(anode.Text +' '+ ListBoxeds.Items[ListBoxeds.Itemindex]+ ','+inttostr(x)+'/'+inttostr(y) , mtInformation,
+      [mbOk], 0);
+
+
+
+  beep;
+  *)
+end;
+
+procedure TFormAddtimedEds.TreeViewedsChange(Sender: TObject;
+  Node: TTreeNode);
+begin
+
+  IF not TreeVieweds.Dragging then
+  Begin
+    seltreenodindex := TreeVieweds.Selected.Index;
+  end;
+end;
+
+procedure TFormAddtimedEds.BitBtn3Click(Sender: TObject);
+
+Var
+  n,Cn : ttreenode;
+
+  locationid : Longint;
+  Pubdate : Tdatetime;
+  publicationid : Longint;
+  EdordN,editionidFrom,editionidTo,editionid : Longint;
+
+
+Procedure SetEdOrder(EditionID : Longint;
+                     Edorder : Longint);
+Var
+  apressrunid : Longint;
+Begin
+  DataM1.Query1.SQL.clear;
+  DataM1.Query1.SQL.add('Select distinct pressrunid from pagetable (NOLOCK)');
+  DataM1.Query1.SQL.add('where productionid = ' + inttostr(productionid));
+  DataM1.Query1.SQL.add('and editionid = ' + inttostr(editionid));
+  DataM1.Query1.open;
+  While not DataM1.Query1.eof do
+  begin
+    DataM1.Query2.SQL.clear;
+    DataM1.Query2.SQL.add('update pressrunid set fromzone = '+inttostr(Edorder));
+    DataM1.Query2.SQL.add('where pressrunid = ' + DataM1.Query1.fields[0].asstring);
+    DataM1.Query2.ExecSQL;
+    DataM1.Query1.next;
+  end;
+  DataM1.Query1.close;
+end;
+
+begin
+  Memolog.Lines.Add('Start adding timed editions');
+  Memolog.Lines.Add('');
+  if PageControl1.ActivePageINDEX = 1 then
+    Memolog.refresh;
+  DataM1.Query1.SQL.clear;
+  DataM1.Query1.SQL.add('Select distinct locationid,pubdate,publicationid from pagetable (NOLOCK)');
+  DataM1.Query1.SQL.add('where productionid = ' + inttostr(productionid));
+
+  formmain.tryopen(DataM1.Query1);
+  Memolog.lines.add('Get location,pubdate and publication');
+  if  PageControl1.ActivePageINDEX = 1 then
+    Memolog.Refresh;
+  IF not DataM1.Query1.eof then
+  begin
+    locationid  := DataM1.Query1.fields[0].asinteger;
+    Pubdate  := DataM1.Query1.fields[1].asdatetime;
+    publicationid  := DataM1.Query1.fields[2].asinteger;
+  end
+  else
+  begin
+    beep;
+    Memolog.Lines.Add('Error ');
+    if PageControl1.ACTIVEPAGEINDEX = 1 then
+      Memolog.Refresh;
+    exit;
+  end;
+
+  n := TreeVieweds.TopItem;
+  progressBar1.max := 0;
+  Memolog.lines.add('Count records');
+  if PageControl1.ACTIVEPAGEINDEX = 1 then
+   Memolog.Refresh;
+
+  While n <> nil do
+  begin
+    if n.HasChildren then
+    begin
+      cn := n.getFirstChild;
+      editionidFrom := tnames1.editionnametoid(n.Text);
+      While cn <> nil do
+      begin
+        IF cn.ImageIndex = 244 then
+        begin
+          editionidTo := tnames1.editionnametoid(cn.Text);
+          CoundNewtimed(locationid,Pubdate,publicationid,
+                      editionidFrom,editionidTo,cn);
+        end;
+
+        cn := cn.getNextSibling;
+      End;
+    end;
+    n := n.getNextSibling;
+  end;
+
+  n := TreeVieweds.TopItem;
+  Memolog.lines.add('Count done');
+  if  PageControl1.ACTIVEPAGEINDEX = 1 then
+    Memolog.Refresh;
+
+  n := TreeVieweds.TopItem;
+  Memolog.lines.add('Start add ed');
+  if PageControl1.ACTIVEPAGEINDEX = 1 then
+    Memolog.Refresh;
+  While n <> nil do
+  begin
+    if n.HasChildren then
+    begin
+      cn := n.getFirstChild;
+      editionidFrom := tnames1.editionnametoid(n.Text);
+      While cn <> nil do
+      begin
+        IF cn.ImageIndex = 244 then
+        begin
+          editionidTo := tnames1.editionnametoid(cn.Text);
+          AddNewtimed(locationid,Pubdate,publicationid,
+                      editionidFrom,editionidTo,cn);
+        end;
+        editionidFrom := tnames1.editionnametoid(cn.Text);
+        cn := cn.getNextSibling;
+      End;
+    end;
+    n := n.getNextSibling;
+  end;
+  Memolog.lines.add('End add ed');
+  if  PageControl1.ACTIVEPAGEINDEX = 1 then
+   Memolog.refresh;
+  n := TreeVieweds.TopItem;
+
+  While n <> nil do
+  begin
+    EdordN :=0;
+    if n.HasChildren then
+    begin
+      EdordN := 1;
+      Memolog.Lines.Add('Set order ' + n.Text);
+      if  PageControl1.ACTIVEPAGEINDEX = 1 then
+        Memolog.Refresh;
+      SetEdOrder(tnames1.editionnametoid(n.Text),1);
+      cn := n.getFirstChild;
+      While cn <> nil do
+      begin
+        Inc(EdordN);
+        Memolog.Lines.Add('Set order ' + n.Text);
+        if PageControl1.ACTIVEPAGEINDEX = 1 then
+          Memolog.Refresh;
+        SetEdOrder(tnames1.editionnametoid(cn.Text),EdordN);
+        cn := cn.getNextSibling;
+      End;
+    end
+    Else
+    begin
+      Memolog.lines.add('Set order ' + n.Text);
+      if  PageControl1.ACTIVEPAGEINDEX = 1 then
+        Memolog.Refresh;
+      SetEdOrder(tnames1.editionnametoid(n.Text),0);
+    end;
+
+    Memolog.lines.add('Set order done ');
+    if  PageControl1.ACTIVEPAGEINDEX = 1 then
+      Memolog.Refresh;
+    n := n.getNextSibling;
+  end;
+
+  Memolog.lines.add('Add editions done ');
+  if PageControl1.ACTIVEPAGEINDEX = 1 then
+   Memolog.Refresh;
+end;
+
+procedure TFormAddtimedEds.AddNewtimed(locationid : Longint;
+                                       Pubdate : Tdatetime;
+                                       publicationid : Longint;
+                                       FromEdId : Longint;
+                                       ToEdid : Longint;
+                                       var Addnode : Ttreenode);
+Var
+  l : tlistitem;
+
+  aktproductionid,I,akteditionid,fromeditionid,toeditionid,aktpublicationid,aktpressid,aktlocationid : longint;
+  aktpublicationdate : tdatetime;
+
+  Aktcopyflatseparationset,Aktsheet,aktsheetside : Longint;
+  Nrecords : longint;
+
+  wherejustpub,wherestr,Akteditionname : string;
+  Pedition : ^editiontype;
+Begin
+  try
+    aktpublicationid := publicationid;
+    aktpublicationdate := pubdate;
+    aktlocationid := locationid;
+    akteditionid := Fromedid;
+    aktproductionid := productionid;
+
+    toeditionid := ToEdid;
+
+    TTreeViewpagestype(Addnode.Data^).publicationid := aktpublicationid;
+    TTreeViewpagestype(Addnode.Data^).pubdate := aktpublicationdate;
+    TTreeViewpagestype(Addnode.Data^).editionid := toeditionid;
+
+
+    wherejustpub := 'Where uniquepage = 1';
+    wherestr := 'Where locationid = ' + inttostr(locationid);
+
+    wherestr := wherestr + ' and '+  DataM1.makedatastr('',pubdate);
+    wherejustpub := wherejustpub + ' and '+  DataM1.makedatastr('',pubdate);
+    wherestr := wherestr + ' and publicationid = ' + inttostr(publicationid);
+    wherejustpub := wherejustpub + ' and publicationid = ' + inttostr(publicationid);
+    wherestr := wherestr + ' and editionid = ' + inttostr(FromEdId);
+    Akteditionname := tnames1.editionIDtoname(FromEdId);
+    akteditionid := FromEdId;
+    wherestr := wherestr + ' and copynumber = 1';
+
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.add('Select distinct sectionid,pagename,pageindex,mastercopyseparationset,uniquepage,locationid,copyseparationset,pressid,pagetype from pagetable (NOLOCK)');
+    DataM1.Query1.SQL.add(wherestr);
+    DataM1.Query1.SQL.add('Order by pressid,sectionid,pageindex');
+    DataM1.Query1.open;
+    formmain.ListViewEdto.Items.clear;
+    formmain.ListViewEdtodink.Items.Clear;
+    While not DataM1.Query1.eof do
+    begin
+      IF DataM1.Query1.fields[8].asinteger = 3 then
+        l := formmain.ListViewEdtodink.Items.Add
+      else
+        l := formmain.ListViewEdto.Items.Add;
+
+//      l := formmain.ListViewEdto.Items.Add;
+      New(Pedition);
+      l.Data := Pedition;
+
+      editiontype(l.Data^).Adding := true;
+      editiontype(l.Data^).mastercopyseparationset := DataM1.Query1.fields[3].asinteger;
+      editiontype(l.Data^).copyseparationset       := 0;
+
+      editiontype(l.Data^).Mastereditionid         := akteditionid;
+      editiontype(l.Data^).Masterlocationid        := DataM1.Query1.fields[5].asinteger;
+      editiontype(l.Data^).editionid               := toeditionid;
+      editiontype(l.Data^).locationid              := DataM1.Query1.fields[5].asinteger;
+      editiontype(l.Data^).Sectionid               := DataM1.Query1.fields[0].asinteger;
+      editiontype(l.Data^).pressid                 := DataM1.Query1.fields[7].asinteger;
+      editiontype(l.Data^).OrgMasterpressid        := DataM1.Query1.fields[7].asinteger;
+      editiontype(l.Data^).OrgMasterlocationid        := DataM1.Query1.fields[5].asinteger;
+      editiontype(l.Data^).OrgMastereditionid         := akteditionid;
+      editiontype(l.Data^).OrgMastersectionid         := DataM1.Query1.fields[0].asinteger;
+      editiontype(l.Data^).Orgmastercopyseparationset  := DataM1.Query1.fields[3].asinteger;
+      editiontype(l.Data^).Orgpagemasterpagename      := DataM1.Query1.fields[1].asstring;
+
+      L.caption := tnames1.sectionIDtoname(DataM1.Query1.fields[0].asinteger);
+      L.SubItems.Add(DataM1.Query1.fields[1].asstring);
+      L.SubItems.Add(tnames1.pressnameIDtoname(DataM1.Query1.fields[7].asinteger));
+      L.SubItems.Add(Akteditionname);
+      L.SubItems.Add(tnames1.sectionIDtoname(DataM1.Query1.fields[0].asinteger));
+      L.SubItems.Add(L.SubItems[0]);
+      L.ImageIndex := 2;
+
+      IF DataM1.Query1.fields[4].asinteger = 0 then
+      begin
+        DataM1.Query2.SQL.Clear;
+        DataM1.Query2.SQL.add('Select distinct locationid,editionid,sectionid,pagename,pressid from pagetable (NOLOCK)');
+        DataM1.Query2.SQL.add('where uniquepage = 1');
+        DataM1.Query2.SQL.add('and mastercopyseparationset = ' + inttostr(DataM1.Query1.fields[3].asinteger));
+        DataM1.Query2.open;
+        L.SubItems[1] := tnames1.pressnameIDtoname(DataM1.Query2.fields[4].asinteger);
+        L.SubItems[2] := tnames1.EditionIDtoname(DataM1.Query2.fields[1].asinteger);
+        L.SubItems[3] := tnames1.sectionIDtoname(DataM1.Query2.fields[2].asinteger);
+        L.SubItems[4] := DataM1.Query2.fields[3].asstring;
+        DataM1.Query2.close;
+      end;
+
+      editiontype(l.Data^).Unique := 0;
+      editiontype(l.Data^).Changeto := 0;
+      l.ImageIndex := 2;
+
+      DataM1.Query1.next;
+    end;
+    DataM1.Query1.close;
+
+    Formmain.addnewsubedition(locationid,Pubdate,publicationid,FromEdId,ToEdid,false,0,0,0,0,productionid);
+    Memolog.lines.add('Update pressrunid ');
+    DataM1.Query2.SQL.Clear;
+    DataM1.Query2.SQL.add('Select distinct pressrunid from pagetable (NOLOCK)');
+    DataM1.Query2.SQL.add('Where productionid = ' + inttostr(productionid));
+    DataM1.Query2.SQL.add('And editionid = ' + inttostr(FromEdId));
+
+    Formmain.Tryopen(DataM1.Query2);
+    While not DataM1.Query2.eof do
+    begin
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.add('update pressrunid');
+      DataM1.Query1.SQL.add('Set TimedEditionTo = ' + inttostr(Toedid));
+      DataM1.Query1.SQL.add('Where pressrunid = ' + DataM1.Query2.fields[0].asstring);
+      formmain.trysql(DataM1.Query1);
+      DataM1.Query2.Next;
+    end;
+    DataM1.Query2.close;
+
+
+    DataM1.Query2.SQL.Clear;
+    DataM1.Query2.SQL.add('Select distinct pressrunid from pagetable (NOLOCK)');
+    DataM1.Query2.SQL.add('Where productionid = ' + inttostr(productionid));
+    DataM1.Query2.SQL.add('And editionid = ' + inttostr(Toedid));
+
+    Formmain.Tryopen(DataM1.Query2);
+    While not DataM1.Query2.eof do
+    begin
+      DataM1.Query1.SQL.Clear;
+      DataM1.Query1.SQL.add('update pressrunid');
+      DataM1.Query1.SQL.add('Set TimedEditionFrom = ' + inttostr(Fromedid));
+      DataM1.Query1.SQL.add('Where pressrunid = ' + DataM1.Query2.fields[0].asstring);
+      formmain.trysql(DataM1.Query1);
+      DataM1.Query2.Next;
+    end;
+    DataM1.Query2.close;
+    Memolog.lines.add('Update pressrunid done ');
+
+
+  Except
+  end;
+
+end;
+
+Function TFormAddtimedEds.getimidxfromstate(timedfrom : Longint;
+                                            Edstate : Longint):Longint;
+Begin
+  result := 11;
+  IF timedfrom > 0 then
+  Begin
+    Case Edstate OF
+      0 : Begin
+            result :=  243;
+          end;
+      1..2 : Begin
+               result :=  227;
+             end;
+      10 : Begin
+             result :=  229;
+          end;
+
+    End;
+  end
+  Else
+  begin
+    IF Edstate = 10 then
+    begin
+      result :=  229;
+    end;
+
+  end;
+
+end;
+
+
+
+
+procedure TFormAddtimedEds.FormActivate(Sender: TObject);
+Var
+  I : Longint;
+begin
+  ProgressBar1.Position := 0;
+  Memolog.lines.clear;
+  pagecontrol1.ActivePageIndex := 0;
+  ProgressBar1.max := 0;
+  For i := 0 to TreeVieweds.items.count-1 do
+  begin
+    TreeVieweds.items[i].Expand(true);
+  end;
+end;
+
+procedure TFormAddtimedEds.CoundNewtimed(locationid : Longint;
+                                       Pubdate : Tdatetime;
+                                       publicationid : Longint;
+                                       FromEdId : Longint;
+                                       ToEdid : Longint;
+                                       var Addnode : Ttreenode);
+Var
+  aktproductionid,I,akteditionid,fromeditionid,toeditionid,aktpublicationid,aktpressid,aktlocationid : longint;
+  aktpublicationdate : tdatetime;
+
+  Aktcopyflatseparationset,Aktsheet,aktsheetside : Longint;
+  Nrecords : longint;
+
+  wherejustpub,wherestr,Akteditionname : string;
+
+Begin
+  try
+    aktpublicationid := publicationid;
+    aktpublicationdate := pubdate;
+    aktlocationid := locationid;
+    akteditionid := Fromedid;
+    aktproductionid := productionid;
+
+    toeditionid := ToEdid;
+
+    DataM1.Query1.SQL.Clear;
+    DataM1.Query1.SQL.Add('Select count(separation) as sep from pagetable (NOLOCK)');
+    DataM1.Query1.SQL.Add('Where publicationid = ' + inttostr(publicationid));
+    DataM1.Query1.SQL.add(' and ' + DataM1.makedatastr('',pubdate));
+    DataM1.Query1.SQL.Add('And locationid = ' + inttostr(locationid));
+    DataM1.Query1.SQL.Add('And editionid = ' + inttostr(FromEdId));
+    DataM1.Query1.SQL.Add('And copynumber = 1');
+
+    DataM1.Query1.open;
+
+    Nrecords := DataM1.Query1.fields[0].asinteger;
+    ProgressBar1.max := ProgressBar1.max +Nrecords;
+
+    DataM1.Query1.close;
+  Except
+  end;
+
+
+
+end;
+
+
+end.

@@ -1,0 +1,18 @@
+ALTER TABLE [dbo].[PressRunID] ADD
+[PlanName] [varchar] (50) NULL CONSTRAINT [DF_PressRunID_PlanName] DEFAULT (''),
+[PressSystem] [varchar] (50) NULL CONSTRAINT [DF_PressRunID_PressSystem] DEFAULT (''),
+[PlanType] [int] NULL CONSTRAINT [DF_PressRunID_PlanType] DEFAULT ((0)),
+[TimedEditionFrom] [int] NULL CONSTRAINT [DF_PressRunID_TimedEdition] DEFAULT ((0)),
+[TimedEditionTo] [int] NULL CONSTRAINT [DF_PressRunID_TimedEditionTo] DEFAULT ((0)),
+[TimedEditionState] [int] NULL CONSTRAINT [DF_PressRunID_TimedEditionState] DEFAULT ((0)),
+[FromZone] [int] NULL CONSTRAINT [DF_PressRunID_FromZone] DEFAULT ((0)),
+[ToZone] [int] NULL CONSTRAINT [DF_PressRunID_ToZone] DEFAULT ((0)),
+[Circulation] [int] NULL CONSTRAINT [DF_PressRunID_Circulation] DEFAULT ((0)),
+[Circulation2] [int] NULL CONSTRAINT [DF_PressRunID_Circulation2] DEFAULT ((0)),
+[Comment2] [varchar] (512) NULL CONSTRAINT [DF_PressRunID_Comment2] DEFAULT (''),
+[MiscInt1] [int] NULL CONSTRAINT [DF_PressRunID_MiscInt1] DEFAULT ((0)),
+[MiscInt2] [int] NULL CONSTRAINT [DF_PressRunID_MiscInt2] DEFAULT ((0)),
+[MiscString1] [varchar] (50) NULL CONSTRAINT [DF_PressRunID_MiscString1] DEFAULT (''),
+[MiscString2] [varchar] (50) NULL CONSTRAINT [DF_PressRunID_MiscString2] DEFAULT (''),
+[MiscDate] [datetime] NULL CONSTRAINT [DF_PressRunID_MiscDate] DEFAULT (getdate()),
+[PlanVersion] [int] NULL CONSTRAINT [DF_PressRunID_PlanVersion] DEFAULT ((1))

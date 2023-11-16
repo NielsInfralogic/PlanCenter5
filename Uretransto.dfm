@@ -1,0 +1,72 @@
+object Formretransto: TFormretransto
+  Left = 773
+  Top = 388
+  BorderStyle = bsDialog
+  Caption = 'Re-transmit'
+  ClientHeight = 229
+  ClientWidth = 374
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 374
+    Height = 188
+    Align = alClient
+    Caption = 'Re-transmit to : '
+    TabOrder = 0
+    object CheckListBox1: TCheckListBox
+      Left = 2
+      Top = 15
+      Width = 370
+      Height = 171
+      Align = alClient
+      ItemHeight = 13
+      TabOrder = 0
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 188
+    Width = 374
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    object BitBtn1: TBitBtn
+      Left = 107
+      Top = 8
+      Width = 75
+      Height = 25
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 0
+    end
+    object BitBtn2: TBitBtn
+      Left = 191
+      Top = 8
+      Width = 75
+      Height = 25
+      Kind = bkCancel
+      NumGlyphs = 2
+      TabOrder = 1
+    end
+    object BitBtn3: TBitBtn
+      Left = 12
+      Top = 8
+      Width = 75
+      Height = 25
+      Kind = bkAll
+      NumGlyphs = 2
+      TabOrder = 2
+    end
+  end
+end

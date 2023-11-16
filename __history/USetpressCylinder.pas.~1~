@@ -1,0 +1,96 @@
+unit USetpressCylinder;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, Grids, ValEdit, ExtCtrls;
+
+type
+  TFormpresscylinder = class(TForm)
+    Panel2: TPanel;
+    Image1: TImage;
+    Labelwizardheader1: TLabel;
+    Labelwizardheader2: TLabel;
+    GroupBoxStandardcyl: TGroupBox;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    ValueListEditorCyl: TValueListEditor;
+
+    procedure InitNames(PlateSide: Integer);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    pressid : Longint;
+    NColoridstocyl : Longint;
+    Coloridstocyl : Array[1..20] of record
+                                      colorid : Longint;
+                                      cylname : string;
+                                      colorname : string;
+                                      flatseparation : int64;
+                                    end;
+    productionID : Longint;
+  end;
+
+var
+  Formpresscylinder: TFormpresscylinder;
+
+implementation
+
+uses Udata, Umain, Usettings;
+
+{$R *.dfm}
+
+
+
+procedure TFormpresscylinder.InitNames(PlateSide: Integer);
+var
+  i : Integer;
+  t : string;
+begin
+  ValueListEditorCyl.Strings.Clear;
+  t := '';
+
+  if (Prefs.UseDBTowerNames) then
+  begin
+    DataM1.Query1.Sql.Clear;
+    DataM1.Query1.Sql.Add('Select CylinderName1,CylinderName2,CylinderName3,CylinderName4 from PressNames');
+    DataM1.Query1.Sql.Add('where pressid = '+inttostr(pressid));
+    formmain.Tryopen(DataM1.Query1);
+    if not DataM1.Query1.Eof then
+    begin
+      for i := 1 to NColoridstocyl do
+      begin
+        if i < 5 then
+        begin
+          t := DataM1.Query1.Fields[i-1].AsString;
+
+          if (t<>'') then
+          begin
+            if (PlateSide <> -1) and (Pos(',',t) > 0) then
+            begin
+              if (PlateSide = 0) then
+                t := Copy(t, 1, Pos(',',t)-1)
+              else
+                t := Copy(t, Pos(',',t)+1, MaxInt)
+            end;
+            ValueListEditorCyl.strings.add(Coloridstocyl[i].colorname+'='+t);
+          end;
+        end;
+      end;
+    end;
+    DataM1.Query1.Close;
+  end
+  else
+  begin
+    For i := 0 to Length(Prefs.CylinderNameTranslation)-1 do
+    begin
+      ValueListEditorCyl.strings.Add(Prefs.CylinderNameTranslation[i].Value);
+    end;
+  end;
+
+end;
+
+end.
